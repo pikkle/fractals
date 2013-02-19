@@ -5,7 +5,7 @@ public class HelloWorld {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println("Hello Christouffe proutproutprout");
+		System.out.println("fuck git");
 	}
 
 }
