@@ -27,4 +27,21 @@ public class Rectangle {
 			this.height = height;
 		}
 	}
+	
+	public double left(){
+		double x = this.center.x()-(this.width/2);
+		return x;
+	}
+	public double right(){
+		double x = this.center.x()+(this.width/2);
+		return x;
+	}
+	public double bottom(){
+		double y = this.center.y()-(this.height/2);
+		return y;
+	}
+	public double top(){
+		double y = this.center.y()+(this.height/2);
+		return y;
+	}
 }
