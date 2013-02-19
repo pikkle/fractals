@@ -5,7 +5,7 @@ public class HelloWorld {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println("Hello Christouffe prout");
+		System.out.println("Hello Christouffe proutafion");
 	}
 
 }
