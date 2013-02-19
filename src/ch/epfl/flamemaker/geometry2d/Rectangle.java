@@ -27,7 +27,31 @@ public class Rectangle {
 			this.height = height;
 		}
 	}
+	public boolean contains(Point p){
+		// Strictement inférieur à x et y MAX
+		// Supérieur ou égal à x et y MIN
+		if (p.x() < this.right() || p.x() >= this.left()){
+			if (p.y() < this.top() || p.x() >= this.bottom()){
+				return true;
+			}
+		}
+		return false;
+	}
+	/**
+	 * Ratio largeur/hauteur
+	 * @return ratio
+	 */
+	public double aspectRatio(){
+		return this.width/this.height;
+	}
 	
+	public Rectangle expandToAspectRatio(doule aspectRatio){
+		//TODO retourne le plus petit rectangle ayant le même centre que le récepteur, le rapport largeur/hauteur aspectRatio et contenant totalement le récepteur (c-à-d que tout point contenu dans le récepteur est également contenu dans le rectangle retourné). Lève l'exception IllegalArgumentException si le rapport passé est négatif ou nul.
+	}
+	
+	
+	
+	// Getters
 	public double left(){
 		double x = this.center.x()-(this.width/2);
 		return x;
@@ -43,5 +67,14 @@ public class Rectangle {
 	public double top(){
 		double y = this.center.y()+(this.height/2);
 		return y;
+	}
+	public double width(){
+		return this.width;
+	}
+	public double height(){
+		return this.height;
+	}
+	public Point center(){
+		return this.center;
 	}
 }
