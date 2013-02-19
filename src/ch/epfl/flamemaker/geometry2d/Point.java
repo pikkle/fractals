@@ -1,9 +1,10 @@
 package ch.epfl.flamemaker.geometry2d;
 
 public class Point {
-	private double x;
-	private double y;
-	public static 
+	private final double x;
+	private final double y;
+	public final static ORIGIN = new Point(0,0);
+
 	
 	public Point(double unX, double unY){
 		this.x = unX;

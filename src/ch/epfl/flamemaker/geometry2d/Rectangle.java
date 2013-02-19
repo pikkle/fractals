@@ -1,10 +1,12 @@
 package ch.epfl.flamemaker.geometry2d;
-
+/**
+ * Classe représentant un rectangle géométrique.
+ */
 public class Rectangle {
 	Point center;
 	double width, height;
 	/**
-	 * Classe qui représente un rectangle géométrique.
+	 * Constructeur du rectangle.
 	 * @param center Le point central du rectangle
 	 * @param width La largeur du rectangle
 	 * @param height La hauteur du rectangle
