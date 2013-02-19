@@ -1,6 +1,8 @@
 package ch.epfl.flamemaker.geometry2d;
 /**
  * classe créant un point avec deux double (x et y)
+ * @param X la coordonnée de l'axe des x
+ * @param Y la coordonnée de l'axe des y
  */
 public class Point {
 	private final double X;
@@ -14,25 +16,25 @@ public class Point {
 	}
 	/**getter de X*/
 	public double x(){
-		return X;
+		return this.X;
 	}
 	/** getter de Y*/
 	public double y()
 	{
-		return Y;
+		return this.Y;
 	}
 	/**Méthode qui retourne la coordonée r du point (son module)*/
 	public double r(){
-		return (Math.sqrt(X*X+Y*Y));
+		return (Math.sqrt(this.X*this.X+this.Y*this.Y));
 	}
 	/** Méthode qui retourne l'angle théta du point */
 	public double theta(){
-		return Math.atan2(X, Y);
+		return Math.atan2(this.X, this.Y);
 		
 	}
 	/** Méthode qui retourne un String représentant le point par ses deux coordonées x et y ex: (1.5, 6.3)*/
 	public String toString(){
-		return("("+ X +", "+Y+")");
+		return("("+ this.X +", "+this.Y+")");
 	}
 	//TODO
 }
