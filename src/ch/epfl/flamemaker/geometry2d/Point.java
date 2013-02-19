@@ -7,25 +7,25 @@ public class Point {
 
 	
 	public Point(double unX, double unY){
-		this.x = unX;
-		this.y = unY;
+		this.X = unX;
+		this.Y = unY;
 	}
 	public double x(){
-		return x;
+		return X;
 	}
 	public double y()
 	{
-		return y;
+		return Y;
 	}
 	public double r(){
-		return (Math.sqrt(x*x+y*y));
+		return (Math.sqrt(X*X+Y*Y));
 	}
 	public double theta(){
-		return Math.atan2(x, y);
+		return Math.atan2(X, Y);
 		
 	}
 	public String toString(){
-		return("("+ x +", "+y+")");
+		return("("+ X +", "+Y+")");
 	}
 	//TODO
 }
