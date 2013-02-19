@@ -88,7 +88,13 @@ public class Rectangle {
 		return new Rectangle(this.center, width, height);
 	}
 	
-	
+	/**
+	 * Donne les données du rectangle en String sous le format:
+	 * ((centre.x, centre.y),largeur, hauteur)
+	 */
+	public String toString(){
+		return ("(("+this.center.x()+","+this.center.y()+")"+this.width+","+this.height+")");
+	}
 	
 	// Getters
 	public double left(){
