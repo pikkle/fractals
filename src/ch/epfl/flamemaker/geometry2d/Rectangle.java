@@ -5,6 +5,7 @@ package ch.epfl.flamemaker.geometry2d;
 public class Rectangle {
 	Point center;
 	double width, height;
+	
 	/**
 	 * Constructeur du rectangle.
 	 * @param center Le point central du rectangle
@@ -27,6 +28,13 @@ public class Rectangle {
 			this.height = height;
 		}
 	}
+	
+	
+	/**
+	 * Méthode permettant de définir si un point est contenu dans le rectangle.
+	 * @param p Le point à vérifier
+	 * @return Un booléen qui indique l'appartenance du point dans le rectangle.
+	 */
 	public boolean contains(Point p){
 		// Strictement inférieur à x et y MAX
 		// Supérieur ou égal à x et y MIN
@@ -37,6 +45,8 @@ public class Rectangle {
 		}
 		return false;
 	}
+	
+	
 	/**
 	 * Ratio largeur/hauteur
 	 * @return ratio
@@ -45,8 +55,37 @@ public class Rectangle {
 		return this.width/this.height;
 	}
 	
-	public Rectangle expandToAspectRatio(doule aspectRatio){
-		//TODO retourne le plus petit rectangle ayant le même centre que le récepteur, le rapport largeur/hauteur aspectRatio et contenant totalement le récepteur (c-à-d que tout point contenu dans le récepteur est également contenu dans le rectangle retourné). Lève l'exception IllegalArgumentException si le rapport passé est négatif ou nul.
+	
+	/**
+	 * Méthode créant un rectangle de taille supérieure ou égale au rectangle appelé.
+	 * Le nouveau rectangle a le même point central que le rectangle d'origine.
+	 * @param aspectRatio Le ratio du nouveau rectangle.
+	 * @return Le rectangle ainsi créé.
+	 */
+	public Rectangle expandToAspectRatio(double aspectRatio){
+		if (aspectRatio <= 0){
+			throw new IllegalArgumentException("Le ratio ne peut pas être négatif.");
+		}
+		if (aspectRatio == this.aspectRatio()){
+			return new Rectangle(this.center, this.width, this.width);
+		}
+		double width = 0, height = 0; // Les valeurs du rectangle modifié
+		if (aspectRatio == 1){
+			//Carré demandé, prend le plus grand côté.
+			height = Math.max(this.height, width);
+			width = height;
+			}
+		else if (aspectRatio > 1){
+			//Rectangle horizontal demandé
+			height = this.height;
+			width = aspectRatio/height;
+		}
+		else{
+			//Rectangle vertical demandé
+			width = this.width;
+			height = width/aspectRatio;
+		}
+		return new Rectangle(this.center, width, height);
 	}
 	
 	
