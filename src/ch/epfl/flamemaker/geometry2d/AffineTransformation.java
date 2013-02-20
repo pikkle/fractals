@@ -52,7 +52,6 @@ public class AffineTransformation implements Transformation {
 							* that.transformation[k][j];
 				}
 			}
-
 		}
 		return new AffineTransformation(newTransformation[0][0],
 				newTransformation[0][1], newTransformation[0][2],
