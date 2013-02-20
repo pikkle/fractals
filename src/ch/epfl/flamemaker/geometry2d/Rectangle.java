@@ -66,25 +66,9 @@ public class Rectangle {
 		if (aspectRatio <= 0){
 			throw new IllegalArgumentException("Le ratio ne peut pas être négatif.");
 		}
-		if (aspectRatio == this.aspectRatio()){
-			return new Rectangle(this.center, this.width, this.width);
-		}
-		double width = 0, height = 0; // Les valeurs du rectangle modifié
-		if (aspectRatio == 1){
-			//Carré demandé, prend le plus grand côté.
-			height = Math.max(this.height, width);
-			width = height;
-			}
-		else if (aspectRatio > 1){
-			//Rectangle horizontal demandé
-			height = this.height;
-			width = aspectRatio/height;
-		}
-		else{
-			//Rectangle vertical demandé
-			width = this.width;
-			height = width/aspectRatio;
-		}
+		double width = Math.max(this.width, this.height*aspectRatio);
+		double height = Math.max(this.height, this.width/aspectRatio);
+		
 		return new Rectangle(this.center, width, height);
 	}
 	
