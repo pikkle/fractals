@@ -40,7 +40,6 @@ public class Point {
 
 	/** Méthode qui retourne l'angle théta du point */
 	public double theta() {
-		// Modif par Loïc, il fallait inverser x et y selon la javadoc de Math.atan2(), thanks to JUnit
 		return Math.atan2(this.Y, this.X);
 	}
 
