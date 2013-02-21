@@ -1,4 +1,4 @@
-package ch.epfl.flamemaker.testJUnit;
+package testJUnit;
 
 import static org.junit.Assert.*;
 
