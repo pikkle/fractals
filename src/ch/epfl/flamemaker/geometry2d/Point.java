@@ -12,7 +12,12 @@ public class Point {
 	private final double X;
 	private final double Y;
 	public final static Point ORIGIN = new Point(0, 0);
-
+	
+	/**
+	 * Constructeur de la classe Point
+	 * @param unX La coordonnée de x sur l'axe des abscisse.
+	 * @param unY La coordonnée de y sur l'axe des ordonnée.
+	 */
 	public Point(double unX, double unY) {
 		this.X = unX;
 		this.Y = unY;
@@ -35,7 +40,8 @@ public class Point {
 
 	/** Méthode qui retourne l'angle théta du point */
 	public double theta() {
-		return Math.atan2(this.X, this.Y);
+		// Modif par Loïc, il fallait inverser x et y selon la javadoc de Math.atan2(), thanks to JUnit
+		return Math.atan2(this.Y, this.X);
 	}
 
 	/**
