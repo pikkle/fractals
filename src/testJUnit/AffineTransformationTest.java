@@ -9,7 +9,7 @@ import ch.epfl.flamemaker.geometry2d.AffineTransformation;
 public class AffineTransformationTest {
 	@Test
 	public void testNewTranslation(){
-		AffineTransformation at = newTranslation(1,1);
+		AffineTransformation at = AffineTransformation.newTranslation(1,1);
 		
 	}
 

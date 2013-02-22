@@ -10,24 +10,24 @@ public class AffineTransformation implements Transformation {
 		transformation = new double[][] { { a, b, c }, { d, e, f }, { 0, 0, 1 } };
 	}
 
-	public AffineTransformation newTranslation(double dx, double dy) {
+	public static AffineTransformation newTranslation(double dx, double dy) {
 		return new AffineTransformation(1, 0, dx, 0, 1, dy);
 	}
 
-	public AffineTransformation newRotation(double theta) {
+	public static AffineTransformation newRotation(double theta) {
 		return new AffineTransformation(Math.cos(theta), -Math.sin(theta), 0,
 				Math.sin(theta), Math.cos(theta), 0);
 	}
 
-	public AffineTransformation newScaling(double sx, double sy) {
+	public static AffineTransformation newScaling(double sx, double sy) {
 		return new AffineTransformation(sx, 0, 0, 0, sy, 0);
 	}
 
-	public AffineTransformation newShearX(double sx) {
+	public static AffineTransformation newShearX(double sx) {
 		return new AffineTransformation(1, sx, 0, 0, 1, 0);
 	}
 
-	public AffineTransformation newShearY(double sy) {
+	public static AffineTransformation newShearY(double sy) {
 		return new AffineTransformation(1, 0, 0, sy, 1, 0);
 	}
 
