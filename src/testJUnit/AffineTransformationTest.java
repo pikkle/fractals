@@ -62,9 +62,9 @@ public class AffineTransformationTest {
 				.newRotation(Math.PI / 2);
 		Point p = new Point(2, 2);
 		AffineTransformation at3 = at1.composeWith(at2);
-		at3.transformPoint(p);
-		assertEquals(p.x(), -1, DELTA);
-		assertEquals(p.y(), 3, DELTA);
+		Point p2 = at3.transformPoint(p);
+		assertEquals(p2.x(), -1, DELTA);
+		assertEquals(p2.y(), 3, DELTA);
 
 	}
 
