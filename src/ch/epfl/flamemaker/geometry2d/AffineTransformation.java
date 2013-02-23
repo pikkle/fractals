@@ -1,6 +1,6 @@
 package ch.epfl.flamemaker.geometry2d;
 
-public class AffineTransformation implements Transformation {
+public final class AffineTransformation implements Transformation {
 	private final double[][] transformation;
 	public static final AffineTransformation IDENTITY = new AffineTransformation(
 			1, 0, 0, 0, 1, 0);
