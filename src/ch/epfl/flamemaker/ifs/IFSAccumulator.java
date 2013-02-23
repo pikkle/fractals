@@ -1,7 +1,7 @@
 package ch.epfl.flamemaker.ifs;
 
 public final class IFSAccumulator {
-	private boolean[][] isHit;
+	private final boolean[][] isHit;
 
 	public IFSAccumulator(boolean[][] isHit) {
 		if (isHit.length == 0) throw new IndexOutOfBoundsException("La liste est vide.");

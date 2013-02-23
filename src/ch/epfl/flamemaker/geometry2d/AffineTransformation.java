@@ -5,7 +5,7 @@ public final class AffineTransformation implements Transformation {
 	public static final AffineTransformation IDENTITY = new AffineTransformation(
 			1, 0, 0, 0, 1, 0);
 
-	private AffineTransformation(double a, double b, double c, double d,
+	public AffineTransformation(double a, double b, double c, double d,
 			double e, double f) {
 		transformation = new double[][] { { a, b, c }, { d, e, f }, { 0, 0, 1 } };
 	}

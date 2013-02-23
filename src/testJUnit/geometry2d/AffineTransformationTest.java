@@ -1,4 +1,4 @@
-package testJUnit;
+package testJUnit.geometry2d;
 
 import static org.junit.Assert.*;
 
