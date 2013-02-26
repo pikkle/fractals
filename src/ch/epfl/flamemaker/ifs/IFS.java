@@ -21,7 +21,7 @@ public class IFS {
 		IFSAccumulatorBuilder ifsAccB = new IFSAccumulatorBuilder(frame, width, height);
 		Point p = new Point(0, 0);
 		Random r = new Random();
-		for (int k = 0; k < density * width * height; k++) {
+		for (int k = 0; k < 20 + density * width * height; k++) {
 			int i = r.nextInt(this.listTransfo.size());
 			p = this.listTransfo.get(i).transformPoint(p);
 			if (k > 20)
