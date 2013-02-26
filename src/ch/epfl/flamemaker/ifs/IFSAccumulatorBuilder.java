@@ -8,7 +8,8 @@ public class IFSAccumulatorBuilder {
 	private Rectangle frame;
 	private int width, height;
 	private boolean[][] bool;
-	private AffineTransformation translationCadre;
+	private AffineTransformation translationCadre, upscaleCadre, tuCadre;
+	
 
 	public IFSAccumulatorBuilder(Rectangle frame, int width, int height) {
 		if (width <= 0 || height <= 0)
@@ -25,11 +26,13 @@ public class IFSAccumulatorBuilder {
 		translationCadre = AffineTransformation.newTranslation(-(frame.center()
 				.x() - (frame.width() / 2)), -(frame.center().y() - (frame
 				.height() / 2)));
+		upscaleCadre =  AffineTransformation.newScaling(width/frame.width(), height/frame.height());
+		tuCadre = upscaleCadre.composeWith(translationCadre);
 	}
 
 	public void hit(Point p) {
 		int px, py;
-		Point pT = translationCadre.transformPoint(p);
+		Point pT = tuCadre.transformPoint(p);
 		px = (int) pT.x();
 		py = (int) pT.y();
 		if (this.frame.contains(p)){

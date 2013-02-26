@@ -23,6 +23,9 @@ public class IFSMaker {
 
 		PrintStream ps = new PrintStream("barnsley.PBM");
 
+		
+		
+		tab[0][2]
 		ps.println("P1");
 		ps.println(ifsa.width() + " " + ifsa.height());
 		for (int i = 0; i < ifsa.width(); i++) {
