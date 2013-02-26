@@ -24,7 +24,7 @@ public class IFSAccumulatorBuilder {
 		// position du tableau, en mettant le coin inférieur gauche du cadre à
 		// l'origine.
 		translationCadre = AffineTransformation.newTranslation(-(frame.left()),-(frame.bottom()));
-		upscaleCadre =  AffineTransformation.newScaling(width/frame.width(), height/frame.height());
+		upscaleCadre = AffineTransformation.newScaling(this.width/frame.width(), this.height/frame.height());
 		tuCadre = upscaleCadre.composeWith(translationCadre);
 	}
 
