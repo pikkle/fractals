@@ -34,7 +34,8 @@ public class IFSAccumulatorBuilder {
 		Point pT = translationCadre.transformPoint(pZ);
 		px = (int) pT.x();
 		py = (int) pT.y();
-		if (this.frame.contains(p))this.bool[px][py] = true;
+		if (this.frame.contains(p))
+			if(py < this.height)this.bool[px][py] = true;
 	}
 
 	public IFSAccumulator build() {
