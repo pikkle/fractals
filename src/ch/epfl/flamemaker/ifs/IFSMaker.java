@@ -29,7 +29,7 @@ public class IFSMaker {
 		System.out.println("width: " + ifsa.width());
 		System.out.println("height: " + ifsa.height());
 		ps.println(ifsa.width() + " " + ifsa.height());
-		for (int i = ifsa.height()-1; i > 0; i--) {
+		for (int i = ifsa.height()-1; i >= 0; i--) {
 			for (int j = 0; j < ifsa.width(); j++) {
 				if (ifsa.isHit(j, i))
 					ps.print("1 ");

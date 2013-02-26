@@ -23,19 +23,18 @@ public class IFSAccumulatorBuilder {
 		// La translation permet de passer d'une coordonnée graphique à une
 		// position du tableau, en mettant le coin inférieur gauche du cadre à
 		// l'origine.
-		translationCadre = AffineTransformation.newTranslation(-((frame.center().x())-(width/2)),-((frame.center().y())-(height/2)));
+		translationCadre = AffineTransformation.newTranslation(-(frame.left()),-(frame.bottom()));
 		upscaleCadre =  AffineTransformation.newScaling(width/frame.width(), height/frame.height());
-		//tuCadre = upscaleCadre.composeWith(translationCadre);
+		tuCadre = upscaleCadre.composeWith(translationCadre);
 	}
 
 	public void hit(Point p) {
 		int px, py;
-		Point pZ = upscaleCadre.transformPoint(p);
-		Point pT = translationCadre.transformPoint(pZ);
+		Point pT = tuCadre.transformPoint(p);
 		px = (int) pT.x();
 		py = (int) pT.y();
 		if (this.frame.contains(p))
-			if(py < this.height)this.bool[px][py] = true;
+			this.bool[px][py] = true;
 	}
 
 	public IFSAccumulator build() {
