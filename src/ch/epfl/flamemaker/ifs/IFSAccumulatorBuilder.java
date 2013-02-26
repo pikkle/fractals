@@ -1,7 +1,5 @@
 package ch.epfl.flamemaker.ifs;
 
-import java.util.Arrays;
-
 import ch.epfl.flamemaker.geometry2d.AffineTransformation;
 import ch.epfl.flamemaker.geometry2d.Point;
 import ch.epfl.flamemaker.geometry2d.Rectangle;
@@ -31,14 +29,15 @@ public class IFSAccumulatorBuilder {
 
 	public void hit(Point p) {
 		int px, py;
-		px = (int) Math.floor(p.x());
-		py = (int) Math.floor(p.y());
 		Point pT = translationCadre.transformPoint(p);
-		if (this.frame.contains(p))
-			this.bool[(int) pT.x()][(int) pT.y()] = true;
+		px = (int) pT.x();
+		py = (int) pT.y();
+		if (this.frame.contains(p)){
+			this.bool[px][py] = true;
+		}
 	}
 
 	public IFSAccumulator build() {
-		return new IFSAccumulator(bool);
+		return new IFSAccumulator(this.bool);
 	}
 }

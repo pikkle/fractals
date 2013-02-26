@@ -21,10 +21,10 @@ public final class IFSAccumulator {
 	}
 
 	public boolean isHit(int x, int y) {
-		if (x > isHit.length || x < 0 || y > isHit[0].length || y < 0){
+		if (x >= isHit.length || x < 0 || y >= isHit[0].length || y < 0){
 			throw new IndexOutOfBoundsException("Les coordonnées données sont extérieures au cadre.");
 		}
-		if(this.isHit[x][y] == true)return true;
+		if(this.isHit[x][y])return true;
 		return false;
 	}
 }

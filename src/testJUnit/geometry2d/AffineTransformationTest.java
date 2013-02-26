@@ -12,11 +12,11 @@ public class AffineTransformationTest {
 
 	@Test
 	public void testNewTranslation() {
-		AffineTransformation at = AffineTransformation.newTranslation(1, 1);
+		AffineTransformation at = AffineTransformation.newTranslation(10, 10);
 		Point p = new Point(1, 1);
 		p = at.transformPoint(p);
-		assertEquals(p.x(), 2, DELTA);
-		assertEquals(p.y(), 2, DELTA);
+		assertEquals(p.x(), 11, DELTA);
+		assertEquals(p.y(), 11, DELTA);
 	}
 
 	@Test
