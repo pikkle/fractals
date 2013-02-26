@@ -39,7 +39,7 @@ public class Rectangle {
 		// Strictement inférieur à x et y MAX
 		// Supérieur ou égal à x et y MIN
 		if (p.x() < this.right() && p.x() >= this.left()){
-			if (p.y() < this.top() && p.x() >= this.bottom()){
+			if (p.y() < this.top() && p.y() >= this.bottom()){
 				return true;
 			}
 		}
