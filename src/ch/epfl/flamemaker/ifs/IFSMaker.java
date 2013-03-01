@@ -13,16 +13,15 @@ public class IFSMaker {
 	public static void main(String[] args) throws FileNotFoundException {
 		
 		List<AffineTransformation> listTransfo = new ArrayList<AffineTransformation>();
-		listTransfo.add(new AffineTransformation(0, 0, 0, 0, 0.16, 0));
-		listTransfo.add(new AffineTransformation(0.2, -0.26, 0, 0.23, 0.22, 1.6));
-		listTransfo.add(new AffineTransformation(-0.15, 0.28, 0, 0.26, 0.24, 0.44));
-		listTransfo.add(new AffineTransformation(0.85, 0.04, 0, -0.04, 0.85, 1.6));
+		listTransfo.add(new AffineTransformation(0.5, 0, 0, 0, 0.5, 0));
+		listTransfo.add(new AffineTransformation(0.5, 0, 0.5, 0, 0.5, 0));
+		listTransfo.add(new AffineTransformation(0.5, 0, 0.25, 0, 0.5, 0.5));
 
-		IFS barnsley = new IFS(listTransfo);
-		IFSAccumulator ifsa = barnsley.compute(new Rectangle(new Point(0, 4.5),
-				6, 10), 1200, 2000, 150);
+		IFS sierpinski = new IFS(listTransfo);
+		IFSAccumulator ifsa = sierpinski.compute(new Rectangle(new Point(0.5,0.5),
+				1, 1), 1000, 1000, 1);
 
-		PrintStream ps = new PrintStream("barnsley.PBM");
+		PrintStream ps = new PrintStream("sierpinski.PBM");
 
 		ps.println("P1");
 		ps.println(ifsa.width() + " " + ifsa.height());
