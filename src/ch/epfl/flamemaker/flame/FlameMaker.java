@@ -18,7 +18,7 @@ public class FlameMaker {
 		Flame flame = new Flame(listTransfo);
 		//Shark fin
 		FlameAccumulator flameaccu = flame.compute(new Rectangle(new Point(-0.25,0),5,4),500,400,50);
-	
+
 		PrintStream ps = new PrintStream("sharkfin.PGM");
 		ps.println("P2");
 		ps.println(flameaccu.width() + " " + flameaccu.height());
