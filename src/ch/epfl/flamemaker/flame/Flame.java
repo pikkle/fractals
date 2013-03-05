@@ -14,8 +14,11 @@ public class Flame {
 	}
 	
 	public FlameAccumulator compute(Rectangle frame, int width, int height, int density){
-		FlameAccumulatorBuilder flameaccu = new FlameAccumulatorBuilder(frame, height, width);
-		Point p = new Point(0, 0);
+		FlameAccumulator.Builder flameaccu = new FlameAccumulator.Builder(frame, width, height);
+		Point p = new Point (0,0);
+		for (int i =0; i< density*width*height; i++){
+			
+		}
 		
 	}
 
