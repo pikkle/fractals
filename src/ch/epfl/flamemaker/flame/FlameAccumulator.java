@@ -4,10 +4,20 @@ public final class FlameAccumulator {
 	private final int[][] hitCount;
 	private final double m;
 
-	private FlameAccumulator(int[][] hitCount) {
+	private FlameAccumulator (int[][] hitCount) {
+		this.hitCount = new int[hitCount.length][hitCount[0].length];
 		for (int i = 0; i < hitCount.length; i++) {
 			this.hitCount[i] = hitCount[i].clone();
 		}
+		int max =0;
+		for (int i =0 ; i < hitCount.length; i++){
+			for (int j =0; j < hitCount[i].length; j++){
+				if (hitCount[i][j]> max){
+					max = hitCount[i][j];
+				}
+			}
+		}
+		this.m = max;
 
 	}
 
