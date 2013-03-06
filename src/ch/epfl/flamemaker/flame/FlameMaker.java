@@ -1,5 +1,6 @@
 package ch.epfl.flamemaker.flame;
 
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,7 @@ import ch.epfl.flamemaker.geometry2d.Point;
 import ch.epfl.flamemaker.geometry2d.Rectangle;
 
 public class FlameMaker {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		List<FlameTransformation> listTransfo = new ArrayList<FlameTransformation>();
 		// Shark fin
 		listTransfo.add(new FlameTransformation(new AffineTransformation(
