@@ -25,8 +25,8 @@ public class FlameTransformation implements Transformation {
 		double y = 0.0;
 		
 		for (int i = 0; i < Variation.ALL_VARIATIONS.size(); i++) {
-			x += variationWeight[i]*Variation.ALL_VARIATIONS.get(i).transformPoint(affineTransformation.transformPoint(p)).x();
-			y += variationWeight[i]*Variation.ALL_VARIATIONS.get(i).transformPoint(affineTransformation.transformPoint(p)).y();
+			x += variationWeight[i] * Variation.ALL_VARIATIONS.get(i).transformPoint(this.affineTransformation.transformPoint(p)).x();
+			y += variationWeight[i] * Variation.ALL_VARIATIONS.get(i).transformPoint(this.affineTransformation.transformPoint(p)).y();
 			
 		}
 		return new Point(x, y);
