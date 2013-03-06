@@ -31,9 +31,11 @@ public class FlameMaker {
 		ps.println("P2");
 		ps.println(flameaccu.width() + " " + flameaccu.height());
 		ps.println("100");
-		for (int i = flameaccu.height(); i >= 0; i++) {
-			for (int j = 0; j < flameaccu.width(); j++) {
-				ps.print(flameaccu.intensity(i, j));
+		int h = flameaccu.height();
+		int w = flameaccu.width();
+		for (int i = 0; i < h; i++) {
+			for (int j = 0; j < w; j++) {
+				ps.print(((int) 100*(flameaccu.intensity(j, i))) + " ");
 			}
 			ps.println();
 		}

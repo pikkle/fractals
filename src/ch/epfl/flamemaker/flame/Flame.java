@@ -18,25 +18,18 @@ public class Flame {
 
 	public FlameAccumulator compute(Rectangle frame, int width, int height,
 			int density) {
-		FlameAccumulator.Builder flameaccu = new FlameAccumulator.Builder(
+		FlameAccumulator.Builder flameAccu = new FlameAccumulator.Builder(
 				frame, width, height);
 		Point p = new Point(0, 0);
 		Random r = new Random();
-		for (int k = 0; k < density * width * height; k++) {
+		for (int k = 0; k < 20 + density * width * height; k++) {
 			int i = r.nextInt(listTransfo.size());
-			double newX =0;
-			double newY =0;
-			for (int j = 0; j < Variation.ALL_VARIATIONS.size(); j++) {
-				double weight = this.listTransfo.get(i).getVariationWeight(j);
-				Point pTemp = Variation.ALL_VARIATIONS.get(j).transformPoint(
-						this.listTransfo.get(i).transformPoint(p));
-				newX += weight * pTemp.x();
-				newY += weight * pTemp.y();
+			p = listTransfo.get(i).transformPoint(p);
+			if (k > 20){
+				flameAccu.hit(p);
 			}
-			p = new Point(newX,newY);	
-			flameaccu.hit(p);
 		}
-		return flameaccu.build();
+		return flameAccu.build();
 
 	}
 

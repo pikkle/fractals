@@ -22,7 +22,6 @@ public final class FlameAccumulator {
 			}
 		}
 		this.m = max;
-
 	}
 
 	public int width() {
@@ -34,9 +33,9 @@ public final class FlameAccumulator {
 	}
 
 	public double intensity(int x, int y) {
-		if (x < 0 || x > hitCount.length || y < 0 || y > hitCount[0].length) {
+		if (x < 0 || x >= hitCount.length || y < 0 || y >= hitCount[0].length) {
 			throw new IndexOutOfBoundsException(
-					"Les coordonées données ne sont pas valides");
+					"Les coordonées données ne sont pas valides :(" + x + "x : "+ y + "y)");
 		}
 		return (Math.log(hitCount[x][y] + 1) / Math.log(m + 1));
 
@@ -68,7 +67,7 @@ public final class FlameAccumulator {
 			px = (int) pT.x();
 			py = (int) pT.y();
 			if (this.frame.contains(p)) {
-				this.hitCount[px][py]++;
+				this.hitCount[px][hitCount[0].length-py]++;
 			}
 
 		}

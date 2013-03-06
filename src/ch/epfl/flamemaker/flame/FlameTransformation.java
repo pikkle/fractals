@@ -21,12 +21,15 @@ public class FlameTransformation implements Transformation {
 
 	@Override
 	public Point transformPoint(Point p) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public double getVariationWeight(int i) {
-		return variationWeight[i];
+		double x = 0.0;
+		double y = 0.0;
+		
+		for (int i = 0; i < Variation.ALL_VARIATIONS.size(); i++) {
+			x += variationWeight[i]*Variation.ALL_VARIATIONS.get(i).transformPoint(affineTransformation.transformPoint(p)).x();
+			y += variationWeight[i]*Variation.ALL_VARIATIONS.get(i).transformPoint(affineTransformation.transformPoint(p)).y();
+			
+		}
+		return new Point(x, y);
 	}
 
 }
