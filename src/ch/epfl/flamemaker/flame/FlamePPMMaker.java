@@ -43,7 +43,7 @@ public class FlamePPMMaker {
 		for (int i = 0; i < h; i++) {
 			for (int j = 0; j < w; j++) {
 				Color colorPrint = flameaccuShark.color(paletteInterpol,
-						Color.BLACK, i, j);
+						Color.BLACK, j, i);
 				ps1.print(Color.sRGBEncode(colorPrint.red(), 100) + " "
 						+ Color.sRGBEncode(colorPrint.green(), 100) + " "
 						+ Color.sRGBEncode(colorPrint.blue(), 100) + " ");

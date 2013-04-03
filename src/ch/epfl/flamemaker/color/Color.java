@@ -19,7 +19,7 @@ public final class Color {
 	public double red(){return this.r;}
 	public double green(){return this.g;}
 	public double blue(){return this.b;}
-	public Color mixWitch(Color that, double proportion){
+	public Color mixWith(Color that, double proportion){
 		if (proportion < 0 || proportion > 1){
 			throw new IllegalArgumentException("La proportion donnée n'est pas valide.");
 		}

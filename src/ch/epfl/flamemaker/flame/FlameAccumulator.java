@@ -56,8 +56,8 @@ public final class FlameAccumulator {
 					"Les coordonées données ne sont pas valides :(" + x
 							+ "x : " + y + "y)");
 		}
-		double indexColor = colorIndexSum[x][y] / hitCount[x][y];
-		return palette.colorForIndex(indexColor).mixWitch(background,
+		double indexColor = colorIndexSum[x][y] / (double) hitCount[x][y];
+		return palette.colorForIndex(indexColor).mixWith(background,
 				intensity(x, y));
 	}
 
