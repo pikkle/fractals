@@ -18,9 +18,11 @@ public final class FlameAccumulator {
 		for (int i = 0; i < colorIndexSum.length; i++) {
 			this.colorIndexSum[i] = colorIndexSum[i].clone();
 		}
+		
 		for (int i = 0; i < hitCount.length; i++) {
 			this.hitCount[i] = hitCount[i].clone();
 		}
+		
 		int max = 0;
 		for (int i = 0; i < hitCount.length; i++) {
 			for (int j = 0; j < hitCount[i].length; j++) {
@@ -56,6 +58,7 @@ public final class FlameAccumulator {
 					"Les coordonées données ne sont pas valides :(" + x
 							+ "x : " + y + "y)");
 		}
+		
 		double indexColor = colorIndexSum[x][y] / (double) hitCount[x][y];
 		return palette.colorForIndex(indexColor).mixWith(background,
 				intensity(x, y));

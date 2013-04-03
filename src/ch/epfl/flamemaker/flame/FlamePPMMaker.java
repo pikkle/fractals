@@ -46,7 +46,7 @@ public class FlamePPMMaker {
 						Color.BLACK, j, i);
 				ps1.print(Color.sRGBEncode(colorPrint.red(), 100) + " "
 						+ Color.sRGBEncode(colorPrint.green(), 100) + " "
-						+ Color.sRGBEncode(colorPrint.blue(), 100) + " ");
+						+ Color.sRGBEncode(colorPrint.blue(), 100) + "   ");
 			}
 			ps1.print("\n");
 		}

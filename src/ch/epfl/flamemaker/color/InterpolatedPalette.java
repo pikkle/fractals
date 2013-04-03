@@ -17,17 +17,20 @@ public class InterpolatedPalette implements Palette {
 			throw new IllegalArgumentException(
 					"la liste de couleur est trop courte");
 		}
+		
 		this.listColor = new ArrayList(listColor);
 		double[] listIndex = new double[listColor.size()];
 		for (int i = 0; i < listColor.size(); i++) {
 			listIndex[i] = ((1 / (listColor.size()-1)) * i);
 		}
 	}
+	
 	@Override
 	public Color colorForIndex(double index) {
 		if (index <0 || index >1){
 			throw new IllegalArgumentException("l'index n'est pas valide");
 		}
+		
 		double indexColor = index * (listColor.size()-1);
 		int floor = (int) Math.floor(indexColor);
 		int ceil = (int) Math.ceil(indexColor);

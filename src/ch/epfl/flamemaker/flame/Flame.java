@@ -31,11 +31,16 @@ public class Flame {
 		Point p = new Point(0, 0);
 		Random r = new Random();
 		double c = 0.0;
+		for (int i = 0; i < colorTransfo.size(); i++) {
+			System.out.println(colorTransfo.get(i));
+		}
 		for (int k = 0; k < 20 + density * width * height; k++) {
-			int i = r.nextInt(listTransfo.size());
-			p = listTransfo.get(i).transformPoint(p);
-			c = ((1/2)*(colorTransfo.get(i)+c));
+			int i = r.nextInt(this.colorTransfo.size());
+			p = this.listTransfo.get(i).transformPoint(p);
+			c = (this.colorTransfo.get(i)+c)/2.0;
 			if (k > 20) {
+				if (c != 0.0){
+				}
 				flameAccu.hit(p,c);
 			}
 		}
