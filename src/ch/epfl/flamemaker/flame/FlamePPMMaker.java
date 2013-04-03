@@ -44,9 +44,9 @@ public class FlamePPMMaker {
 			for (int j = 0; j < w; j++) {
 				Color colorPrint = flameaccuShark.color(paletteInterpol,
 						Color.BLACK, i, j);
-				ps1.print(colorPrint.sRGBEncode(colorPrint.red(), 100) + " "
-						+ colorPrint.sRGBEncode(colorPrint.green(), 100) + " "
-						+ colorPrint.sRGBEncode(colorPrint.blue(), 100) + " ");
+				ps1.print(Color.sRGBEncode(colorPrint.red(), 100) + " "
+						+ Color.sRGBEncode(colorPrint.green(), 100) + " "
+						+ Color.sRGBEncode(colorPrint.blue(), 100) + " ");
 			}
 			ps1.print("\n");
 		}
