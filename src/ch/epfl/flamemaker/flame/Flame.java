@@ -11,9 +11,17 @@ import ch.epfl.flamemaker.geometry2d.Rectangle;
 
 public class Flame {
 	private final List<FlameTransformation> listTransfo;
+	private final ArrayList<Double> colorTransfo;
 
 	public Flame(List<FlameTransformation> transformations) {
 		this.listTransfo = new ArrayList<FlameTransformation>(transformations);
+		colorTransfo = new ArrayList<Double>();
+		colorTransfo.add(0.0);
+		colorTransfo.add(1.0);
+		for (int i = 2; i < transformations.size(); i++) {
+			double a = Math.pow(2, Math.ceil(Math.log(i) / Math.log(2)));
+			colorTransfo.add((2 * i - 1 - a) / a);
+		}
 	}
 
 	public FlameAccumulator compute(Rectangle frame, int width, int height,
@@ -22,11 +30,13 @@ public class Flame {
 				frame, width, height);
 		Point p = new Point(0, 0);
 		Random r = new Random();
+		double c = 0.0;
 		for (int k = 0; k < 20 + density * width * height; k++) {
 			int i = r.nextInt(listTransfo.size());
 			p = listTransfo.get(i).transformPoint(p);
-			if (k > 20){
-				flameAccu.hit(p);
+			c = ((1/2)*(colorTransfo.get(i)+c));
+			if (k > 20) {
+				flameAccu.hit(p,c);
 			}
 		}
 		return flameAccu.build();

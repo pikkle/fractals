@@ -14,7 +14,7 @@ public final class FlameAccumulator {
 	private FlameAccumulator(int[][] hitCount, double[][] colorIndexSum) {
 		this.hitCount = new int[hitCount.length][hitCount[0].length];
 		this.colorIndexSum = new double[colorIndexSum.length][colorIndexSum[0].length];
-		
+
 		for (int i = 0; i < colorIndexSum.length; i++) {
 			this.colorIndexSum[i] = colorIndexSum[i].clone();
 		}
@@ -49,13 +49,22 @@ public final class FlameAccumulator {
 		return (Math.log(hitCount[x][y] + 1) / Math.log(m + 1));
 
 	}
-	public Color color(Palette palette, Color background, int x, int y){
-		
+
+	public Color color(Palette palette, Color background, int x, int y) {
+		if (x < 0 || x >= hitCount.length || y < 0 || y >= hitCount[0].length) {
+			throw new IndexOutOfBoundsException(
+					"Les coordonées données ne sont pas valides :(" + x
+							+ "x : " + y + "y)");
+		}
+		double indexColor = colorIndexSum[x][y] / hitCount[x][y];
+		return palette.colorForIndex(indexColor).mixWitch(background,
+				intensity(x, y));
 	}
 
 	public static class Builder {
 		private Rectangle frame;
 		private int[][] hitCount;
+		private double[][] colorIndexSum;
 		private AffineTransformation translationCadre, upscaleCadre, tuCadre;
 
 		public Builder(Rectangle frame, int width, int height) {
@@ -65,6 +74,7 @@ public final class FlameAccumulator {
 			}
 			this.frame = frame;
 			this.hitCount = new int[width][height];
+			this.colorIndexSum = new double[width][height];
 
 			translationCadre = AffineTransformation.newTranslation(
 					-(frame.left()), -(frame.bottom()));
@@ -73,19 +83,20 @@ public final class FlameAccumulator {
 			tuCadre = upscaleCadre.composeWith(translationCadre);
 		}
 
-		public void hit(Point p) {
+		public void hit(Point p, double index) {
 			int px, py;
 			Point pT = tuCadre.transformPoint(p);
 			px = (int) pT.x();
 			py = (int) pT.y();
 			if (this.frame.contains(p)) {
 				this.hitCount[px][hitCount[0].length - py]++;
+				this.colorIndexSum[px][colorIndexSum[0].length - py] += index;
 			}
 
 		}
 
 		public FlameAccumulator build() {
-			return new FlameAccumulator(this.hitCount);
+			return new FlameAccumulator(this.hitCount, this.colorIndexSum);
 		}
 
 	}

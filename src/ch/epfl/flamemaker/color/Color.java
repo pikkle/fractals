@@ -2,11 +2,11 @@ package ch.epfl.flamemaker.color;
 
 public final class Color {
 	double r,g,b;
-	final static Color BLACK = new Color(0,0,0);
-	final static Color WHITE = new Color(1,1,1);
-	final static Color RED = new Color(1,0,0);
-	final static Color GREEN = new Color(0,1,0);
-	final static Color BLUE = new Color(0,0,1);
+	final static public Color BLACK = new Color(0,0,0);
+	final static public Color WHITE = new Color(1,1,1);
+	final static public Color RED = new Color(1,0,0);
+	final static public Color GREEN = new Color(0,1,0);
+	final static public Color BLUE = new Color(0,0,1);
 	
 	public Color(double r, double g, double b){
 		if (r < 0 || r > 1 || g < 0 || g > 1 || b < 0 || b > 1){
@@ -16,9 +16,9 @@ public final class Color {
 		this.g = g;
 		this.b = b;
 	}
-	double red(){return this.r;}
-	double green(){return this.g;}
-	double blue(){return this.b;}
+	public double red(){return this.r;}
+	public double green(){return this.g;}
+	public double blue(){return this.b;}
 	public Color mixWitch(Color that, double proportion){
 		if (proportion < 0 || proportion > 1){
 			throw new IllegalArgumentException("La proportion donnée n'est pas valide.");
