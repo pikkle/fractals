@@ -1,5 +1,7 @@
 package ch.epfl.flamemaker.flame;
 
+import ch.epfl.flamemaker.color.Color;
+import ch.epfl.flamemaker.color.Palette;
 import ch.epfl.flamemaker.geometry2d.AffineTransformation;
 import ch.epfl.flamemaker.geometry2d.Point;
 import ch.epfl.flamemaker.geometry2d.Rectangle;
