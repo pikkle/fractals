@@ -92,8 +92,8 @@ public final class FlameAccumulator {
 			px = (int) pT.x();
 			py = (int) pT.y();
 			if (this.frame.contains(p)) {
-				this.hitCount[px][hitCount[0].length - py]++;
-				this.colorIndexSum[px][colorIndexSum[0].length - py] += index;
+				this.hitCount[px][hitCount[0].length - py -1]++;
+				this.colorIndexSum[px][colorIndexSum[0].length - py -1] += index;
 			}
 
 		}

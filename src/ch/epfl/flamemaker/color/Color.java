@@ -21,7 +21,7 @@ public final class Color {
 	public double blue(){return this.b;}
 	public Color mixWith(Color that, double proportion){
 		if (proportion < 0 || proportion > 1){
-			throw new IllegalArgumentException("La proportion donnée n'est pas valide.");
+			throw new IllegalArgumentException("La proportion donnée n'est pas valide. = " + proportion + ")");
 		}
 		double r2, g2, b2;
 		r2 = proportion*this.r + (1-proportion)*that.r;

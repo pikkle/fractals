@@ -29,11 +29,8 @@ public class Flame {
 		FlameAccumulator.Builder flameAccu = new FlameAccumulator.Builder(
 				frame, width, height);
 		Point p = new Point(0, 0);
-		Random r = new Random();
+		Random r = new Random(2013);
 		double c = 0.0;
-		for (int i = 0; i < colorTransfo.size(); i++) {
-			System.out.println(colorTransfo.get(i));
-		}
 		for (int k = 0; k < 20 + density * width * height; k++) {
 			int i = r.nextInt(this.colorTransfo.size());
 			p = this.listTransfo.get(i).transformPoint(p);

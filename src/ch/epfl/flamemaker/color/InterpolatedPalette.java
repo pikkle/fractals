@@ -37,7 +37,7 @@ public class InterpolatedPalette implements Palette {
 		
 		if (floor == ceil){return listColor.get(floor);}
 		else {
-			double proportion = ceil - index;
+			double proportion = ceil - indexColor;
 			return listColor.get(floor).mixWith(listColor.get(ceil),proportion);
 		}
 	}
