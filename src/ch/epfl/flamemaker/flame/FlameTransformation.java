@@ -40,5 +40,24 @@ public class FlameTransformation implements Transformation {
 		}
 		return new Point(x, y);
 	}
+	public static class Builder{
+		private AffineTransformation affineTransformationBuilder;
+		private double[] variationWeightBuilder;
+		
+		public Builder(FlameTransformation flameTransformation){
+			this.affineTransformationBuilder = flameTransformation.affineTransformation; //à vérifier si copie en profondeur
+			this.variationWeightBuilder = flameTransformation.variationWeight.clone(); // à vérifier si copie en profondeur
+		}
+		public AffineTransformation getAffineTransformation(){
+			return affineTransformationBuilder;
+		}
+		public void setAffineTransformation(AffineTransformation affineTransformation){
+			this.affineTransformationBuilder = affineTransformation;
+		}
+		public FlameTransformation build(){
+			FlameTransformation flameTransformation = new FlameTransformation(affineTransformationBuilder, variationWeightBuilder);
+			return flameTransformation;
+		}
+	}
 
 }
