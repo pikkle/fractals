@@ -36,8 +36,6 @@ public class Flame {
 			p = this.listTransfo.get(i).transformPoint(p);
 			c = (this.colorTransfo.get(i)+c)/2.0;
 			if (k > 20) {
-				if (c != 0.0){
-				}
 				flameAccu.hit(p,c);
 			}
 		}
