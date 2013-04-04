@@ -2,7 +2,7 @@ package ch.epfl.flamemaker.color;
 
 /**
  * Classe modélisant une couleur avec ses composantes Rouge, Verte et Bleue
- *
+ * Voir le constructeur {@link #Color(double, double, double) Color()}
  */
 public final class Color {
 	double r,g,b;
@@ -15,7 +15,7 @@ public final class Color {
 	/**
 	 * Constructeur de couleur avec ses composantes RGB
 	 * (Les composantes sont comprises entre 0 et 1)
-	 * Lance l'exception IllegalArgumentException si les composantes ne sont pas valides.
+	 * Lance l'exception {@link IllegalArgumentException} si les composantes ne sont pas valides.
 	 * @param r Composante rouge
 	 * @param g Composante verte
 	 * @param b Composante bleue
@@ -56,6 +56,7 @@ public final class Color {
 	/**
 	 * Retourne la couleur encodée dans un entier.
 	 * Chaque couleur occupe 8 bits et sont rangées dans l'ordre Rouge Vert Bleu.
+	 * Les composantes sont encodées via la méthode {@link #sRGBEncode(double, int) sRGBEncode()}
 	 * @return L'entier représentant la couleur.
 	 */
 	public int asPackedRGB(){
