@@ -65,7 +65,8 @@ public class Flame {
 			if (index > listTransfoBuilder.size() || index < 0) {
 				throw new IndexOutOfBoundsException("l'index est invalide");
 			}
-			FlameTransformation flameTransformation =  listTransfoBuilder.get(index);
+			FlameTransformation flameTransformation = listTransfoBuilder
+					.get(index);
 			FlameTransformation.Builder builder = new FlameTransformation.Builder(
 					listTransfoBuilder.get(index));
 			return builder.getAffineTransformation();
@@ -85,19 +86,35 @@ public class Flame {
 		}
 
 		double variationWeight(int index, Variation variation) {
+			if (index > listTransfoBuilder.size() || index < 0) {
+				throw new IndexOutOfBoundsException("l'index est invalide");
+			}
+			FlameTransformation.Builder builder = new FlameTransformation.Builder(
+					listTransfoBuilder.get(index));
+			return builder.getVariationWeight(index);
 
 		}
 
 		void setVariationWeight(int index, Variation variation, double newWeight) {
 
+			FlameTransformation.Builder builder = new FlameTransformation.Builder(
+					listTransfoBuilder.get(index));
+			builder.setVariationWeight(index,newWeight);
+			listTransfoBuilder.set(index, builder.build());
+
 		}
 
 		void removeTransformation(int index) {
+			if (index > listTransfoBuilder.size() || index < 0) {
+				throw new IndexOutOfBoundsException("l'index est invalide");
+			}
+			listTransfoBuilder.remove(index);
 
 		}
 
 		public Flame build() {
-
+			Flame flame = new Flame(listTransfoBuilder);
+			return flame;
 		}
 
 	}

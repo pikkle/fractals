@@ -51,8 +51,17 @@ public class FlameTransformation implements Transformation {
 		public AffineTransformation getAffineTransformation(){
 			return affineTransformationBuilder;
 		}
+		public double getVariationWeight(int index){
+			if (index > variationWeightBuilder.length || index < 0){
+				throw new IndexOutOfBoundsException("l'index de variation est invalide");
+			}
+			return variationWeightBuilder[index];
+		}
 		public void setAffineTransformation(AffineTransformation affineTransformation){
 			this.affineTransformationBuilder = affineTransformation;
+		}
+		public void setVariationWeight(int index, double newVariation){
+			this.variationWeightBuilder[index] = newVariation;
 		}
 		public FlameTransformation build(){
 			FlameTransformation flameTransformation = new FlameTransformation(affineTransformationBuilder, variationWeightBuilder);
