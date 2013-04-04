@@ -9,6 +9,7 @@ import ch.epfl.flamemaker.geometry2d.AffineTransformation;
 import ch.epfl.flamemaker.geometry2d.Point;
 import ch.epfl.flamemaker.geometry2d.Rectangle;
 
+//Note: le fichier n'est pas à rendre
 public class FlameMaker {
 	public static void main(String[] args) throws FileNotFoundException {
 		// Shark fin

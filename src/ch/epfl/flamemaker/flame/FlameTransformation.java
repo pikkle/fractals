@@ -4,10 +4,21 @@ import ch.epfl.flamemaker.geometry2d.AffineTransformation;
 import ch.epfl.flamemaker.geometry2d.Point;
 import ch.epfl.flamemaker.geometry2d.Transformation;
 
+/**
+ * Classe modélisant une tranformation de Flame. La classe implémente l'interface {@link Transformation}.
+ * @see {@link #FlameTransformation(AffineTransformation, double[]) Le constructeur FlameTransformation()}
+ * @see Transformation
+ */
 public class FlameTransformation implements Transformation {
 	private final AffineTransformation affineTransformation;
 	private final double[] variationWeight;
 
+	/**
+	 * Le constructeur de {@link FlameTransformation}
+	 * @param affineTransformation La transformation affine ({@link AffineTransformation})
+	 * @param variationWeight Le tableau des poids de variation.
+	 * @throws IllegalArgumentException si le tableau de poids n'est pas de taille 6
+	 */
 	public FlameTransformation(AffineTransformation affineTransformation,
 			double[] variationWeight) {
 		if (variationWeight.length != 6)
@@ -40,6 +51,7 @@ public class FlameTransformation implements Transformation {
 		}
 		return new Point(x, y);
 	}
+	//TODO Javadoc Builder
 	public static class Builder{
 		private AffineTransformation affineTransformationBuilder;
 		private double[] variationWeightBuilder;

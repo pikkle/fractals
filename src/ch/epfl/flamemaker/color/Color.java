@@ -15,10 +15,10 @@ public final class Color {
 	/**
 	 * Constructeur de couleur avec ses composantes RGB
 	 * (Les composantes sont comprises entre 0 et 1)
-	 * Lance l'exception {@link IllegalArgumentException} si les composantes ne sont pas valides.
 	 * @param r Composante rouge
 	 * @param g Composante verte
 	 * @param b Composante bleue
+	 * @throws IllegalArgumentException si les composantes de couleur ne sont pas valides
 	 */
 	public Color(double r, double g, double b){
 		if (r < 0 || r > 1 || g < 0 || g > 1 || b < 0 || b > 1){

@@ -10,40 +10,57 @@ import ch.epfl.flamemaker.geometry2d.AffineTransformation;
 import ch.epfl.flamemaker.geometry2d.Point;
 import ch.epfl.flamemaker.geometry2d.Rectangle;
 
+/**
+ * Class modélisant une fractale Flame
+ * @see {@link #Flame(List)} le constructeur
+ */
 public class Flame {
 	private final List<FlameTransformation> listTransfo;
 	private final ArrayList<Double> colorTransfo;
 
+	/**
+	 * Constructeur de Flame
+	 * @param transformations La liste de {@link FlameTransformation} caractérisant la fractale.
+	 */
 	public Flame(List<FlameTransformation> transformations) {
-		this.listTransfo = new ArrayList<FlameTransformation>(transformations);
-		colorTransfo = new ArrayList<Double>();
-		colorTransfo.add(0.0);
-		colorTransfo.add(1.0);
+		this.listTransfo = new ArrayList<FlameTransformation>(transformations); //Copie de la liste de Transformations
+		
+		colorTransfo = new ArrayList<Double>(); //Création de la liste de couleurs correspondant aux transformations
+		colorTransfo.add(0.0); //C0 = 0
+		colorTransfo.add(1.0); //C1 = 1
 		for (int i = 2; i < transformations.size(); i++) {
-			double a = Math.pow(2, Math.ceil(Math.log(i) / Math.log(2)));
-			colorTransfo.add((2 * i - 1 - a) / a);
+			double a = Math.pow(2, Math.ceil(Math.log(i) / Math.log(2))); //Formule pour que C2 = 1/2; C3 = 1/4; C4 = 3/4; C5 = 1/8; C6 = 3/8; etc
+			colorTransfo.add((2 * i - a -1) / a);
 		}
 	}
-
+	
+	/**
+	 * Méthode calculant les points graphiques caractérisant la fractale.
+	 * @param frame Le cadre qui délimite le calcul.
+	 * @param width La largeur du rendu (affecte le nombre de points calculés). 
+	 * @param height La hauteur du rendu (affecte le nombre de points calculés).
+	 * @param density La densité de la fractale.
+	 * @return La {@link FlameAccumulator} correspondant à la fractale créée
+	 */
 	public FlameAccumulator compute(Rectangle frame, int width, int height,
 			int density) {
 		FlameAccumulator.Builder flameAccu = new FlameAccumulator.Builder(
 				frame, width, height);
 		Point p = new Point(0, 0);
-		Random r = new Random(2013);
+		Random r = new Random(2013); //Utilise un random avec la seed 2013
 		double c = 0.0;
 		for (int k = 0; k < 20 + density * width * height; k++) {
 			int i = r.nextInt(this.colorTransfo.size());
 			p = this.listTransfo.get(i).transformPoint(p);
 			c = (this.colorTransfo.get(i) + c) / 2.0;
-			if (k > 20) {
+			if (k > 20) { //20 premiers tours à blanc selon l'algorithme du chaos
 				flameAccu.hit(p, c);
 			}
 		}
 		return flameAccu.build();
-
 	}
 
+	// TODO Javadoc Builder
 	public static class Builder {
 		private List<FlameTransformation> listTransfoBuilder;
 

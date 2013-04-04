@@ -13,6 +13,10 @@ import ch.epfl.flamemaker.geometry2d.AffineTransformation;
 import ch.epfl.flamemaker.geometry2d.Point;
 import ch.epfl.flamemaker.geometry2d.Rectangle;
 
+/**
+ * Classe principale créant les fractales shark-fin et turbulence
+ * @see {@link #main(String[])}
+ */
 public class FlamePPMMaker {
 	/**
 	 * Méthode permettant d'écrire dans un fichier la fractale Flame.
@@ -46,14 +50,17 @@ public class FlamePPMMaker {
 			ps.flush();
 			ps.close(); // Fermeture du stream.
 		} catch (FileNotFoundException e) {
-			// Erreur du Stream: Le fichier n'existe pas.
 			System.out.println("Le fichier n'existe pas.");
 			e.printStackTrace();
 		}
 
 	}
-
-	public static void main(String[] args) throws FileNotFoundException {
+	
+	/**
+	 * La méthode main principale crée les fractales shark-fin et turbulence dans les fichiers shark-fin.ppm et turbulence respectivement.
+	 * @param args
+	 */
+	public static void main(String[] args){
 		
 		//Méthode principale qui crée les deux fractales Shark-fin et Turbulence
 		List<Color> listColor = Arrays.asList(new Color[] { Color.RED,

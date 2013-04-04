@@ -14,8 +14,8 @@ public class InterpolatedPalette implements Palette {
 	
 	/**
 	 * Constructeur de la palette interpolée.
-	 * Lance l'exception {@link IllegalArgumentException} si la liste de couleurs est trop courte.
 	 * @param listColor La liste des {@link Color}
+	 * @throws IllegalArgumentException si la liste de couleur est trop courte
 	 */
 	public InterpolatedPalette(List<Color> listColor) {
 		if (listColor.size() < 2) {
@@ -29,10 +29,9 @@ public class InterpolatedPalette implements Palette {
 			listIndex[i] = ((1 / (listColor.size()-1)) * i);
 		}
 	}
+
 	/**
-	 * Méthode retournant la couleur située à l'index passé en paramètre dans la palette.
-	 * @param index L'index de la couleur demandée.
-	 * @return La couleur correspondante.
+	 * @throws IllegalArgumentException si l'index n'est pas valide
 	 */
 	@Override
 	public Color colorForIndex(double index) {
