@@ -43,14 +43,10 @@ public final class FlameAccumulator {
 			}
 		}
 		this.m = Math.log(max + 1);
-		
-	}
-	public int width() {
-		return this.hitCount.length;
-	}
-	public int height() {
-		return this.hitCount[0].length;
-	}
+}
+	
+	public int width() {return this.hitCount.length;}
+	public int height() {return this.hitCount[0].length;}
 
 	/**
 	 * Méthode donnant l'intensité de la case de l'accumulateur.
@@ -90,13 +86,25 @@ public final class FlameAccumulator {
 				intensity(x, y));
 	}
 
-	//TODO Javadoc Builder
+	/**
+	 * Modélise un bâtisseur d'accumulateur de Flame
+	 * @see FlameAccumulator
+	 * @see {@link #FlameAccumulator.Builder(Rectangle, int, int) Le constructeur Builder()}
+	 */
 	public static class Builder {
 		private Rectangle frame;
 		private int[][] hitCount;
 		private double[][] colorIndexSum;
 		private AffineTransformation translationCadre, upscaleCadre, tuCadre;
 
+		/**
+		 * Constructeur du bâtisseur d'accumulateur de Flame
+		 * @param frame Le cadre qui délimite le calcul
+		 * @param width La largeur du rendu.
+		 * @param height La hauteur du rendu.
+		 * @see <a href="https://dl.dropbox.com/u/45709343/yodawg.png">Yo dawg</a>
+		 * @throws IllegalArgumentException si les valeurs ne sont pas strictement positives.
+		 */
 		public Builder(Rectangle frame, int width, int height) {
 			if (width <= 0 || height <= 0) {
 				throw new IllegalArgumentException(
@@ -113,6 +121,11 @@ public final class FlameAccumulator {
 			tuCadre = upscaleCadre.composeWith(translationCadre);
 		}
 
+		/**
+		 * Incrémente le compteur de la case correspondant au point
+		 * @param p Le point touché
+		 * @param index L'index de la palette de couleur à incrémenter
+		 */
 		public void hit(Point p, double index) {
 			int px, py;
 			Point pT = tuCadre.transformPoint(p);
@@ -125,6 +138,10 @@ public final class FlameAccumulator {
 
 		}
 
+		/**
+		 * Construit et retourne l'accumulateur de Flame.
+		 * @return L'accumulateur de Flame
+		 */
 		public FlameAccumulator build() {
 			return new FlameAccumulator(this.hitCount, this.colorIndexSum);
 		}

@@ -68,7 +68,7 @@ public class Flame {
 		private List<FlameTransformation> listTransfoBuilder;
 
 		/**
-		 * Constructeur de bâtisseur
+		 * Constructeur de bâtisseur de flame
 		 * @param flame
 		 * @see <a href="https://dl.dropbox.com/u/45709343/yodawg.png">Yo dawg</a>
 		 */
@@ -81,59 +81,86 @@ public class Flame {
 		/**
 		 * Donne le nombre de transformations Flame caractérisant 
 		 * la fractale en cours de construction.
-		 * @return Le nombre de transformations
+		 * @return Le nombre de transformations de la fractale
 		 */
 		int transformationCount() {
 			return listTransfoBuilder.size();
 		}
 
+		/**
+		 * Ajoute la transformation en paramètre à la fractale en dernière position.
+		 * @param transformation La transformation à ajouter à la fractale.
+		 */
 		void addTransformation(FlameTransformation transformation) {
 			listTransfoBuilder.add(transformation);
 		}
 
+		/**
+		 * Retourne la composante affine de la transformation Flame d'index donné.
+		 * @param index L'index de la transformation Flame
+		 * @return La composante affine de la transformation Flame
+		 * @throws IndexOutOfBoundsException Si l'index est invalide
+		 */
 		AffineTransformation affineTransformation(int index) {
 			if (index > listTransfoBuilder.size() || index < 0) {
 				throw new IndexOutOfBoundsException("l'index est invalide");
 			}
-			FlameTransformation flameTransformation = listTransfoBuilder
-					.get(index);
-			FlameTransformation.Builder builder = new FlameTransformation.Builder(
-					listTransfoBuilder.get(index));
-			return builder.getAffineTransformation();
-
+			return new FlameTransformation.Builder(listTransfoBuilder.get(index)).getAffineTransformation();
 		}
 
+		/**
+		 * Change la composante affine de la transformation Flame à l'index donné
+		 * @param index L'index de la transformation Flame à modifier
+		 * @param newTransformation La transformation affine à changer
+		 */
 		void setAffineTransformation(int index,
 				AffineTransformation newTransformation) {
 			if (index > listTransfoBuilder.size() || index < 0) {
 				throw new IndexOutOfBoundsException("l'index est invalide");
 			}
-			FlameTransformation.Builder builder = new FlameTransformation.Builder(
-					listTransfoBuilder.get(index));
+			FlameTransformation.Builder builder = new FlameTransformation.Builder(listTransfoBuilder.get(index));
 			builder.setAffineTransformation(newTransformation);
 			listTransfoBuilder.set(index, builder.build());
-
 		}
 
+		/**
+		 * Retourne le poids de la variation donnée pour la transformation Flame d'index donné.
+		 * @param index L'index de la transformation Flame
+		 * @param variation La variation sur laquelle porte le poids.
+		 * @return Le poids de la variation en {@code double}
+		 * @throws IndexOutOfBoundsException Si l'index est invalide
+		 */
 		double variationWeight(int index, Variation variation) {
+			if (index > listTransfoBuilder.size() || index < 0) {
+				throw new IndexOutOfBoundsException("l'index est invalide");
+			}
+			FlameTransformation.Builder builder = new FlameTransformation.Builder(listTransfoBuilder.get(index));
+			return builder.getVariationWeight(variation.getIndex());
+		}
+
+		/**
+		 * Change le poids de la variation donnée pour la transformation Flame d'index donné.
+		 * @param index L'index de la transformation Flame
+		 * @param variation La variation sur laquelle on change le poids
+		 * @param newWeight Le nouveau poids de variation
+		 * @throws IndexOutOfBoundsException Si l'index est invalide
+		 */
+		void setVariationWeight(int index, Variation variation, double newWeight) {
 			if (index > listTransfoBuilder.size() || index < 0) {
 				throw new IndexOutOfBoundsException("l'index est invalide");
 			}
 			FlameTransformation.Builder builder = new FlameTransformation.Builder(
 					listTransfoBuilder.get(index));
-			return builder.getVariationWeight(index);
-
-		}
-
-		void setVariationWeight(int index, Variation variation, double newWeight) {
-
-			FlameTransformation.Builder builder = new FlameTransformation.Builder(
-					listTransfoBuilder.get(index));
-			builder.setVariationWeight(index,newWeight);
+			builder.setVariationWeight(variation.getIndex(),newWeight);
 			listTransfoBuilder.set(index, builder.build());
 
 		}
 
+		/**
+		 * Supprime la transformation Flame d'index donné.
+		 * @param index L'index de la transformation Flame à supprimer.
+		 * @throws IndexOutOfBoundsException si l'index est invalide.
+		 */
 		void removeTransformation(int index) {
 			if (index > listTransfoBuilder.size() || index < 0) {
 				throw new IndexOutOfBoundsException("l'index est invalide");
@@ -142,6 +169,10 @@ public class Flame {
 
 		}
 
+		/**
+		 * Construit et retourne la fractale Flame.
+		 * @return La fractale Flame.
+		 */
 		public Flame build() {
 			Flame flame = new Flame(listTransfoBuilder);
 			return flame;

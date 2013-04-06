@@ -51,32 +51,70 @@ public class FlameTransformation implements Transformation {
 		}
 		return new Point(x, y);
 	}
-	//TODO Javadoc Builder
+	
+	/**
+	 * Modélise un bâtisseur de Transformation Flame
+	 * @see FlameTransformation
+	 * @see {@link #Builder(FlameTransformation flameTransformation) Le constructeur Builder()}
+	 */
 	public static class Builder{
 		private AffineTransformation affineTransformationBuilder;
 		private double[] variationWeightBuilder;
 		
+		/**
+		 * Constructeur du bâtisseur de Transformation Flame
+		 * @param flameTransformation La transformation Flame à bâtir
+		 * @see <a href="https://dl.dropbox.com/u/45709343/yodawg.png">Yo dawg</a>
+		 */
 		public Builder(FlameTransformation flameTransformation){
-			this.affineTransformationBuilder = flameTransformation.affineTransformation; //à vérifier si copie en profondeur
-			this.variationWeightBuilder = flameTransformation.variationWeight.clone(); // à vérifier si copie en profondeur
+			this.affineTransformationBuilder = flameTransformation.affineTransformation;
+			this.variationWeightBuilder = flameTransformation.variationWeight.clone();
 		}
+		
+		/**
+		 * Donne la composante affine de la transformation flame
+		 * @return
+		 */
 		public AffineTransformation getAffineTransformation(){
-			return affineTransformationBuilder;
+			return this.affineTransformationBuilder;
 		}
+		
+		/**
+		 * Donne le poids de variation d'index donné
+		 * @param index L'index de la variation
+		 * @return Le poids de variation
+		 * @throws IndexOutOfBoundsException si l'index de variation est invalide.
+		 */
 		public double getVariationWeight(int index){
-			if (index > variationWeightBuilder.length || index < 0){
+			if (index > this.variationWeightBuilder.length || index < 0){
 				throw new IndexOutOfBoundsException("l'index de variation est invalide");
 			}
-			return variationWeightBuilder[index];
+			return this.variationWeightBuilder[index];
 		}
+		
+		/**
+		 * Change la composante affine de la transformation Flame
+		 * @param affineTransformation
+		 */
 		public void setAffineTransformation(AffineTransformation affineTransformation){
 			this.affineTransformationBuilder = affineTransformation;
 		}
+		
+		/**
+		 * Change le poids de variation d'index donné
+		 * @param index L'index de la variation à modifier
+		 * @param newVariation Le nouveau poids de variation
+		 */
 		public void setVariationWeight(int index, double newVariation){
 			this.variationWeightBuilder[index] = newVariation;
 		}
+		
+		/**
+		 * Construit et retourne la transformation Flame
+		 * @return La transformation Flame construite.
+		 */
 		public FlameTransformation build(){
-			FlameTransformation flameTransformation = new FlameTransformation(affineTransformationBuilder, variationWeightBuilder);
+			FlameTransformation flameTransformation = new FlameTransformation(this.affineTransformationBuilder, this.variationWeightBuilder);
 			return flameTransformation;
 		}
 	}

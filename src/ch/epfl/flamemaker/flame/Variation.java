@@ -27,6 +27,8 @@ public abstract class Variation implements Transformation {
 		this.name = name;
 	}
 
+	
+
 	/**
 	 * Méthode transformant le point p selon la variation.
 	 */
@@ -75,4 +77,6 @@ public abstract class Variation implements Transformation {
 					return new Point(x, y);
 				}
 			});
+	public int getIndex() {return this.index;}
+	public String getName() {return this.name;}
 }
