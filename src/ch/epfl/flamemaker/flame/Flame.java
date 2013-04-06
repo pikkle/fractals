@@ -60,10 +60,18 @@ public class Flame {
 		return flameAccu.build();
 	}
 
-	// TODO Javadoc Builder
+	/**
+	 * Bâtisseur de fractale {@link Flame}
+	 * @see Flame
+	 */
 	public static class Builder {
 		private List<FlameTransformation> listTransfoBuilder;
 
+		/**
+		 * Constructeur de bâtisseur
+		 * @param flame
+		 * @see <a href="https://dl.dropbox.com/u/45709343/yodawg.png">Yo dawg</a>
+		 */
 		public Builder(Flame flame) {
 			this.listTransfoBuilder = new ArrayList<FlameTransformation>(
 					flame.listTransfo);
