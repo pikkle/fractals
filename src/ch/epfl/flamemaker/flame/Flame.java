@@ -78,6 +78,11 @@ public class Flame {
 
 		}
 
+		/**
+		 * Donne le nombre de transformations Flame caractérisant 
+		 * la fractale en cours de construction.
+		 * @return Le nombre de transformations
+		 */
 		int transformationCount() {
 			return listTransfoBuilder.size();
 		}
