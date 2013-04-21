@@ -4,8 +4,8 @@ package ch.epfl.flamemaker.geometry2d;
  * @see {@link #Rectangle(Point, double, double) Le constructeur Rectangle()}
  */
 public class Rectangle {
-	Point center;
-	double width, height;
+	private Point center;
+	private double width, height;
 	
 	/**
 	 * Constructeur du rectangle.
@@ -93,13 +93,7 @@ public class Rectangle {
 		double y = this.center.y()+(this.height/2);
 		return y;
 	}
-	public double width(){
-		return this.width;
-	}
-	public double height(){
-		return this.height;
-	}
-	public Point center(){
-		return this.center;
-	}
+	public double width(){return this.width;}
+	public double height(){return this.height;}
+	public Point center(){return this.center;}
 }

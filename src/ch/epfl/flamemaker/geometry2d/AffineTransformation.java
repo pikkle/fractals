@@ -8,9 +8,10 @@ package ch.epfl.flamemaker.geometry2d;
  * @see Transformation
  */
 public final class AffineTransformation implements Transformation {
-	private final double[][] transformation;
 	public static final AffineTransformation IDENTITY = new AffineTransformation(
 			1, 0, 0, 0, 1, 0);
+	private final double[][] transformation;
+	
 
 	/**
 	 * Constructeur d'une transformation affine. Les différents paramètres caractérisent la matrice de transformation 3x3 de la forme:<br>
@@ -110,11 +111,19 @@ public final class AffineTransformation implements Transformation {
 				newTransformation[1][2]);
 	}
 
+	/**
+	 * Donne la translation sur l'axe des abscisses
+	 * @return La translation X
+	 */
 	public double translationX() {
 		return this.transformation[0][2];
 	}
 
-	double translationY() {
+	/**
+	 * Donne la translation sur l'axe des ordonnées
+	 * @return La translation Y
+	 */
+	public double translationY() {
 		return this.transformation[1][2];
 	}
 

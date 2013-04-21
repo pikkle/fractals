@@ -27,13 +27,13 @@ public abstract class Variation implements Transformation {
 		this.name = name;
 	}
 
-	
 
 	/**
 	 * Méthode transformant le point p selon la variation.
 	 */
 	abstract public Point transformPoint(Point p);
 	
+
 	/**
 	 * La liste publique et statique des 6 variations (linear, sinusoidal,
 	 * spherical, swirl, horseshoe, bubble).<br>

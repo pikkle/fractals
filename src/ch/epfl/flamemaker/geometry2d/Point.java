@@ -6,9 +6,10 @@ package ch.epfl.flamemaker.geometry2d;
  */
 
 public class Point {
-	private final double X;
-	private final double Y;
 	public final static Point ORIGIN = new Point(0, 0);
+	private final double x;
+	private final double y;
+	
 	
 	/**
 	 * Constructeur de la classe Point
@@ -16,18 +17,18 @@ public class Point {
 	 * @param unY La coordonnée du point sur l'ordonnée.
 	 */
 	public Point(double unX, double unY) {
-		this.X = unX;
-		this.Y = unY;
+		this.x = unX;
+		this.y = unY;
 	}
 
 	/** Getter de X */
 	public double x() {
-		return this.X;
+		return this.x;
 	}
 
 	/** Getter de Y */
 	public double y() {
-		return this.Y;
+		return this.y;
 	}
 
 	/** Méthode qui retourne le module du point par rapport à l'origine
@@ -35,22 +36,23 @@ public class Point {
 	 */
 	
 	public double r() {
-		return (Math.sqrt(this.X * this.X + this.Y * this.Y));
+		return (Math.sqrt(this.x * this.x + this.y * this.y));
 	}
 
 	/** Méthode qui retourne l'angle théta du point par rapport à l'origine
 	 * @return L'angle du point
 	 */
 	public double theta() {
-		return Math.atan2(this.Y, this.X);
+		return Math.atan2(this.y, this.x);
 	}
 
 	/**
 	 * Méthode qui retourne un String représentant le point par ses deux
-	 * coordonées x et y ex: (1.5, 6.3)
+	 * coordonées x et y <br>
+	 * ex: (1.5, 6.3)
 	 * @return Un string représentant les coordonnées du point.
 	 */
 	public String toString() {
-		return ("(" + this.X + ", " + this.Y + ")");
+		return ("(" + this.x + ", " + this.y + ")");
 	}
 }
