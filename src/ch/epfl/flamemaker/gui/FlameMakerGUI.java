@@ -1,10 +1,14 @@
 package ch.epfl.flamemaker.gui;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.util.Arrays;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import ch.epfl.flamemaker.color.Color;
 import ch.epfl.flamemaker.color.InterpolatedPalette;
@@ -27,8 +31,7 @@ public class FlameMakerGUI {
 			new FlameTransformation(new AffineTransformation(0.4810169, 0, 1,
 					0, 0.4810169, 0.9), 
 					new double[] { 1, 0, 0, 0, 0, 0 })}
-			)));
-	
+			)));	
 	private Color background = Color.BLACK;
 	private Palette palette = new InterpolatedPalette(
 			Arrays.asList(new Color[] { Color.RED, Color.GREEN, Color.BLUE }));
@@ -39,9 +42,24 @@ public class FlameMakerGUI {
 		JFrame frame = new JFrame("Flame Maker");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JLabel label = new JLabel("    Bienvenue dans Flame Maker !    ");
-		frame.getContentPane().setLayout(new BorderLayout());
-		frame.getContentPane().add(label, BorderLayout.CENTER);
+		JPanel panneauSuperieur = new JPanel();
+		frame.getContentPane().setLayout(new GridLayout(1,2));
+		frame.getContentPane().add(panneauSuperieur);
+		
+		JPanel transPanel = new JPanel();
+		Border transBorder = BorderFactory.createTitledBorder("Transformations affines");
+		transPanel.setBorder(transBorder);
+		JLabel transLabel = new JLabel("(ici viendront les transformations)");
+		transPanel.add(transLabel);
+		
+		JPanel fracPanel = new JPanel();
+		Border fracBorder = BorderFactory.createTitledBorder("Fractale");
+		fracPanel.setBorder(fracBorder);
+		JLabel fracLabel = new JLabel("(ici viendront les transformations)");
+		fracPanel.add(fracLabel);
+		
+		panneauSuperieur.add(transPanel);
+		panneauSuperieur.add(fracPanel);
 		
 		frame.pack();
 		frame.setVisible(true);
