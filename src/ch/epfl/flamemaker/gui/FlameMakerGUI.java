@@ -43,23 +43,28 @@ public class FlameMakerGUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panneauSuperieur = new JPanel();
-		frame.getContentPane().setLayout(new GridLayout(1,2));
 		frame.getContentPane().add(panneauSuperieur);
+		panneauSuperieur.setLayout(new GridLayout(1,2));
+		
 		
 		JPanel transPanel = new JPanel();
+		panneauSuperieur.add(transPanel);
+		transPanel.setLayout(new BorderLayout());
 		Border transBorder = BorderFactory.createTitledBorder("Transformations affines");
 		transPanel.setBorder(transBorder);
-		JLabel transLabel = new JLabel("(ici viendront les transformations)");
-		transPanel.add(transLabel);
+		AffineTransformationsComponent atc = new AffineTransformationsComponent(this.flameBuilder, this.frame);
+		transPanel.add(atc);
 		
 		JPanel fracPanel = new JPanel();
+		panneauSuperieur.add(fracPanel);
+		fracPanel.setLayout(new BorderLayout());
 		Border fracBorder = BorderFactory.createTitledBorder("Fractale");
 		fracPanel.setBorder(fracBorder);
-		JLabel fracLabel = new JLabel("(ici viendront la fractale)");
-		fracPanel.add(fracLabel);
+		FlameBuilderPreviewComponent fbpc = new FlameBuilderPreviewComponent(this.flameBuilder, this.background, this.palette, this.frame, this.density);
+		fracPanel.add(fbpc,BorderLayout.CENTER);
 		
-		panneauSuperieur.add(transPanel);
-		panneauSuperieur.add(fracPanel);
+		
+		
 		
 		frame.pack();
 		frame.setVisible(true);

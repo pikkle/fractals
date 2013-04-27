@@ -30,15 +30,15 @@ public class FlameBuilderPreviewComponent extends JComponent{
 	}
 	@Override
 	public Dimension getPreferredSize(){
-		return new Dimension(200, 100);
+		return new Dimension(200,100);
 	}
 	@Override
 	public void paintComponent(Graphics g0){
 		Rectangle recComp = new Rectangle(this.frame.center(),this.getWidth(), this.getHeight());
-		this.frame = this.frame.expandToAspectRatio(recComp.aspectRatio());
+		Rectangle rec = this.frame.expandToAspectRatio(recComp.aspectRatio());
 		BufferedImage buffIm = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
 		Flame flame = this.flameBuilder.build();
-		FlameAccumulator flameAc = flame.compute(this.frame, this.getWidth(), this.getHeight(), this.density);
+		FlameAccumulator flameAc = flame.compute(rec, this.getWidth(), this.getHeight(), this.density);
 		
 		for (int i = 0; i < this.getHeight(); i++) {
 			for (int j = 0; j < this.getWidth(); j++) {
