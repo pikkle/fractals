@@ -20,24 +20,26 @@ public class FlameBuilderPreviewComponent extends JComponent{
 	private Palette palette;
 	private Rectangle frame;
 	private int density;
+	
+	private Flame flame;
 	public FlameBuilderPreviewComponent(Flame.Builder flameBuilder, Color background, Palette palette, Rectangle frame, int density){
 		this.flameBuilder = flameBuilder;
 		this.background = background;
 		this.palette = palette;
 		this.frame = frame;
 		this.density = density;
-		
+		this.flame = this.flameBuilder.build();
 	}
+	
 	@Override
 	public Dimension getPreferredSize(){
-		return new Dimension(200,100);
+		return new Dimension(600,400);
 	}
 	@Override
 	public void paintComponent(Graphics g0){
 		Rectangle recComp = new Rectangle(this.frame.center(),this.getWidth(), this.getHeight());
 		Rectangle rec = this.frame.expandToAspectRatio(recComp.aspectRatio());
 		BufferedImage buffIm = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
-		Flame flame = this.flameBuilder.build();
 		FlameAccumulator flameAc = flame.compute(rec, this.getWidth(), this.getHeight(), this.density);
 		
 		for (int i = 0; i < this.getHeight(); i++) {

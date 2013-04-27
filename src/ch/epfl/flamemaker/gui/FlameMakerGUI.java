@@ -36,7 +36,7 @@ public class FlameMakerGUI {
 	private Palette palette = new InterpolatedPalette(
 			Arrays.asList(new Color[] { Color.RED, Color.GREEN, Color.BLUE }));
 	private Rectangle frame = new Rectangle(new Point(-0.25, 0), 5, 4);
-	private int density = 50;
+	private int density = 1; //50
 
 	public void start() {
 		JFrame frame = new JFrame("Flame Maker");
