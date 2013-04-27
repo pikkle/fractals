@@ -55,7 +55,7 @@ public class FlameMakerGUI {
 		JPanel fracPanel = new JPanel();
 		Border fracBorder = BorderFactory.createTitledBorder("Fractale");
 		fracPanel.setBorder(fracBorder);
-		JLabel fracLabel = new JLabel("(ici viendront les transformations)");
+		JLabel fracLabel = new JLabel("(ici viendront la fractale)");
 		fracPanel.add(fracLabel);
 		
 		panneauSuperieur.add(transPanel);
