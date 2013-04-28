@@ -37,14 +37,15 @@ public class FlameBuilderPreviewComponent extends JComponent{
 	}
 	@Override
 	public void paintComponent(Graphics g0){
-		Rectangle recComp = new Rectangle(this.frame.center(),this.getWidth(), this.getHeight());
-		Rectangle rec = this.frame.expandToAspectRatio(recComp.aspectRatio());
-		BufferedImage buffIm = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
-		FlameAccumulator flameAc = flame.compute(rec, this.getWidth(), this.getHeight(), this.density);
+		Rectangle recComp = new Rectangle(new Point(getWidth()/2,getHeight()/2),getWidth(), getHeight());
+		Rectangle rec = frame.expandToAspectRatio(recComp.aspectRatio());
 		
-		for (int i = 0; i < this.getHeight(); i++) {
-			for (int j = 0; j < this.getWidth(); j++) {
-				Color c = flameAc.color(this.palette, this.background, j, i);
+		BufferedImage buffIm = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+		FlameAccumulator flameAc = flame.compute(rec, getWidth(), getHeight(), density);
+		
+		for (int i = 0; i < getHeight(); i++) {
+			for (int j = 0; j < getWidth(); j++) {
+				Color c = flameAc.color(palette, background, j, i);
 				buffIm.setRGB(j, i, c.asPackedRGB());
 			}	
 		}

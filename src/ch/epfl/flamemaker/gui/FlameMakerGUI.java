@@ -6,7 +6,6 @@ import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
@@ -62,9 +61,6 @@ public class FlameMakerGUI {
 		fracPanel.setBorder(fracBorder);
 		FlameBuilderPreviewComponent fbpc = new FlameBuilderPreviewComponent(this.flameBuilder, this.background, this.palette, this.frame, this.density);
 		fracPanel.add(fbpc,BorderLayout.CENTER);
-		
-		
-		
 		
 		frame.pack();
 		frame.setVisible(true);
