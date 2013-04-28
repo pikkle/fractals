@@ -33,7 +33,7 @@ public class FlameBuilderPreviewComponent extends JComponent{
 	
 	@Override
 	public Dimension getPreferredSize(){
-		return new Dimension(600,400);
+		return new Dimension(178,135);
 	}
 	@Override
 	public void paintComponent(Graphics g0){

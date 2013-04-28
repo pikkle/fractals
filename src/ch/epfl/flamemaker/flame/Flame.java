@@ -83,7 +83,7 @@ public class Flame {
 		 * la fractale en cours de construction.
 		 * @return Le nombre de transformations de la fractale
 		 */
-		int transformationCount() {
+		public int transformationCount() {
 			return listTransfoBuilder.size();
 		}
 
@@ -91,7 +91,7 @@ public class Flame {
 		 * Ajoute la transformation en paramètre à la fractale en dernière position.
 		 * @param transformation La transformation à ajouter à la fractale.
 		 */
-		void addTransformation(FlameTransformation transformation) {
+		public void addTransformation(FlameTransformation transformation) {
 			listTransfoBuilder.add(transformation);
 		}
 
@@ -101,7 +101,7 @@ public class Flame {
 		 * @return La composante affine de la transformation Flame
 		 * @throws IndexOutOfBoundsException Si l'index est invalide
 		 */
-		AffineTransformation affineTransformation(int index) {
+		public AffineTransformation affineTransformation(int index) {
 			if (index > listTransfoBuilder.size() || index < 0) {
 				throw new IndexOutOfBoundsException("l'index est invalide");
 			}
@@ -113,7 +113,7 @@ public class Flame {
 		 * @param index L'index de la transformation Flame à modifier
 		 * @param newTransformation La transformation affine à changer
 		 */
-		void setAffineTransformation(int index,
+		public void setAffineTransformation(int index,
 				AffineTransformation newTransformation) {
 			if (index > listTransfoBuilder.size() || index < 0) {
 				throw new IndexOutOfBoundsException("l'index est invalide");
@@ -130,7 +130,7 @@ public class Flame {
 		 * @return Le poids de la variation en {@code double}
 		 * @throws IndexOutOfBoundsException Si l'index est invalide
 		 */
-		double variationWeight(int index, Variation variation) {
+		public double variationWeight(int index, Variation variation) {
 			if (index > listTransfoBuilder.size() || index < 0) {
 				throw new IndexOutOfBoundsException("l'index est invalide");
 			}
@@ -145,7 +145,7 @@ public class Flame {
 		 * @param newWeight Le nouveau poids de variation
 		 * @throws IndexOutOfBoundsException Si l'index est invalide
 		 */
-		void setVariationWeight(int index, Variation variation, double newWeight) {
+		public void setVariationWeight(int index, Variation variation, double newWeight) {
 			if (index > listTransfoBuilder.size() || index < 0) {
 				throw new IndexOutOfBoundsException("l'index est invalide");
 			}
@@ -161,7 +161,7 @@ public class Flame {
 		 * @param index L'index de la transformation Flame à supprimer.
 		 * @throws IndexOutOfBoundsException si l'index est invalide.
 		 */
-		void removeTransformation(int index) {
+		public void removeTransformation(int index) {
 			if (index > listTransfoBuilder.size() || index < 0) {
 				throw new IndexOutOfBoundsException("l'index est invalide");
 			}
