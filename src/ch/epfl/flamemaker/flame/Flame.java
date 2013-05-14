@@ -44,6 +44,8 @@ public class Flame {
 	 */
 	public FlameAccumulator compute(Rectangle frame, int width, int height,
 			int density) {
+		
+		
 		FlameAccumulator.Builder flameAccu = new FlameAccumulator.Builder(
 				frame, width, height);
 		Point p = new Point(0, 0);

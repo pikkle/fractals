@@ -34,12 +34,8 @@ public class Rectangle {
 	public boolean contains(Point p){
 		// Strictement inférieur à x et y MAX
 		// Supérieur ou égal à x et y MIN
-		if (p.x() < this.right() && p.x() >= this.left()){
-			if (p.y() < this.top() && p.y() >= this.bottom()){
-				return true;
-			}
-		}
-		return false;
+		return (p.x() < this.right() && p.x() >= this.left() 
+				&& p.y() < this.top() && p.y() >= this.bottom());
 	}
 	
 	

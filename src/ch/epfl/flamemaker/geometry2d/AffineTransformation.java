@@ -27,7 +27,7 @@ public final class AffineTransformation implements Transformation {
 	 */
 	public AffineTransformation(double a, double b, double c, double d,
 			double e, double f) {
-		transformation = new double[][] { { a, b, c }, { d, e, f }, { 0, 0, 1 } };
+		transformation = new double[][] {{ a, b, c }, { d, e, f }, {0,0,1}};
 	}
 
 	/**
@@ -95,20 +95,20 @@ public final class AffineTransformation implements Transformation {
 	 * @return La transformation affine composée
 	 */
 	public AffineTransformation composeWith(AffineTransformation that) {
-		double[][] newTransformation = new double[3][3];
+		double[][] newT = new double[3][3];
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				newTransformation[i][j] = 0.0;
+				newT[i][j] = 0.0;
 				for (int k = 0; k < 3; k++) {
-					newTransformation[i][j] += this.transformation[i][k]
+					newT[i][j] += this.transformation[i][k]
 							* that.transformation[k][j];
 				}
 			}
 		}
-		return new AffineTransformation(newTransformation[0][0],
-				newTransformation[0][1], newTransformation[0][2],
-				newTransformation[1][0], newTransformation[1][1],
-				newTransformation[1][2]);
+		return new AffineTransformation(newT[0][0],
+				newT[0][1], newT[0][2],
+				newT[1][0], newT[1][1],
+				newT[1][2]);
 	}
 
 	/**

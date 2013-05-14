@@ -22,8 +22,8 @@ public final class FlameAccumulator {
 	 * @param colorIndexSum Le tableau qui contient la somme des index de couleur de chaque case
 	 */
 	private FlameAccumulator(int[][] hitCount, double[][] colorIndexSum) {
-		this.hitCount = new int[hitCount.length][hitCount[0].length];
-		this.colorIndexSum = new double[colorIndexSum.length][colorIndexSum[0].length];
+		this.hitCount = new int[hitCount.length][];
+		this.colorIndexSum = new double[colorIndexSum.length][];
 
 		for (int i = 0; i < colorIndexSum.length; i++) { //Copie en profondeur du tableau colorIndexSum
 			this.colorIndexSum[i] = colorIndexSum[i].clone();
@@ -80,7 +80,9 @@ public final class FlameAccumulator {
 					"Les coordonées données ne sont pas valides :(" + x
 							+ "x : " + y + "y)");
 		}
-		
+		if (hitCount[x][y]==0){
+			return background;
+		}
 		double indexColor = colorIndexSum[x][y] / (double) hitCount[x][y];
 		return palette.colorForIndex(indexColor).mixWith(background,
 				intensity(x, y));
@@ -127,11 +129,11 @@ public final class FlameAccumulator {
 		 * @param index L'index de la palette de couleur à incrémenter
 		 */
 		public void hit(Point p, double index) {
-			int px, py;
-			Point pT = tuCadre.transformPoint(p);
-			px = (int) pT.x();
-			py = (int) pT.y();
 			if (this.frame.contains(p)) {
+				int px, py;
+				Point pT = tuCadre.transformPoint(p);
+				px = (int) pT.x();
+				py = (int) pT.y();
 				this.hitCount[px][hitCount[0].length - py -1]++;
 				this.colorIndexSum[px][colorIndexSum[0].length - py -1] += index;
 			}

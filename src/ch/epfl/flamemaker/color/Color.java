@@ -29,9 +29,15 @@ public final class Color {
 		this.b = b;
 	}
 	
-	public double red(){return this.r;}
-	public double green(){return this.g;}
-	public double blue(){return this.b;}
+	public double red(){
+		return this.r;
+	}
+	public double green(){
+		return this.g;
+	}
+	public double blue(){
+		return this.b;
+	}
 	
 	/**
 	 * Mélange la couleur avec la couleur passée en paramètre.

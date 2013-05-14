@@ -43,7 +43,9 @@ public class InterpolatedPalette implements Palette {
 		int floor = (int) Math.floor(indexColor); //Détermine l'index de la couleur de base
 		int ceil = (int) Math.ceil(indexColor); //Détermine l'index de la seconde couleur
 		
-		if (floor == ceil){return listColor.get(floor);} //Si l'index demandé tombe sur un couleur de base de la palette, on retourne cette couleur.
+		if (floor == ceil){
+			return listColor.get(floor);
+		} //Si l'index demandé tombe sur un couleur de base de la palette, on retourne cette couleur.
 		else {
 			double proportion = ceil - indexColor;
 			return listColor.get(floor).mixWith(listColor.get(ceil),proportion); //Mélange les deux couleurs.s

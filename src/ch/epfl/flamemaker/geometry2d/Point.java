@@ -16,9 +16,9 @@ public class Point {
 	 * @param unX La coordonnée du point sur l'abscisse.
 	 * @param unY La coordonnée du point sur l'ordonnée.
 	 */
-	public Point(double unX, double unY) {
-		this.x = unX;
-		this.y = unY;
+	public Point(double x, double y) {
+		this.x = x;
+		this.y = y;
 	}
 
 	/** Getter de X */

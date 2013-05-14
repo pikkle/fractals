@@ -6,7 +6,7 @@ import ch.epfl.flamemaker.geometry2d.Rectangle;
 
 public class IFSAccumulatorBuilder {
 	private Rectangle frame;
-	private boolean[][] bool;
+	private boolean[][] hitArray;
 	private AffineTransformation translationCadre, upscaleCadre, tuCadre;
 
 	public IFSAccumulatorBuilder(Rectangle frame, int width, int height) {
@@ -14,7 +14,7 @@ public class IFSAccumulatorBuilder {
 			throw new IllegalArgumentException(
 					"Les valeurs données ne sont pas strictement positives.");
 		this.frame = frame;
-		this.bool = new boolean[width][height];
+		this.hitArray = new boolean[width][height];
 
 		// La translation permet de passer d'une coordonnée graphique à une
 		// position du tableau, en mettant le coin inférieur gauche du cadre à
@@ -32,10 +32,10 @@ public class IFSAccumulatorBuilder {
 		px = (int) pT.x();
 		py = (int) pT.y();
 		if (this.frame.contains(p))
-			this.bool[px][py] = true;
+			this.hitArray[px][py] = true;
 	}
 
 	public IFSAccumulator build() {
-		return new IFSAccumulator(this.bool);
+		return new IFSAccumulator(this.hitArray);
 	}
 }

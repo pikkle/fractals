@@ -21,7 +21,7 @@ public class FlameTransformation implements Transformation {
 	 */
 	public FlameTransformation(AffineTransformation affineTransformation,
 			double[] variationWeight) {
-		if (variationWeight.length != 6)
+		if (variationWeight.length != Variation.ALL_VARIATIONS.size())
 			throw new IllegalArgumentException(
 					"Le tableau de poids n'a pas la bonne taille:"
 							+ variationWeight.length + " au lieu de 6.");
@@ -87,7 +87,7 @@ public class FlameTransformation implements Transformation {
 		 * @throws IndexOutOfBoundsException si l'index de variation est invalide.
 		 */
 		public double getVariationWeight(int index){
-			if (index > this.variationWeightBuilder.length || index < 0){
+			if (index > Variation.ALL_VARIATIONS.size() || index < 0){
 				throw new IndexOutOfBoundsException("l'index de variation est invalide");
 			}
 			return this.variationWeightBuilder[index];

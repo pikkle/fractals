@@ -3,10 +3,17 @@ package ch.epfl.flamemaker.gui;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 
 import ch.epfl.flamemaker.color.Color;
@@ -35,16 +42,39 @@ public class FlameMakerGUI {
 	private Palette palette = new InterpolatedPalette(
 			Arrays.asList(new Color[] { Color.RED, Color.GREEN, Color.BLUE }));
 	private Rectangle frame = new Rectangle(new Point(-0.25, 0), 5, 4);
-	private int density = 1; //50
+	private int density = 50;
 
+	private int selectedTransformationIndex;
+	private Set<Observer> observers = new HashSet<Observer>();
 	public void start() {
 		JFrame frame = new JFrame("Flame Maker");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JPanel panneauSuperieur = new JPanel();
-		frame.getContentPane().add(panneauSuperieur);
-		panneauSuperieur.setLayout(new GridLayout(1,2));
 		
+		JPanel panneauInferieur = new JPanel();
+		frame.getContentPane().add(panneauInferieur, BorderLayout.PAGE_END);
+		panneauInferieur.setLayout(new BoxLayout(panneauInferieur, BoxLayout.LINE_AXIS));
+		
+		JPanel transEditPanel = new JPanel();
+		panneauInferieur.add(transEditPanel);
+		transEditPanel.setLayout(new BorderLayout());
+		
+		JPanel buttonsPanel = new JPanel();
+		transEditPanel.add(buttonsPanel, BorderLayout.PAGE_END);
+		buttonsPanel.setLayout(new GridLayout(1, 2));
+		
+		TransformationsListModel tlm = new TransformationsListModel();
+		JList<String> jListe = new JList<String>(tlm);
+		jListe.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		jListe.setVisibleRowCount(3);
+		jListe.setSelectedIndex(0);
+		JScrollPane listPane = new JScrollPane(jListe);
+		transEditPanel.add(listPane, BorderLayout.CENTER);
+		
+		
+		JPanel panneauSuperieur = new JPanel();
+		frame.getContentPane().add(panneauSuperieur, BorderLayout.CENTER);
+		panneauSuperieur.setLayout(new GridLayout(1,2));
 		
 		JPanel transPanel = new JPanel();
 		panneauSuperieur.add(transPanel);
@@ -52,6 +82,7 @@ public class FlameMakerGUI {
 		Border transBorder = BorderFactory.createTitledBorder("Transformations affines");
 		transPanel.setBorder(transBorder);
 		AffineTransformationsComponent atc = new AffineTransformationsComponent(this.flameBuilder, this.frame);
+		addObserver(atc);
 		transPanel.add(atc);
 		
 		JPanel fracPanel = new JPanel();
@@ -65,4 +96,53 @@ public class FlameMakerGUI {
 		frame.pack();
 		frame.setVisible(true);
 	}
+	public int getSelectedTransformationIndex() {
+		return selectedTransformationIndex;
+	}
+	public void setSelectedTransformationIndex(int selectedTransformationIndex) {
+		this.selectedTransformationIndex = selectedTransformationIndex;
+		for (Observer o : observers) {
+			o.update();
+		}
+	}
+	public void addObserver(Observer o){
+		this.observers.add(o);
+	}
+	public void removeObserver(Observer o){
+		this.observers.remove(o);
+	}
+	
+	
+	private class TransformationsListModel extends AbstractListModel<String>{
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public int getSize() {
+			return flameBuilder.transformationCount();
+		}
+
+		@Override
+		public String getElementAt(int index) {
+			return "Transformation n°" + index;
+		}
+		
+		public void addTransformation(){
+			fireIntervalAdded(this, getSize(), getSize());
+			AffineTransformation at = new AffineTransformation(1, 0, 0, 0, 1, 0);
+			double[] vw = {1,0,0,0,0,0};
+			FlameTransformation ft = new FlameTransformation(at, vw);
+			flameBuilder.addTransformation(ft);
+		}
+		
+		public void removeTransformation(int index){
+			fireIntervalRemoved(this, index, index);
+			flameBuilder.removeTransformation(index);
+		}
+	}
+	
+	interface Observer{
+		public void update();
+	}
 }
+
+
