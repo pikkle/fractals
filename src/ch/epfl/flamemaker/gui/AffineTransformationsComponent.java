@@ -12,7 +12,7 @@ import ch.epfl.flamemaker.geometry2d.AffineTransformation;
 import ch.epfl.flamemaker.geometry2d.Point;
 import ch.epfl.flamemaker.geometry2d.Rectangle;
 
-public class AffineTransformationsComponent extends JComponent implements FlameMakerGUI.Observer{
+public class AffineTransformationsComponent extends JComponent{
 	private static final long serialVersionUID = 1L;
 	private Flame.Builder flameBuilder;
 	private Rectangle frame;
@@ -103,10 +103,5 @@ public class AffineTransformationsComponent extends JComponent implements FlameM
 			int highlightedTransformationIndex) {
 		this.highlightedTransformationIndex = highlightedTransformationIndex;
 		this.repaint();
-	}
-
-	@Override
-	public void update() {
-		
 	}
 }
