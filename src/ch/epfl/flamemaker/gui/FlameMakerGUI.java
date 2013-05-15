@@ -87,7 +87,7 @@ public class FlameMakerGUI {
 				tlm.addTransformation();
 			}
 		});
-		JButton removeButton = new JButton("Remove");
+		JButton removeButton = new JButton("Supprimer");
 		removeButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
