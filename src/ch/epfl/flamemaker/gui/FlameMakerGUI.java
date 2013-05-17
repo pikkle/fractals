@@ -25,46 +25,38 @@ import ch.epfl.flamemaker.color.Color;
 import ch.epfl.flamemaker.color.InterpolatedPalette;
 import ch.epfl.flamemaker.color.Palette;
 import ch.epfl.flamemaker.flame.Flame;
-import ch.epfl.flamemaker.flame.Flame.Builder;
 import ch.epfl.flamemaker.flame.FlameTransformation;
 import ch.epfl.flamemaker.geometry2d.AffineTransformation;
 import ch.epfl.flamemaker.geometry2d.Point;
 import ch.epfl.flamemaker.geometry2d.Rectangle;
 
 public class FlameMakerGUI {
-	private Flame.Builder flameBuilder = new Builder(new Flame(Arrays.asList(new FlameTransformation[] {
-			new FlameTransformation(new AffineTransformation(-0.4113504,
-					-0.7124804, -0.4, 0.7124795, -0.4113508, 0.8),
+	private ObservableFlameBuilder flameBuilder = new ObservableFlameBuilder(new Flame(Arrays.asList(new FlameTransformation[] {
+			new FlameTransformation(new AffineTransformation(-0.4113504,-0.7124804, -0.4, 0.7124795, -0.4113508, 0.8),
 					new double[] { 1, 0.1, 0, 0, 0, 0 }),
-			new FlameTransformation(new AffineTransformation(-0.3957339, 0,
-					-1.6, 0, -0.3957337, 0.2), 
+			new FlameTransformation(new AffineTransformation(-0.3957339, 0, -1.6, 0, -0.3957337, 0.2), 
 					new double[] { 0, 0, 0, 0, 0.8,	1 }),
-			new FlameTransformation(new AffineTransformation(0.4810169, 0, 1,
-					0, 0.4810169, 0.9), 
+			new FlameTransformation(new AffineTransformation(0.4810169, 0, 1, 0, 0.4810169, 0.9), 
 					new double[] { 1, 0, 0, 0, 0, 0 })}
 			)));	
 	private Color background = Color.BLACK;
-	private Palette palette = new InterpolatedPalette(
-			Arrays.asList(new Color[] { Color.RED, Color.GREEN, Color.BLUE }));
+	private Palette palette = new InterpolatedPalette(Arrays.asList(new Color[] { Color.RED, Color.GREEN, Color.BLUE }));
 	private Rectangle frame = new Rectangle(new Point(-0.25, 0), 5, 4);
 	private int density = 50;
 
 	private int selectedTransformationIndex;
 	private Set<Observer> observers = new HashSet<Observer>();
 	public void start() {
-		JFrame frame = new JFrame("Flame Maker");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		JFrame jframe = new JFrame("Flame Maker");
+		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panneauInferieur = new JPanel();
-		frame.getContentPane().add(panneauInferieur, BorderLayout.PAGE_END);
+		jframe.getContentPane().add(panneauInferieur, BorderLayout.PAGE_END);
 		panneauInferieur.setLayout(new BoxLayout(panneauInferieur, BoxLayout.LINE_AXIS));
 		
 		JPanel transEditPanel = new JPanel();
 		panneauInferieur.add(transEditPanel);
 		transEditPanel.setLayout(new BorderLayout());
-		
-		
 		
 		final TransformationsListModel tlm = new TransformationsListModel();
 		final JList<String> jListe = new JList<String>(tlm);
@@ -81,23 +73,34 @@ public class FlameMakerGUI {
 		transEditPanel.add(listPane, BorderLayout.CENTER);
 		
 		JButton addButton = new JButton("Ajouter");
+		final JButton removeButton = new JButton("Supprimer");
 		addButton.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (! removeButton.isEnabled()){
+					removeButton.setEnabled(true);
+				}
+				notifyObservers();
 				tlm.addTransformation();
+				setSelectedTransformationIndex(tlm.getSize()-1);
+				jListe.setSelectedIndex(selectedTransformationIndex);
 			}
 		});
-		JButton removeButton = new JButton("Supprimer");
 		removeButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (tlm.getSize() == 1){
+					removeButton.setEnabled(false);
+				}
+				int i = 0;
+				if (selectedTransformationIndex == tlm.getSize()-1) {
+					i = selectedTransformationIndex -1;
+				}
+				
 				tlm.removeTransformation(selectedTransformationIndex);
-				if (selectedTransformationIndex == tlm.getSize()) {
-					jListe.setSelectedIndex(tlm.getSize()-1);
-				}
-				else{
-					jListe.setSelectedIndex(selectedTransformationIndex);
-				}
+				setSelectedTransformationIndex(i);
+				jListe.setSelectedIndex(i);
+				notifyObservers();
 			}
 		});
 		JPanel buttonsPanel = new JPanel();
@@ -107,7 +110,7 @@ public class FlameMakerGUI {
 		buttonsPanel.add(removeButton);
 		
 		JPanel panneauSuperieur = new JPanel();
-		frame.getContentPane().add(panneauSuperieur, BorderLayout.CENTER);
+		jframe.getContentPane().add(panneauSuperieur, BorderLayout.CENTER);
 		panneauSuperieur.setLayout(new GridLayout(1,2));
 		
 		JPanel transPanel = new JPanel();
@@ -115,7 +118,7 @@ public class FlameMakerGUI {
 		transPanel.setLayout(new BorderLayout());
 		Border transBorder = BorderFactory.createTitledBorder("Transformations affines");
 		transPanel.setBorder(transBorder);
-		final AffineTransformationsComponent atc = new AffineTransformationsComponent(this.flameBuilder, this.frame);
+		final AffineTransformationsComponent atc = new AffineTransformationsComponent(flameBuilder, frame);
 		addObserver(new Observer() {		
 			@Override
 			public void update() {
@@ -129,11 +132,16 @@ public class FlameMakerGUI {
 		fracPanel.setLayout(new BorderLayout());
 		Border fracBorder = BorderFactory.createTitledBorder("Fractale");
 		fracPanel.setBorder(fracBorder);
-		FlameBuilderPreviewComponent fbpc = new FlameBuilderPreviewComponent(this.flameBuilder, this.background, this.palette, this.frame, this.density);
+		final FlameBuilderPreviewComponent fbpc = new FlameBuilderPreviewComponent(this.flameBuilder, this.background, this.palette, this.frame, this.density);
 		fracPanel.add(fbpc,BorderLayout.CENTER);
-		
-		frame.pack();
-		frame.setVisible(true);
+		flameBuilder.addObserver(new ObservableFlameBuilder.Observer() {
+			@Override
+			public void update() {
+				fbpc.repaint();
+			}
+		});
+		jframe.pack();
+		jframe.setVisible(true);
 	}
 	public int getSelectedTransformationIndex() {
 		return selectedTransformationIndex;

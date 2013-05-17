@@ -2,7 +2,6 @@ package ch.epfl.flamemaker.gui;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
@@ -15,20 +14,21 @@ import ch.epfl.flamemaker.geometry2d.Point;
 import ch.epfl.flamemaker.geometry2d.Rectangle;
 
 public class FlameBuilderPreviewComponent extends JComponent{
-	private Flame.Builder flameBuilder;
+	private static final long serialVersionUID = 1L;
+	private ObservableFlameBuilder flameBuilder;
 	private Color background;
 	private Palette palette;
 	private Rectangle frame;
 	private int density;
 	
 	private Flame flame;
-	public FlameBuilderPreviewComponent(Flame.Builder flameBuilder, Color background, Palette palette, Rectangle frame, int density){
+	public FlameBuilderPreviewComponent(ObservableFlameBuilder flameBuilder, Color background, Palette palette, Rectangle frame, int density){
 		this.flameBuilder = flameBuilder;
 		this.background = background;
 		this.palette = palette;
 		this.frame = frame;
 		this.density = density;
-		this.flame = this.flameBuilder.build();
+		
 	}
 	
 	@Override
@@ -37,6 +37,7 @@ public class FlameBuilderPreviewComponent extends JComponent{
 	}
 	@Override
 	public void paintComponent(Graphics g0){
+		this.flame = this.flameBuilder.build();
 		Rectangle recComp = new Rectangle(new Point(getWidth()/2,getHeight()/2),getWidth(), getHeight());
 		Rectangle rec = frame.expandToAspectRatio(recComp.aspectRatio());
 		

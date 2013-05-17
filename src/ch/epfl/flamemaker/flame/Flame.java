@@ -34,6 +34,9 @@ public class Flame {
 		}
 	}
 	
+	public List<FlameTransformation> getListTransfo(){
+		return listTransfo;
+	}
 	/**
 	 * Méthode calculant les points graphiques caractérisant la fractale.
 	 * @param frame Le cadre qui délimite le calcul.
@@ -51,12 +54,14 @@ public class Flame {
 		Point p = new Point(0, 0);
 		Random r = new Random(2013); //Utilise un random avec la seed 2013
 		double c = 0.0;
-		for (int k = 0; k < 20 + density * width * height; k++) {
-			int i = r.nextInt(this.colorTransfo.size());
-			p = this.listTransfo.get(i).transformPoint(p);
-			c = (this.colorTransfo.get(i) + c) / 2.0;
-			if (k > 20) { //20 premiers tours à blanc selon l'algorithme du chaos
-				flameAccu.hit(p, c);
+		if (this.listTransfo.size() > 0){
+			for (int k = 0; k < 20 + density * width * height; k++) {
+				int i = r.nextInt(this.listTransfo.size());
+				p = this.listTransfo.get(i).transformPoint(p);
+				c = (this.colorTransfo.get(i) + c) / 2.0;
+				if (k > 20) { //20 premiers tours à blanc selon l'algorithme du chaos
+					flameAccu.hit(p, c);
+				}
 			}
 		}
 		return flameAccu.build();
@@ -75,7 +80,7 @@ public class Flame {
 		 * @see <a href="https://dl.dropbox.com/u/45709343/yodawg.png">Yo dawg</a>
 		 */
 		public Builder(Flame flame) {
-			this.listTransfoBuilder = new ArrayList<FlameTransformation>(
+			listTransfoBuilder = new ArrayList<FlameTransformation>(
 					flame.listTransfo);
 
 		}
@@ -155,7 +160,6 @@ public class Flame {
 					listTransfoBuilder.get(index));
 			builder.setVariationWeight(variation.getIndex(),newWeight);
 			listTransfoBuilder.set(index, builder.build());
-
 		}
 
 		/**
@@ -179,6 +183,8 @@ public class Flame {
 			Flame flame = new Flame(listTransfoBuilder);
 			return flame;
 		}
+
+		
 
 	}
 }

@@ -7,18 +7,17 @@ import java.awt.geom.Line2D;
 
 import javax.swing.JComponent;
 
-import ch.epfl.flamemaker.flame.Flame;
 import ch.epfl.flamemaker.geometry2d.AffineTransformation;
 import ch.epfl.flamemaker.geometry2d.Point;
 import ch.epfl.flamemaker.geometry2d.Rectangle;
 
 public class AffineTransformationsComponent extends JComponent{
 	private static final long serialVersionUID = 1L;
-	private Flame.Builder flameBuilder;
+	private ObservableFlameBuilder flameBuilder;
 	private Rectangle frame;
 	private int highlightedTransformationIndex;
 
-	public AffineTransformationsComponent(Flame.Builder flameBuilder,
+	public AffineTransformationsComponent(ObservableFlameBuilder flameBuilder,
 			Rectangle frame) {
 		this.flameBuilder = flameBuilder;
 		this.frame = frame;
