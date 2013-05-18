@@ -21,7 +21,6 @@ public class FlameBuilderPreviewComponent extends JComponent{
 	private Rectangle frame;
 	private int density;
 	
-	private Flame flame;
 	public FlameBuilderPreviewComponent(ObservableFlameBuilder flameBuilder, Color background, Palette palette, Rectangle frame, int density){
 		this.flameBuilder = flameBuilder;
 		this.background = background;
@@ -37,7 +36,7 @@ public class FlameBuilderPreviewComponent extends JComponent{
 	}
 	@Override
 	public void paintComponent(Graphics g0){
-		this.flame = this.flameBuilder.build();
+		Flame flame = this.flameBuilder.build();
 		Rectangle recComp = new Rectangle(new Point(getWidth()/2,getHeight()/2),getWidth(), getHeight());
 		Rectangle rec = frame.expandToAspectRatio(recComp.aspectRatio());
 		
