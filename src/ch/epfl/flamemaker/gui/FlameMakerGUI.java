@@ -480,10 +480,12 @@ public class FlameMakerGUI {
 				linearTextF.addPropertyChangeListener(new PropertyChangeListener() {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						flameBuilder.setVariationWeight(
-								selectedTransformationIndex, 
-								Variation.ALL_VARIATIONS.get(0), 
-								Double.parseDouble(linearTextF.getText()));
+						if (!linearTextF.getText().isEmpty()){
+							flameBuilder.setVariationWeight(
+									selectedTransformationIndex, 
+									Variation.ALL_VARIATIONS.get(0), 
+									Double.parseDouble(linearTextF.getText()));
+						}
 					}
 				});
 				final JFormattedTextField swirlTextF = new JFormattedTextField(new DecimalFormat("#0.##"));
@@ -498,10 +500,12 @@ public class FlameMakerGUI {
 				swirlTextF.addPropertyChangeListener(new PropertyChangeListener() {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						flameBuilder.setVariationWeight(
-								selectedTransformationIndex, 
-								Variation.ALL_VARIATIONS.get(3), 
-								Double.parseDouble(swirlTextF.getText()));
+						if (!swirlTextF.getText().isEmpty()){
+							flameBuilder.setVariationWeight(
+									selectedTransformationIndex, 
+									Variation.ALL_VARIATIONS.get(3), 
+									Double.parseDouble(swirlTextF.getText()));
+						}
 					}
 				});
 				final JFormattedTextField sinusoidalTextF = new JFormattedTextField(new DecimalFormat("#0.##"));
@@ -516,10 +520,12 @@ public class FlameMakerGUI {
 				sinusoidalTextF.addPropertyChangeListener(new PropertyChangeListener() {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						flameBuilder.setVariationWeight(
-								selectedTransformationIndex, 
-								Variation.ALL_VARIATIONS.get(1), 
-								Double.parseDouble(sinusoidalTextF.getText()));
+						if (!sinusoidalTextF.getText().isEmpty()){
+							flameBuilder.setVariationWeight(
+									selectedTransformationIndex, 
+									Variation.ALL_VARIATIONS.get(1), 
+									Double.parseDouble(sinusoidalTextF.getText()));
+						}
 					}
 				});
 				final JFormattedTextField horseshoeTextF = new JFormattedTextField(new DecimalFormat("#0.##"));
@@ -534,10 +540,12 @@ public class FlameMakerGUI {
 				horseshoeTextF.addPropertyChangeListener(new PropertyChangeListener() {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						flameBuilder.setVariationWeight(
-								selectedTransformationIndex, 
-								Variation.ALL_VARIATIONS.get(4), 
-								Double.parseDouble(horseshoeTextF.getText()));
+						if (!horseshoeTextF.getText().isEmpty()){
+							flameBuilder.setVariationWeight(
+									selectedTransformationIndex, 
+									Variation.ALL_VARIATIONS.get(4), 
+									Double.parseDouble(horseshoeTextF.getText()));
+						}
 					}
 				});
 				final JFormattedTextField sphericalTextF = new JFormattedTextField(new DecimalFormat("#0.##"));
@@ -552,10 +560,12 @@ public class FlameMakerGUI {
 				sphericalTextF.addPropertyChangeListener(new PropertyChangeListener() {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						flameBuilder.setVariationWeight(
-								selectedTransformationIndex, 
-								Variation.ALL_VARIATIONS.get(2), 
-								Double.parseDouble(sphericalTextF.getText()));
+						if (!sphericalTextF.getText().isEmpty()){
+							flameBuilder.setVariationWeight(
+									selectedTransformationIndex, 
+									Variation.ALL_VARIATIONS.get(2), 
+									Double.parseDouble(sphericalTextF.getText()));
+						}
 					}
 				});
 				final JFormattedTextField bubbleTextF = new JFormattedTextField(new DecimalFormat("#0.##"));
@@ -570,37 +580,39 @@ public class FlameMakerGUI {
 				bubbleTextF.addPropertyChangeListener(new PropertyChangeListener() {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						flameBuilder.setVariationWeight(
-								selectedTransformationIndex, 
-								Variation.ALL_VARIATIONS.get(5), 
-								Double.parseDouble(bubbleTextF.getText()));
+						if (!bubbleTextF.getText().isEmpty()){
+							flameBuilder.setVariationWeight(
+									selectedTransformationIndex, 
+									Variation.ALL_VARIATIONS.get(5), 
+									Double.parseDouble(bubbleTextF.getText()));
+						}
 					}
 				});
 				
 				groupLayVar.setHorizontalGroup(groupLayVar.createSequentialGroup()
-						.addGroup(groupLayVar.createParallelGroup(GroupLayout.Alignment.LEADING)
+						.addGroup(groupLayVar.createParallelGroup(GroupLayout.Alignment.TRAILING)
 								.addComponent(linearLabel)
 								.addComponent(swirlLabel)
 								)
-						.addGroup(groupLayVar.createParallelGroup(GroupLayout.Alignment.LEADING)
+						.addGroup(groupLayVar.createParallelGroup(GroupLayout.Alignment.TRAILING)
 								.addComponent(linearTextF)
 								.addComponent(swirlTextF)
 								)
 						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addGroup(groupLayVar.createParallelGroup(GroupLayout.Alignment.LEADING)
+						.addGroup(groupLayVar.createParallelGroup(GroupLayout.Alignment.TRAILING)
 								.addComponent(sinusoidalLabel)
 								.addComponent(horseshoeLabel)
 								)
-						.addGroup(groupLayVar.createParallelGroup(GroupLayout.Alignment.LEADING)
+						.addGroup(groupLayVar.createParallelGroup(GroupLayout.Alignment.TRAILING)
 								.addComponent(sinusoidalTextF)
 								.addComponent(horseshoeTextF)
 								)
 						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addGroup(groupLayVar.createParallelGroup(GroupLayout.Alignment.LEADING)
+						.addGroup(groupLayVar.createParallelGroup(GroupLayout.Alignment.TRAILING)
 								.addComponent(sphericalLabel)
 								.addComponent(bubbleLabel)
 								)
-						.addGroup(groupLayVar.createParallelGroup(GroupLayout.Alignment.LEADING)
+						.addGroup(groupLayVar.createParallelGroup(GroupLayout.Alignment.TRAILING)
 								.addComponent(sphericalTextF)
 								.addComponent(bubbleTextF)
 								)
