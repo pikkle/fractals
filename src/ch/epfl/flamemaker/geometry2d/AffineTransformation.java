@@ -46,8 +46,9 @@ public final class AffineTransformation implements Transformation {
 	 * @return La rotation sous forme de {@link AffineTransformation}
 	 */
 	public static AffineTransformation newRotation(double theta) {
-		return new AffineTransformation(Math.cos(theta), -Math.sin(theta), 0,
-				Math.sin(theta), Math.cos(theta), 0);
+		double rad = Math.PI*(theta/180);
+		return new AffineTransformation(Math.cos(rad), -Math.sin(rad), 0,
+				Math.sin(rad), Math.cos(rad), 0);
 	}
 
 	/**
