@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,18 +16,21 @@ import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Group;
+import javax.swing.InputVerifier;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
+import javax.swing.JFormattedTextField.AbstractFormatter;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -33,6 +40,7 @@ import ch.epfl.flamemaker.color.InterpolatedPalette;
 import ch.epfl.flamemaker.color.Palette;
 import ch.epfl.flamemaker.flame.Flame;
 import ch.epfl.flamemaker.flame.FlameTransformation;
+import ch.epfl.flamemaker.flame.Variation;
 import ch.epfl.flamemaker.geometry2d.AffineTransformation;
 import ch.epfl.flamemaker.geometry2d.Point;
 import ch.epfl.flamemaker.geometry2d.Rectangle;
@@ -150,7 +158,7 @@ public class FlameMakerGUI {
 				buttonsPanel.add(addButton);
 				buttonsPanel.add(removeButton);
 	}
-	private void panneauAffineTransformationSelect(JPanel panneauInferieur){
+	private void panneauTransformationSelect(JPanel panneauInferieur){
 		// Partie inférieure droite, contenant l'édition de la transformation sélectionnée
 				JPanel selectedTransfEditPanel = new JPanel();
 				Border selectedTransfEditBorder = BorderFactory.createTitledBorder("Transformation courante");
@@ -160,24 +168,39 @@ public class FlameMakerGUI {
 				
 				// Panneau d'édition de la partie affine
 				JPanel affineEditPanel = new JPanel();
-				selectedTransfEditPanel.add(affineEditPanel);
-				GroupLayout gL = new GroupLayout(affineEditPanel);
+				GroupLayout groupLayTr = new GroupLayout(affineEditPanel);
 				
 				JLabel translationLabel = new JLabel("Translation");
 				JLabel rotationLabel = new JLabel("Rotation");
 				JLabel dilatationLabel = new JLabel("Dilatation");
 				JLabel transvectionLabel = new JLabel("Transvection");
 				
-				JFormattedTextField translationTextF = new JFormattedTextField();
+				final JFormattedTextField translationTextF = new JFormattedTextField(new DecimalFormat("#0.##"));
 				translationTextF.setValue(0.1);
 				translationTextF.setHorizontalAlignment(SwingConstants.RIGHT);
-				JFormattedTextField rotationTextF = new JFormattedTextField();
+				final JFormattedTextField rotationTextF = new JFormattedTextField(new DecimalFormat("#0.##"));
 				rotationTextF.setValue(15);
 				rotationTextF.setHorizontalAlignment(SwingConstants.RIGHT);
-				JFormattedTextField dilatationTextF = new JFormattedTextField();
-				dilatationTextF.setValue(1.05);
+				final JFormattedTextField dilatationTextF = new JFormattedTextField(new DecimalFormat("#0.##"));
+				dilatationTextF.setInputVerifier(new InputVerifier() {
+					@Override
+					public boolean verify(JComponent input) {
+						boolean returnValue = true;
+						AbstractFormatter f = dilatationTextF.getFormatter();
+						try {
+							if (Double.parseDouble(dilatationTextF.getText()) == 0){
+								dilatationTextF.setText(f.valueToString(dilatationTextF.getValue()));
+							}
+						} catch (ParseException e) {
+							dilatationTextF.setText("1");
+							returnValue = false;
+						}
+						return returnValue;
+					}
+				});
+				dilatationTextF.setValue((double)1.05);
 				dilatationTextF.setHorizontalAlignment(SwingConstants.RIGHT);
-				JFormattedTextField transvectionTextF = new JFormattedTextField();
+				final JFormattedTextField transvectionTextF = new JFormattedTextField(new DecimalFormat("#0.##"));
 				transvectionTextF.setValue(0.1);
 				transvectionTextF.setHorizontalAlignment(SwingConstants.RIGHT);
 
@@ -187,7 +210,8 @@ public class FlameMakerGUI {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						int i = selectedTransformationIndex;
-						AffineTransformation scale = AffineTransformation.newScaling(1.05, 1);
+						double val = Double.parseDouble(dilatationTextF.getValue().toString());
+						AffineTransformation scale = AffineTransformation.newScaling(val, 1);
 						AffineTransformation newT = flameBuilder.affineTransformation(i).composeWith(scale);
 						flameBuilder.setAffineTransformation(i,newT);
 						notifyObservers();
@@ -198,7 +222,8 @@ public class FlameMakerGUI {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						int i = selectedTransformationIndex;
-						AffineTransformation scale = AffineTransformation.newScaling(1/1.05, 1);
+						double val = Double.parseDouble(dilatationTextF.getValue().toString());
+						AffineTransformation scale = AffineTransformation.newScaling(1/val, 1);
 						AffineTransformation newT = flameBuilder.affineTransformation(i).composeWith(scale);
 						flameBuilder.setAffineTransformation(i,newT);
 						notifyObservers();
@@ -209,7 +234,8 @@ public class FlameMakerGUI {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						int i = selectedTransformationIndex;
-						AffineTransformation scale = AffineTransformation.newScaling(1, 1.05);
+						double val = Double.parseDouble(dilatationTextF.getValue().toString());
+						AffineTransformation scale = AffineTransformation.newScaling(1, val);
 						AffineTransformation newT = flameBuilder.affineTransformation(i).composeWith(scale);
 						flameBuilder.setAffineTransformation(i,newT);
 						notifyObservers();
@@ -220,7 +246,8 @@ public class FlameMakerGUI {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						int i = selectedTransformationIndex;
-						AffineTransformation scale = AffineTransformation.newScaling(1, 1/1.05);
+						double val = Double.parseDouble(dilatationTextF.getValue().toString());
+						AffineTransformation scale = AffineTransformation.newScaling(1, 1/val);
 						AffineTransformation newT = flameBuilder.affineTransformation(i).composeWith(scale);
 						flameBuilder.setAffineTransformation(i,newT);
 						notifyObservers();
@@ -232,7 +259,8 @@ public class FlameMakerGUI {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						int i = selectedTransformationIndex;
-						AffineTransformation transl = AffineTransformation.newTranslation(-0.1, 0);
+						double val = Double.parseDouble(translationTextF.getValue().toString());
+						AffineTransformation transl = AffineTransformation.newTranslation(-val, 0);
 						AffineTransformation newT = transl.composeWith(flameBuilder.affineTransformation(i));
 						flameBuilder.setAffineTransformation(i,newT);
 						notifyObservers();
@@ -243,7 +271,8 @@ public class FlameMakerGUI {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						int i = selectedTransformationIndex;
-						AffineTransformation transl = AffineTransformation.newTranslation(0.1, 0);
+						double val = Double.parseDouble(translationTextF.getValue().toString());
+						AffineTransformation transl = AffineTransformation.newTranslation(val, 0);
 						AffineTransformation newT = transl.composeWith(flameBuilder.affineTransformation(i));
 						flameBuilder.setAffineTransformation(i, newT);
 						notifyObservers();
@@ -254,7 +283,8 @@ public class FlameMakerGUI {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						int i = selectedTransformationIndex;
-						AffineTransformation transl = AffineTransformation.newTranslation(0, 1);
+						double val = Double.parseDouble(translationTextF.getValue().toString());
+						AffineTransformation transl = AffineTransformation.newTranslation(0, val);
 						AffineTransformation newT = transl.composeWith(flameBuilder.affineTransformation(i));
 						flameBuilder.setAffineTransformation(i, newT);
 						notifyObservers();
@@ -265,7 +295,8 @@ public class FlameMakerGUI {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						int i = selectedTransformationIndex;
-						AffineTransformation transl = AffineTransformation.newTranslation(0, -1);
+						double val = Double.parseDouble(translationTextF.getValue().toString());
+						AffineTransformation transl = AffineTransformation.newTranslation(0, -val);
 						AffineTransformation newT = transl.composeWith(flameBuilder.affineTransformation(i));
 						flameBuilder.setAffineTransformation(i, newT);
 						notifyObservers();
@@ -277,7 +308,8 @@ public class FlameMakerGUI {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						int i = selectedTransformationIndex;
-						AffineTransformation rot = AffineTransformation.newRotation(15);
+						double val = Double.parseDouble(rotationTextF.getValue().toString());
+						AffineTransformation rot = AffineTransformation.newRotation(val);
 						AffineTransformation newT = flameBuilder.affineTransformation(i).composeWith(rot);
 						flameBuilder.setAffineTransformation(i, newT);
 						notifyObservers();
@@ -288,7 +320,8 @@ public class FlameMakerGUI {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						int i = selectedTransformationIndex;
-						AffineTransformation rot = AffineTransformation.newRotation(-15);
+						double val = Double.parseDouble(rotationTextF.getValue().toString());
+						AffineTransformation rot = AffineTransformation.newRotation(-val);
 						AffineTransformation newT = flameBuilder.affineTransformation(i).composeWith(rot);
 						flameBuilder.setAffineTransformation(i, newT);
 						notifyObservers();
@@ -300,7 +333,8 @@ public class FlameMakerGUI {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						int i = selectedTransformationIndex;
-						AffineTransformation transv = AffineTransformation.newShearX(-1.05);
+						double val = Double.parseDouble(transvectionTextF.getValue().toString());
+						AffineTransformation transv = AffineTransformation.newShearX(-val);
 						AffineTransformation newT = flameBuilder.affineTransformation(i).composeWith(transv);
 						flameBuilder.setAffineTransformation(i, newT);
 						notifyObservers();
@@ -311,7 +345,8 @@ public class FlameMakerGUI {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						int i = selectedTransformationIndex;
-						AffineTransformation transv = AffineTransformation.newShearX(1.05);
+						double val = Double.parseDouble(transvectionTextF.getValue().toString());
+						AffineTransformation transv = AffineTransformation.newShearX(val);
 						AffineTransformation newT = flameBuilder.affineTransformation(i).composeWith(transv);
 						flameBuilder.setAffineTransformation(i, newT);
 						notifyObservers();
@@ -322,7 +357,8 @@ public class FlameMakerGUI {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						int i = selectedTransformationIndex;
-						AffineTransformation transv = AffineTransformation.newShearY(1.05);
+						double val = Double.parseDouble(transvectionTextF.getValue().toString());
+						AffineTransformation transv = AffineTransformation.newShearY(val);
 						AffineTransformation newT = flameBuilder.affineTransformation(i).composeWith(transv);
 						flameBuilder.setAffineTransformation(i, newT);
 						notifyObservers();
@@ -333,56 +369,57 @@ public class FlameMakerGUI {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						int i = selectedTransformationIndex;
-						AffineTransformation transv = AffineTransformation.newShearY(-1.05);
+						double val = Double.parseDouble(transvectionTextF.getValue().toString());
+						AffineTransformation transv = AffineTransformation.newShearY(-val);
 						AffineTransformation newT = flameBuilder.affineTransformation(i).composeWith(transv);
 						flameBuilder.setAffineTransformation(i, newT);
 						notifyObservers();
 					}
 				});
 				
-				gL.setHorizontalGroup(gL.createSequentialGroup()
-						.addGap(10)
-						.addGroup(gL.createParallelGroup(GroupLayout.Alignment.LEADING)
+				groupLayTr.setHorizontalGroup(groupLayTr.createSequentialGroup()
+						.addGap(5)
+						.addGroup(groupLayTr.createParallelGroup(GroupLayout.Alignment.LEADING)
 								.addComponent(translationLabel)
 								.addComponent(rotationLabel)
 								.addComponent(dilatationLabel)
 								.addComponent(transvectionLabel)
 								)
 						.addGap(5)
-						.addGroup(gL.createParallelGroup(GroupLayout.Alignment.LEADING)
+						.addGroup(groupLayTr.createParallelGroup(GroupLayout.Alignment.LEADING)
 								.addComponent(translationTextF)
 								.addComponent(rotationTextF)
 								.addComponent(dilatationTextF)
 								.addComponent(transvectionTextF)
 								)
 						.addGap(2)
-						.addGroup(gL.createParallelGroup(GroupLayout.Alignment.LEADING)
+						.addGroup(groupLayTr.createParallelGroup(GroupLayout.Alignment.LEADING)
 								.addComponent(translationLeft)
 								.addComponent(rotationAntiC)
 								.addComponent(dilatationPlusH)
 								.addComponent(transvectionLeft)
 								)
-						.addGroup(gL.createParallelGroup(GroupLayout.Alignment.LEADING)
+						.addGroup(groupLayTr.createParallelGroup(GroupLayout.Alignment.LEADING)
 								.addComponent(translationRight)
 								.addComponent(rotationC)
 								.addComponent(dilatationMinusH)
 								.addComponent(transvectionRight)
 								)
-						.addGroup(gL.createParallelGroup(GroupLayout.Alignment.LEADING)
+						.addGroup(groupLayTr.createParallelGroup(GroupLayout.Alignment.LEADING)
 								.addComponent(translationUp)
 								.addComponent(dilatationPlusV)
 								.addComponent(transvectionUp)
 								)
-						.addGroup(gL.createParallelGroup(GroupLayout.Alignment.LEADING)
+						.addGroup(groupLayTr.createParallelGroup(GroupLayout.Alignment.LEADING)
 								.addComponent(translationDown)
 								.addComponent(dilatationMinusV)
 								.addComponent(transvectionDown)
 								)
-						.addGap(10)
+						.addGap(5)
 						);
 				
-				gL.setVerticalGroup(gL.createSequentialGroup()
-						.addGroup(gL.createParallelGroup(GroupLayout.Alignment.BASELINE)
+				groupLayTr.setVerticalGroup(groupLayTr.createSequentialGroup()
+						.addGroup(groupLayTr.createParallelGroup(GroupLayout.Alignment.BASELINE)
 								.addComponent(translationLabel)
 								.addComponent(translationTextF)
 								.addComponent(translationLeft)
@@ -390,15 +427,13 @@ public class FlameMakerGUI {
 								.addComponent(translationUp)
 								.addComponent(translationDown)
 								)
-						.addGap(2)
-						.addGroup(gL.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addGroup(groupLayTr.createParallelGroup(GroupLayout.Alignment.BASELINE)
 								.addComponent(rotationLabel)
 								.addComponent(rotationTextF)
 								.addComponent(rotationAntiC)
 								.addComponent(rotationC)
 								)
-						.addGap(2)
-						.addGroup(gL.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addGroup(groupLayTr.createParallelGroup(GroupLayout.Alignment.BASELINE)
 								.addComponent(dilatationLabel)
 								.addComponent(dilatationTextF)
 								.addComponent(dilatationPlusH)
@@ -406,8 +441,7 @@ public class FlameMakerGUI {
 								.addComponent(dilatationPlusV)
 								.addComponent(dilatationMinusV)
 								)
-						.addGap(2)
-						.addGroup(gL.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addGroup(groupLayTr.createParallelGroup(GroupLayout.Alignment.BASELINE)
 								.addComponent(transvectionLabel)
 								.addComponent(transvectionTextF)
 								.addComponent(transvectionLeft)
@@ -417,25 +451,196 @@ public class FlameMakerGUI {
 								)
 						);
 				
-				gL.linkSize(SwingConstants.HORIZONTAL, translationLeft, rotationAntiC, dilatationPlusH, transvectionLeft);
-				gL.linkSize(SwingConstants.HORIZONTAL, translationRight, rotationC, dilatationMinusH, transvectionRight);
-				gL.linkSize(SwingConstants.HORIZONTAL, translationUp, dilatationPlusV, transvectionUp);
-				gL.linkSize(SwingConstants.HORIZONTAL, translationDown, dilatationMinusV, transvectionDown);
+				groupLayTr.linkSize(SwingConstants.HORIZONTAL, translationLeft, rotationAntiC, dilatationPlusH, transvectionLeft);
+				groupLayTr.linkSize(SwingConstants.HORIZONTAL, translationRight, rotationC, dilatationMinusH, transvectionRight);
+				groupLayTr.linkSize(SwingConstants.HORIZONTAL, translationUp, dilatationPlusV, transvectionUp);
+				groupLayTr.linkSize(SwingConstants.HORIZONTAL, translationDown, dilatationMinusV, transvectionDown);
 				
 				
-				affineEditPanel.setLayout(gL);
+				
+				JPanel variationsPanel = new JPanel();
+				GroupLayout groupLayVar = new GroupLayout(variationsPanel);
+				
+				JLabel linearLabel = new JLabel("Linear");
+				JLabel sinusoidalLabel = new JLabel("Sinusoidal");
+				JLabel sphericalLabel = new JLabel("Spherical");
+				JLabel swirlLabel = new JLabel("Swirl");
+				JLabel horseshoeLabel = new JLabel("Horseshoe");
+				JLabel bubbleLabel = new JLabel("Bubble");
+				
+				final JFormattedTextField linearTextF = new JFormattedTextField(new DecimalFormat("#0.##"));
+				linearTextF.setValue(1);
+				linearTextF.setHorizontalAlignment(SwingConstants.RIGHT);
+				addObserver(new Observer() {
+					@Override
+					public void update() {
+						linearTextF.setValue(flameBuilder.variationWeight(selectedTransformationIndex, Variation.ALL_VARIATIONS.get(0)));
+					}
+				});
+				linearTextF.addPropertyChangeListener(new PropertyChangeListener() {
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						flameBuilder.setVariationWeight(
+								selectedTransformationIndex, 
+								Variation.ALL_VARIATIONS.get(0), 
+								Double.parseDouble(linearTextF.getText()));
+					}
+				});
+				final JFormattedTextField swirlTextF = new JFormattedTextField(new DecimalFormat("#0.##"));
+				swirlTextF.setValue(0);
+				swirlTextF.setHorizontalAlignment(SwingConstants.RIGHT);
+				addObserver(new Observer() {
+					@Override
+					public void update() {
+						swirlTextF.setValue(flameBuilder.variationWeight(selectedTransformationIndex, Variation.ALL_VARIATIONS.get(3)));
+					}
+				});
+				swirlTextF.addPropertyChangeListener(new PropertyChangeListener() {
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						flameBuilder.setVariationWeight(
+								selectedTransformationIndex, 
+								Variation.ALL_VARIATIONS.get(3), 
+								Double.parseDouble(swirlTextF.getText()));
+					}
+				});
+				final JFormattedTextField sinusoidalTextF = new JFormattedTextField(new DecimalFormat("#0.##"));
+				sinusoidalTextF.setValue(0.1);
+				sinusoidalTextF.setHorizontalAlignment(SwingConstants.RIGHT);
+				addObserver(new Observer() {
+					@Override
+					public void update() {
+						sinusoidalTextF.setValue(flameBuilder.variationWeight(selectedTransformationIndex, Variation.ALL_VARIATIONS.get(1)));
+					}
+				});
+				sinusoidalTextF.addPropertyChangeListener(new PropertyChangeListener() {
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						flameBuilder.setVariationWeight(
+								selectedTransformationIndex, 
+								Variation.ALL_VARIATIONS.get(1), 
+								Double.parseDouble(sinusoidalTextF.getText()));
+					}
+				});
+				final JFormattedTextField horseshoeTextF = new JFormattedTextField(new DecimalFormat("#0.##"));
+				horseshoeTextF.setValue(0);
+				horseshoeTextF.setHorizontalAlignment(SwingConstants.RIGHT);
+				addObserver(new Observer() {
+					@Override
+					public void update() {
+						horseshoeTextF.setValue(flameBuilder.variationWeight(selectedTransformationIndex, Variation.ALL_VARIATIONS.get(4)));
+					}
+				});
+				horseshoeTextF.addPropertyChangeListener(new PropertyChangeListener() {
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						flameBuilder.setVariationWeight(
+								selectedTransformationIndex, 
+								Variation.ALL_VARIATIONS.get(4), 
+								Double.parseDouble(horseshoeTextF.getText()));
+					}
+				});
+				final JFormattedTextField sphericalTextF = new JFormattedTextField(new DecimalFormat("#0.##"));
+				sphericalTextF.setValue(0);
+				sphericalTextF.setHorizontalAlignment(SwingConstants.RIGHT);
+				addObserver(new Observer() {
+					@Override
+					public void update() {
+						sphericalTextF.setValue(flameBuilder.variationWeight(selectedTransformationIndex, Variation.ALL_VARIATIONS.get(2)));
+					}
+				});
+				sphericalTextF.addPropertyChangeListener(new PropertyChangeListener() {
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						flameBuilder.setVariationWeight(
+								selectedTransformationIndex, 
+								Variation.ALL_VARIATIONS.get(2), 
+								Double.parseDouble(sphericalTextF.getText()));
+					}
+				});
+				final JFormattedTextField bubbleTextF = new JFormattedTextField(new DecimalFormat("#0.##"));
+				bubbleTextF.setValue(0);
+				bubbleTextF.setHorizontalAlignment(SwingConstants.RIGHT);
+				addObserver(new Observer() {
+					@Override
+					public void update() {
+						bubbleTextF.setValue(flameBuilder.variationWeight(selectedTransformationIndex, Variation.ALL_VARIATIONS.get(5)));
+					}
+				});
+				bubbleTextF.addPropertyChangeListener(new PropertyChangeListener() {
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						flameBuilder.setVariationWeight(
+								selectedTransformationIndex, 
+								Variation.ALL_VARIATIONS.get(5), 
+								Double.parseDouble(bubbleTextF.getText()));
+					}
+				});
+				
+				groupLayVar.setHorizontalGroup(groupLayVar.createSequentialGroup()
+						.addGroup(groupLayVar.createParallelGroup(GroupLayout.Alignment.LEADING)
+								.addComponent(linearLabel)
+								.addComponent(swirlLabel)
+								)
+						.addGroup(groupLayVar.createParallelGroup(GroupLayout.Alignment.LEADING)
+								.addComponent(linearTextF)
+								.addComponent(swirlTextF)
+								)
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addGroup(groupLayVar.createParallelGroup(GroupLayout.Alignment.LEADING)
+								.addComponent(sinusoidalLabel)
+								.addComponent(horseshoeLabel)
+								)
+						.addGroup(groupLayVar.createParallelGroup(GroupLayout.Alignment.LEADING)
+								.addComponent(sinusoidalTextF)
+								.addComponent(horseshoeTextF)
+								)
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addGroup(groupLayVar.createParallelGroup(GroupLayout.Alignment.LEADING)
+								.addComponent(sphericalLabel)
+								.addComponent(bubbleLabel)
+								)
+						.addGroup(groupLayVar.createParallelGroup(GroupLayout.Alignment.LEADING)
+								.addComponent(sphericalTextF)
+								.addComponent(bubbleTextF)
+								)
+						);
+				groupLayVar.setVerticalGroup(groupLayVar.createSequentialGroup()
+						.addGroup(groupLayVar.createParallelGroup(GroupLayout.Alignment.BASELINE)
+								.addComponent(linearLabel)
+								.addComponent(linearTextF)
+								.addComponent(sinusoidalLabel)
+								.addComponent(sinusoidalTextF)
+								.addComponent(sphericalLabel)
+								.addComponent(sphericalTextF)
+								)
+						.addGroup(groupLayVar.createParallelGroup(GroupLayout.Alignment.BASELINE)
+								.addComponent(swirlLabel)
+								.addComponent(swirlTextF)
+								.addComponent(horseshoeLabel)
+								.addComponent(horseshoeTextF)
+								.addComponent(bubbleLabel)
+								.addComponent(bubbleTextF)								
+								)
+						);
+				
+				selectedTransfEditPanel.add(affineEditPanel);
+				affineEditPanel.setLayout(groupLayTr);
+				variationsPanel.setLayout(groupLayVar);
+				
+				selectedTransfEditPanel.add(new JSeparator());
+				selectedTransfEditPanel.add(variationsPanel);
 	}
 
-	public void start() {
+	public void start(){
 		// Ouverture de la fenêtre principale
 		JFrame jframe = new JFrame("Flame Maker");
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		try {
 		    UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 		} catch (Exception e) {
-		    // If Nimbus is not available, you can set the GUI to another look and feel.
+		    //Met le thème par défaut
 		}
-		
 		// Partie inférieure de la fenêtre
 		JPanel panneauInferieur = new JPanel();
 		jframe.getContentPane().add(panneauInferieur, BorderLayout.PAGE_END);
@@ -449,11 +654,13 @@ public class FlameMakerGUI {
 		panneauGraphiqueTransformationsAffines(panneauSuperieur);
 		panneauFractale(panneauSuperieur);
 		panneauListeFlameTransformations(panneauInferieur);
-		panneauAffineTransformationSelect(panneauInferieur);
+		panneauTransformationSelect(panneauInferieur);
+		
 		
 		jframe.pack();
 		jframe.setVisible(true);
 	}
+	
 	public int getSelectedTransformationIndex() {
 		return selectedTransformationIndex;
 	}
