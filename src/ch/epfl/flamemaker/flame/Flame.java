@@ -68,7 +68,7 @@ public class Flame {
 			}
 		}
 		long t2 = System.nanoTime();
-		System.out.println((t2-t1)/1000000 + "ms");
+		FlameMakerGUI.msTime((t2-t1)/1000000);
 		return flameAccu.build();
 	}
 	
@@ -107,7 +107,8 @@ public class Flame {
 			while (!executor.isTerminated()){
 			}
 			long t2 = System.nanoTime();
-			System.out.println((t2-t1)/1000000 + "ms");
+			FlameMakerGUI.msTime((t2-t1)/1000000);
+			
 		}
 		return flameAccu.build();
 	}

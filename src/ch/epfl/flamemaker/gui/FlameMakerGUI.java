@@ -8,14 +8,18 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -44,6 +48,7 @@ import ch.epfl.flamemaker.color.Color;
 import ch.epfl.flamemaker.color.InterpolatedPalette;
 import ch.epfl.flamemaker.color.Palette;
 import ch.epfl.flamemaker.flame.Flame;
+import ch.epfl.flamemaker.flame.FlameAccumulator;
 import ch.epfl.flamemaker.flame.FlameTransformation;
 import ch.epfl.flamemaker.flame.Variation;
 import ch.epfl.flamemaker.geometry2d.AffineTransformation;
@@ -65,7 +70,13 @@ public class FlameMakerGUI {
 	private int density = 50;
 
 	private int selectedTransformationIndex;
-	private Set<Observer> observers = new HashSet<Observer>();
+	private static Set<Observer> observers = new HashSet<Observer>();
+	
+	private static long msTime = 0;
+	public static void msTime(long l){
+		msTime = l;
+		notifyObservers();
+	}
 	
 	private void panneauGraphiqueTransformationsAffines(JPanel panneauSuperieur){
 		// Partie supérieure gauche, contenant le panneau de Transformation dans une grille
@@ -83,7 +94,7 @@ public class FlameMakerGUI {
 		});
 		transPanel.add(atc);
 	}
-	private void panneauFractale(JFrame jframe, JPanel panneauSuperieur){
+	private void panneauFractale(JPanel panneauInferieur, JPanel panneauSuperieur){
 		// Partie supérieure droite, contenant l'affichage de la fractale
 		JPanel fracPanel = new JPanel();
 		panneauSuperieur.add(fracPanel);
@@ -109,9 +120,10 @@ public class FlameMakerGUI {
 				else {
 					fbpc.setZoom(fbpc.getZoom()/fac);
 				}
+				notifyObservers();
 			}
 		});
-		panneauBoutonsSup(jframe, fbpc);
+		panneauBoutonsSup(panneauInferieur, fbpc);
 	}
 	private void panneauListeFlameTransformations(JPanel panneauInferieur){
 		// Partie gauche inférieure, contenant l'affichage textuel des transformations
@@ -507,10 +519,17 @@ public class FlameMakerGUI {
 			textFieldArray[i].addPropertyChangeListener("value", new PropertyChangeListener() {
 			@Override
 				public void propertyChange(PropertyChangeEvent evt) {
-					Number fieldValue = (Number) flameBuilder.variationWeight(
-							selectedTransformationIndex, 
-							Variation.ALL_VARIATIONS.get(j));
-					textFieldArray[j].setValue(fieldValue);
+					AbstractFormatter f = textFieldArray[j].getFormatter();
+					Number fieldValue;
+					try {
+						fieldValue = (Number) f.stringToValue(textFieldArray[j].getText());
+						textFieldArray[j].setText(textFieldArray[j].getValue().toString());
+						
+					} catch (ParseException e) {
+						fieldValue = (Number) textFieldArray[j].getValue();
+					}
+					flameBuilder.setVariationWeight(selectedTransformationIndex, Variation.ALL_VARIATIONS.get(j), fieldValue.doubleValue());
+					notifyObservers();
 				}
 			});
 		}
@@ -564,18 +583,63 @@ public class FlameMakerGUI {
 		variationsPanel.setLayout(groupLayVar);
 		selectedTransfEditPanel.add(variationsPanel);
 	}
-	private void panneauBoutonsSup(JFrame frame, final FlameBuilderPreviewComponent fbpc){
-
-		final JCheckBox multiT = new JCheckBox("Multi Thread");
-		multiT.setSelected(false);
-		multiT.addItemListener(new ItemListener() {
+	private void panneauBoutonsSup(JPanel panneauInferieur, final FlameBuilderPreviewComponent fbpc){
+		JPanel supButtonsPanel = new JPanel();
+		supButtonsPanel.setLayout(new BorderLayout());
+		
+		final JCheckBox multiThreadBox = new JCheckBox("Multi Thread");
+		multiThreadBox.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				fbpc.setUseMultiThread(multiT.isSelected() && ! multiT.getText().isEmpty());
+				fbpc.setUseMultiThread(multiThreadBox.isSelected() && ! multiThreadBox.getText().isEmpty());
 				notifyObservers();
 			}
 		});
-		frame.getContentPane().add(multiT, BorderLayout.PAGE_START);
+		
+		final JButton saveB = new JButton("Save 4K2K");
+		saveB.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				File outputfile = new File("fractal.png");
+				
+				int w = 4096;
+				int h = 2160;
+				
+				Rectangle recBig = new Rectangle(new Point(w/2,h/2),w, h);
+				Rectangle rec = frame.expandToAspectRatio(recBig.aspectRatio());
+				
+				Flame flame = flameBuilder.build();
+				BufferedImage buffIm = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+				FlameAccumulator flameAc = flame.compute(rec, w, h,density/2, 20);
+				for (int i = 0; i < h; i++) {
+					for (int j = 0; j < w; j++) {
+						Color c = flameAc.color(palette, background, j, i);
+						buffIm.setRGB(j, i, c.asPackedRGB());
+					}	
+				}
+				try {
+					ImageIO.write(buffIm, "png", outputfile);
+				} catch (IOException e1) {
+					System.out.println("Erreur d'écriture du fichier");
+					e1.printStackTrace();
+					outputfile.delete();
+				}
+			}
+		});
+		
+		final JLabel msTimeLabel = new JLabel(msTime + "");
+		msTimeLabel.setForeground(java.awt.Color.LIGHT_GRAY);
+		addObserver(new Observer() {
+			@Override
+			public void update() {
+				msTimeLabel.setText(msTime + "ms");
+			}
+		});
+		
+		panneauInferieur.add(supButtonsPanel, BorderLayout.PAGE_END);
+		supButtonsPanel.add(multiThreadBox, BorderLayout.LINE_START);
+		supButtonsPanel.add(saveB,BorderLayout.CENTER);
+		supButtonsPanel.add(msTimeLabel, BorderLayout.LINE_END);
 	}
 	public void start(){
 		// Ouverture de la fenêtre principale
@@ -587,8 +651,12 @@ public class FlameMakerGUI {
 		    //Met le thème par défaut
 		}
 		// Partie inférieure de la fenêtre
+		JPanel superPanneauInferieur = new JPanel();
+		jframe.getContentPane().add(superPanneauInferieur, BorderLayout.PAGE_END);
+		superPanneauInferieur.setLayout(new BorderLayout());
+		
 		JPanel panneauInferieur = new JPanel();
-		jframe.getContentPane().add(panneauInferieur, BorderLayout.PAGE_END);
+		superPanneauInferieur.add(panneauInferieur);
 		panneauInferieur.setLayout(new BoxLayout(panneauInferieur, BoxLayout.LINE_AXIS));
 		
 		// Partie supérieure, contenant une représentation graphiques des transformations et l'affichage de la fractale
@@ -599,7 +667,7 @@ public class FlameMakerGUI {
 		
 		
 		panneauGraphiqueTransformationsAffines(panneauSuperieur);
-		panneauFractale(jframe, panneauSuperieur);
+		panneauFractale(superPanneauInferieur, panneauSuperieur);
 		panneauListeFlameTransformations(panneauInferieur);
 		panneauTransformationSelect(panneauInferieur);
 		
@@ -615,7 +683,7 @@ public class FlameMakerGUI {
 		this.selectedTransformationIndex = selectedTransformationIndex;
 		notifyObservers();
 	}
-	private void notifyObservers(){
+	private static void notifyObservers(){
 		for (Observer o : observers) {
 			o.update();
 		}
