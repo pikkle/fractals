@@ -20,6 +20,8 @@ public class FlameBuilderPreviewComponent extends JComponent{
 	private Palette palette;
 	private Rectangle frame;
 	private int density;
+	private double d;
+	private boolean useMultiThread;
 	
 	public FlameBuilderPreviewComponent(ObservableFlameBuilder flameBuilder, Color background, Palette palette, Rectangle frame, int density){
 		this.flameBuilder = flameBuilder;
@@ -27,12 +29,25 @@ public class FlameBuilderPreviewComponent extends JComponent{
 		this.palette = palette;
 		this.frame = frame;
 		this.density = density;
-		
+		this.d = 1;
 	}
 	
 	@Override
 	public Dimension getPreferredSize(){
 		return new Dimension(178,135);
+	}
+	public void setZoom(double d){
+		if(d <= 0){
+			throw new IllegalArgumentException("Le facteur de zoom d doit être strictement positif.");
+		}
+		this.d = d;
+		repaint();
+	}
+	public double getZoom(){
+		return d;
+	}
+	public void setUseMultiThread(boolean b){
+		useMultiThread = b;
 	}
 	@Override
 	public void paintComponent(Graphics g0){
@@ -41,8 +56,13 @@ public class FlameBuilderPreviewComponent extends JComponent{
 		Rectangle rec = frame.expandToAspectRatio(recComp.aspectRatio());
 		
 		BufferedImage buffIm = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
-		FlameAccumulator flameAc = flame.compute(rec, getWidth(), getHeight(), density);
-		
+		FlameAccumulator flameAc;
+		if (useMultiThread){
+			flameAc = flame.compute(rec,(int)(getWidth()*d),(int)(getHeight()*d),density, 20);
+		}
+		else {
+			flameAc = flame.compute(rec,(int)(getWidth()*d),(int)(getHeight()*d),density);
+		}
 		for (int i = 0; i < getHeight(); i++) {
 			for (int j = 0; j < getWidth(); j++) {
 				Color c = flameAc.color(palette, background, j, i);

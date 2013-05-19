@@ -3,12 +3,16 @@ package ch.epfl.flamemaker.flame;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import ch.epfl.flamemaker.flame.Variation;
 import ch.epfl.flamemaker.flame.FlameTransformation;
 
 import ch.epfl.flamemaker.geometry2d.AffineTransformation;
 import ch.epfl.flamemaker.geometry2d.Point;
 import ch.epfl.flamemaker.geometry2d.Rectangle;
+import ch.epfl.flamemaker.gui.FlameMakerGUI;
 
 /**
  * Class modélisant une fractale Flame
@@ -52,6 +56,7 @@ public class Flame {
 		Point p = new Point(0, 0);
 		Random r = new Random(2013); //Utilise un random avec la seed 2013
 		double c = 0.0;
+		long t1 = System.nanoTime();
 		if (this.listTransfo.size() > 0){
 			for (int k = 0; k < 20 + density * width * height; k++) {
 				int i = r.nextInt(this.listTransfo.size());
@@ -62,9 +67,50 @@ public class Flame {
 				}
 			}
 		}
+		long t2 = System.nanoTime();
+		System.out.println((t2-t1)/1000000 + "ms");
 		return flameAccu.build();
 	}
 	
+	public FlameAccumulator compute(Rectangle frame, int width, int height,
+			int density, final int nbThread) {
+		final FlameAccumulator.Builder flameAccu = new FlameAccumulator.Builder(
+				frame, width, height);
+		final Point p0 = new Point(0, 0);
+		 //Utilise un random avec la seed 2013
+		final double c0 = 0.0;
+		final int nbCalc = density*width*height/nbThread;
+		ExecutorService executor = Executors.newFixedThreadPool(nbThread);
+		long t1 = System.nanoTime();
+		if (this.listTransfo.size() > 0){
+			for (int i = 0; i < nbThread; i++) {
+				Runnable worker = new Runnable() {
+					@Override
+					public void run() {
+						Random r = new Random();
+						Point p = p0;
+						double c = c0;
+						for (int k = 0; k < nbCalc; k++) {
+							int i = r.nextInt(listTransfo.size());
+							p = listTransfo .get(i).transformPoint(p);
+							c = (colorTransfo.get(i) + c) / 2.0;
+							if (k > 20) { //20 premiers tours à blanc selon l'algorithme du chaos
+								flameAccu.hit(p, c);
+							}
+						}
+					}
+				};
+				executor.execute(worker);
+			}
+			
+			executor.shutdown();
+			while (!executor.isTerminated()){
+			}
+			long t2 = System.nanoTime();
+			System.out.println((t2-t1)/1000000 + "ms");
+		}
+		return flameAccu.build();
+	}
 
 	/**
 	 * Bâtisseur de fractale {@link Flame}

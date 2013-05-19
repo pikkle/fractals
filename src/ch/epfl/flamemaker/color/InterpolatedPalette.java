@@ -36,7 +36,7 @@ public class InterpolatedPalette implements Palette {
 	@Override
 	public Color colorForIndex(double index) {
 		if (index <0 || index >1){
-			throw new IllegalArgumentException("l'index n'est pas valide");
+			throw new IllegalArgumentException("l'index n'est pas valide " + index);
 		}
 		
 		double indexColor = index * (listColor.size()-1);
