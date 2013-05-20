@@ -185,7 +185,7 @@ public class Flame {
 		 */
 		public double variationWeight(int index, Variation variation) {
 			if (index > listTransfoBuilder.size() || index < 0) {
-				throw new IndexOutOfBoundsException("l'index est invalide");
+				throw new IndexOutOfBoundsException("l'index est invalide " + index);
 			}
 			FlameTransformation.Builder builder = new FlameTransformation.Builder(listTransfoBuilder.get(index));
 			return builder.getVariationWeight(variation.getIndex());
