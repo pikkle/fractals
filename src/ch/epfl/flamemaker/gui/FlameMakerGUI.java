@@ -4,29 +4,20 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.imageio.ImageIO;
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.InputVerifier;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFormattedTextField.AbstractFormatter;
@@ -48,7 +39,6 @@ import ch.epfl.flamemaker.color.Color;
 import ch.epfl.flamemaker.color.InterpolatedPalette;
 import ch.epfl.flamemaker.color.Palette;
 import ch.epfl.flamemaker.flame.Flame;
-import ch.epfl.flamemaker.flame.FlameAccumulator;
 import ch.epfl.flamemaker.flame.FlameTransformation;
 import ch.epfl.flamemaker.flame.Variation;
 import ch.epfl.flamemaker.geometry2d.AffineTransformation;
@@ -70,14 +60,7 @@ public class FlameMakerGUI {
 	private int density = 50;
 
 	private int selectedTransformationIndex;
-	private static Set<Observer> observers = new HashSet<Observer>();
-	
-	private static long msTime = 0;
-	public static void msTime(long l){
-		msTime = l;
-		notifyObservers();
-	}
-	
+	private Set<Observer> observers = new HashSet<Observer>();
 	private void panneauGraphiqueTransformationsAffines(JPanel panneauSuperieur){
 		// Partie supérieure gauche, contenant le panneau de Transformation dans une grille
 		JPanel transPanel = new JPanel();
@@ -109,21 +92,6 @@ public class FlameMakerGUI {
 				fbpc.repaint();
 			}
 		});
-		fracPanel.addMouseWheelListener(new MouseWheelListener() {
-			@Override
-			public void mouseWheelMoved(MouseWheelEvent e) {
-				int notches = e.getWheelRotation();
-				double fac = 1;
-				if (notches < 0){
-					fbpc.setZoom(fbpc.getZoom()*fac);
-				}
-				else {
-					fbpc.setZoom(fbpc.getZoom()/fac);
-				}
-				notifyObservers();
-			}
-		});
-		panneauBoutonsSup(panneauInferieur, fbpc);
 	}
 	private void panneauListeFlameTransformations(JPanel panneauInferieur){
 		// Partie gauche inférieure, contenant l'affichage textuel des transformations
@@ -583,64 +551,7 @@ public class FlameMakerGUI {
 		variationsPanel.setLayout(groupLayVar);
 		selectedTransfEditPanel.add(variationsPanel);
 	}
-	private void panneauBoutonsSup(JPanel panneauInferieur, final FlameBuilderPreviewComponent fbpc){
-		JPanel supButtonsPanel = new JPanel();
-		supButtonsPanel.setLayout(new BorderLayout());
-		
-		final JCheckBox multiThreadBox = new JCheckBox("Multi Thread");
-		multiThreadBox.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				fbpc.setUseMultiThread(multiThreadBox.isSelected() && ! multiThreadBox.getText().isEmpty());
-				notifyObservers();
-			}
-		});
-		
-		final JButton saveB = new JButton("Save 4K2K");
-		saveB.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				File outputfile = new File("fractal.png");
-				
-				int w = 4096;
-				int h = 2160;
-				
-				Rectangle recBig = new Rectangle(new Point(w/2,h/2),w, h);
-				Rectangle rec = frame.expandToAspectRatio(recBig.aspectRatio());
-				
-				Flame flame = flameBuilder.build();
-				BufferedImage buffIm = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-				FlameAccumulator flameAc = flame.compute(rec, w, h,density/2, 20);
-				for (int i = 0; i < h; i++) {
-					for (int j = 0; j < w; j++) {
-						Color c = flameAc.color(palette, background, j, i);
-						buffIm.setRGB(j, i, c.asPackedRGB());
-					}	
-				}
-				try {
-					ImageIO.write(buffIm, "png", outputfile);
-				} catch (IOException e1) {
-					System.out.println("Erreur d'écriture du fichier");
-					e1.printStackTrace();
-					outputfile.delete();
-				}
-			}
-		});
-		
-		final JLabel msTimeLabel = new JLabel(msTime + "");
-		msTimeLabel.setForeground(java.awt.Color.LIGHT_GRAY);
-		addObserver(new Observer() {
-			@Override
-			public void update() {
-				msTimeLabel.setText(msTime + "ms");
-			}
-		});
-		
-		panneauInferieur.add(supButtonsPanel, BorderLayout.PAGE_END);
-		supButtonsPanel.add(multiThreadBox, BorderLayout.LINE_START);
-		supButtonsPanel.add(saveB,BorderLayout.CENTER);
-		supButtonsPanel.add(msTimeLabel, BorderLayout.LINE_END);
-	}
+	
 	public void start(){
 		// Ouverture de la fenêtre principale
 		JFrame jframe = new JFrame("Flame Maker");
@@ -683,7 +594,7 @@ public class FlameMakerGUI {
 		this.selectedTransformationIndex = selectedTransformationIndex;
 		notifyObservers();
 	}
-	private static void notifyObservers(){
+	private void notifyObservers(){
 		for (Observer o : observers) {
 			o.update();
 		}
