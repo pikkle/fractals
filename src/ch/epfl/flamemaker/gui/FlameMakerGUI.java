@@ -140,17 +140,17 @@ public class FlameMakerGUI {
 		removeButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (tlm.getSize() == 1){
-					removeButton.setEnabled(false);
-				}
-				int i = 0;
+				int j = jListe.getSelectedIndex();
 				if (selectedTransformationIndex == tlm.getSize()-1) {
-					i = selectedTransformationIndex -1;
+					jListe.setSelectedIndex(tlm.getSize()-2); //Sélectionne l'avant-dernier élément de la liste
+					tlm.removeTransformation(j);
 				}
+				else{
+					jListe.setSelectedIndex(j+1);
+					tlm.removeTransformation(j);
+				}
+				removeButton.setEnabled(tlm.getSize() != 1);
 				
-				tlm.removeTransformation(selectedTransformationIndex);
-				setSelectedTransformationIndex(i);
-				jListe.setSelectedIndex(i);
 				notifyObservers();
 			}
 		});

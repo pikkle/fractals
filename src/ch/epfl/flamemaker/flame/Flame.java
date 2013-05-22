@@ -12,7 +12,7 @@ import ch.epfl.flamemaker.geometry2d.Point;
 import ch.epfl.flamemaker.geometry2d.Rectangle;
 
 /**
- * Class modélisant une fractale Flame
+ * Class modÃ©lisant une fractale Flame
  * @see {@link #Flame(List)} le constructeur
  */
 public class Flame {
@@ -21,12 +21,12 @@ public class Flame {
 
 	/**
 	 * Constructeur de Flame
-	 * @param transformations La liste de {@link FlameTransformation} caractérisant la fractale.
+	 * @param transformations La liste de {@link FlameTransformation} caractÃ©risant la fractale.
 	 */
 	public Flame(List<FlameTransformation> transformations) {
 		this.listTransfo = new ArrayList<FlameTransformation>(transformations); //Copie de la liste de Transformations
 		
-		colorTransfo = new ArrayList<Double>(); //Création de la liste de couleurs correspondant aux transformations
+		colorTransfo = new ArrayList<Double>(); //Crï¿½ation de la liste de couleurs correspondant aux transformations
 		colorTransfo.add(0.0); //C0 = 0
 		colorTransfo.add(1.0); //C1 = 1
 		for (int i = 2; i < transformations.size(); i++) {
@@ -39,12 +39,12 @@ public class Flame {
 		return listTransfo;
 	}
 	/**
-	 * Méthode calculant les points graphiques caractérisant la fractale.
-	 * @param frame Le cadre qui délimite le calcul.
-	 * @param width La largeur du rendu (affecte le nombre de points calculés). 
-	 * @param height La hauteur du rendu (affecte le nombre de points calculés).
-	 * @param density La densité de la fractale.
-	 * @return La {@link FlameAccumulator} correspondant à la fractale créée
+	 * MÃ©thode calculant les points graphiques caractÃ©risant la fractale
+	 * @param frame Le cadre qui dÃ©limite le calcul.
+	 * @param width La largeur du rendu (affecte le nombre de points calculÃ©s). 
+	 * @param height La hauteur du rendu (affecte le nombre de points calculÃ©s).
+	 * @param density La densitÃ© de la fractale.
+	 * @return La {@link FlameAccumulator} correspondant a la fractale crÃ©Ã©e
 	 */
 	public FlameAccumulator compute(Rectangle frame, int width, int height,
 			int density) {
@@ -58,7 +58,7 @@ public class Flame {
 				int i = r.nextInt(this.listTransfo.size());
 				p = this.listTransfo.get(i).transformPoint(p);
 				c = (this.colorTransfo.get(i) + c) / 2.0;
-				if (k > 20) { //20 premiers tours à blanc selon l'algorithme du chaos
+				if (k > 20) { //20 premiers tours ï¿½ blanc selon l'algorithme du chaos
 					flameAccu.hit(p, c);
 				}
 			}
@@ -68,14 +68,14 @@ public class Flame {
 
 
 	/**
-	 * Bâtisseur de fractale {@link Flame}
+	 * Bï¿½tisseur de fractale {@link Flame}
 	 * @see Flame
 	 */
 	public static class Builder {
 		private List<FlameTransformation> listTransfoBuilder;
 
 		/**
-		 * Constructeur de bâtisseur de flame
+		 * Constructeur de bï¿½tisseur de flame
 		 * @param flame
 		 * @see <a href="https://dl.dropbox.com/u/45709343/yodawg.png">Yo dawg</a>
 		 */
@@ -86,7 +86,7 @@ public class Flame {
 		}
 
 		/**
-		 * Donne le nombre de transformations Flame caractérisant 
+		 * Donne le nombre de transformations Flame caractï¿½risant 
 		 * la fractale en cours de construction.
 		 * @return Le nombre de transformations de la fractale
 		 */
@@ -95,15 +95,15 @@ public class Flame {
 		}
 
 		/**
-		 * Ajoute la transformation en paramètre à la fractale en dernière position.
-		 * @param transformation La transformation à ajouter à la fractale.
+		 * Ajoute la transformation en paramï¿½tre ï¿½ la fractale en derniï¿½re position.
+		 * @param transformation La transformation ï¿½ ajouter ï¿½ la fractale.
 		 */
 		public void addTransformation(FlameTransformation transformation) {
 			listTransfoBuilder.add(transformation);
 		}
 
 		/**
-		 * Retourne la composante affine de la transformation Flame d'index donné.
+		 * Retourne la composante affine de la transformation Flame d'index donnï¿½.
 		 * @param index L'index de la transformation Flame
 		 * @return La composante affine de la transformation Flame
 		 * @throws IndexOutOfBoundsException Si l'index est invalide
@@ -116,9 +116,9 @@ public class Flame {
 		}
 
 		/**
-		 * Change la composante affine de la transformation Flame à l'index donné
-		 * @param index L'index de la transformation Flame à modifier
-		 * @param newTransformation La transformation affine à changer
+		 * Change la composante affine de la transformation Flame ï¿½ l'index donnï¿½
+		 * @param index L'index de la transformation Flame ï¿½ modifier
+		 * @param newTransformation La transformation affine ï¿½ changer
 		 */
 		public void setAffineTransformation(int index,
 				AffineTransformation newTransformation) {
@@ -131,7 +131,7 @@ public class Flame {
 		}
 
 		/**
-		 * Retourne le poids de la variation donnée pour la transformation Flame d'index donné.
+		 * Retourne le poids de la variation donnï¿½e pour la transformation Flame d'index donnï¿½.
 		 * @param index L'index de la transformation Flame
 		 * @param variation La variation sur laquelle porte le poids.
 		 * @return Le poids de la variation en {@code double}
@@ -146,7 +146,7 @@ public class Flame {
 		}
 
 		/**
-		 * Change le poids de la variation donnée pour la transformation Flame d'index donné.
+		 * Change le poids de la variation donnï¿½e pour la transformation Flame d'index donnï¿½.
 		 * @param index L'index de la transformation Flame
 		 * @param variation La variation sur laquelle on change le poids
 		 * @param newWeight Le nouveau poids de variation
@@ -163,8 +163,8 @@ public class Flame {
 		}
 
 		/**
-		 * Supprime la transformation Flame d'index donné.
-		 * @param index L'index de la transformation Flame à supprimer.
+		 * Supprime la transformation Flame d'index donnï¿½.
+		 * @param index L'index de la transformation Flame ï¿½ supprimer.
 		 * @throws IndexOutOfBoundsException si l'index est invalide.
 		 */
 		public void removeTransformation(int index) {
