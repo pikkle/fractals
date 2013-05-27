@@ -53,14 +53,14 @@ public class FlameMakerGUI {
 					new double[] { 0, 0, 0, 0, 0.8,	1 }),
 			new FlameTransformation(new AffineTransformation(0.4810169, 0, 1, 0, 0.4810169, 0.9), 
 					new double[] { 1, 0, 0, 0, 0, 0 })}
-			)));	
+			)));
 	private Color background = Color.BLACK;
 	private Palette palette = new InterpolatedPalette(Arrays.asList(new Color[] { Color.RED, Color.GREEN, Color.BLUE }));
 	private Rectangle frame = new Rectangle(new Point(-0.25, 0), 5, 4);
 	private int density = 50;
-
 	private int selectedTransformationIndex;
 	private Set<Observer> observers = new HashSet<Observer>();
+	
 	private void panneauGraphiqueTransformationsAffines(JPanel panneauSuperieur){
 		// Partie supérieure gauche, contenant le panneau de Transformation dans une grille
 		JPanel transPanel = new JPanel();
@@ -77,7 +77,7 @@ public class FlameMakerGUI {
 		});
 		transPanel.add(atc);
 	}
-	private void panneauFractale(JPanel panneauInferieur, JPanel panneauSuperieur){
+	private void panneauFractale(JPanel panneauSuperieur){
 		// Partie supérieure droite, contenant l'affichage de la fractale
 		JPanel fracPanel = new JPanel();
 		panneauSuperieur.add(fracPanel);
@@ -131,7 +131,6 @@ public class FlameMakerGUI {
 				if (! removeButton.isEnabled()){
 					removeButton.setEnabled(true);
 				}
-				notifyObservers();
 				tlm.addTransformation();
 				setSelectedTransformationIndex(tlm.getSize()-1);
 				jListe.setSelectedIndex(selectedTransformationIndex);
@@ -208,11 +207,10 @@ public class FlameMakerGUI {
 		dilatationPlusH.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int i = selectedTransformationIndex;
 				double val = Double.parseDouble(dilatationTextF.getValue().toString());
 				AffineTransformation scale = AffineTransformation.newScaling(val, 1);
-				AffineTransformation newT = flameBuilder.affineTransformation(i).composeWith(scale);
-				flameBuilder.setAffineTransformation(i,newT);
+				AffineTransformation newT = flameBuilder.affineTransformation(selectedTransformationIndex).composeWith(scale);
+				flameBuilder.setAffineTransformation(selectedTransformationIndex,newT);
 				notifyObservers();
 			}
 		});
@@ -220,11 +218,10 @@ public class FlameMakerGUI {
 		dilatationMinusH.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int i = selectedTransformationIndex;
 				double val = Double.parseDouble(dilatationTextF.getValue().toString());
 				AffineTransformation scale = AffineTransformation.newScaling(1/val, 1);
-				AffineTransformation newT = flameBuilder.affineTransformation(i).composeWith(scale);
-				flameBuilder.setAffineTransformation(i,newT);
+				AffineTransformation newT = flameBuilder.affineTransformation(selectedTransformationIndex).composeWith(scale);
+				flameBuilder.setAffineTransformation(selectedTransformationIndex,newT);
 				notifyObservers();
 			}
 		});
@@ -232,11 +229,10 @@ public class FlameMakerGUI {
 		dilatationPlusV.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int i = selectedTransformationIndex;
 				double val = Double.parseDouble(dilatationTextF.getValue().toString());
 				AffineTransformation scale = AffineTransformation.newScaling(1, val);
-				AffineTransformation newT = flameBuilder.affineTransformation(i).composeWith(scale);
-				flameBuilder.setAffineTransformation(i,newT);
+				AffineTransformation newT = flameBuilder.affineTransformation(selectedTransformationIndex).composeWith(scale);
+				flameBuilder.setAffineTransformation(selectedTransformationIndex,newT);
 				notifyObservers();
 			}
 		});
@@ -244,11 +240,10 @@ public class FlameMakerGUI {
 		dilatationMinusV.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int i = selectedTransformationIndex;
 				double val = Double.parseDouble(dilatationTextF.getValue().toString());
 				AffineTransformation scale = AffineTransformation.newScaling(1, 1/val);
-				AffineTransformation newT = flameBuilder.affineTransformation(i).composeWith(scale);
-				flameBuilder.setAffineTransformation(i,newT);
+				AffineTransformation newT = flameBuilder.affineTransformation(selectedTransformationIndex).composeWith(scale);
+				flameBuilder.setAffineTransformation(selectedTransformationIndex,newT);
 				notifyObservers();
 			}
 		});
@@ -257,11 +252,10 @@ public class FlameMakerGUI {
 		translationLeft.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int i = selectedTransformationIndex;
 				double val = Double.parseDouble(translationTextF.getValue().toString());
 				AffineTransformation transl = AffineTransformation.newTranslation(-val, 0);
-				AffineTransformation newT = transl.composeWith(flameBuilder.affineTransformation(i));
-				flameBuilder.setAffineTransformation(i,newT);
+				AffineTransformation newT = transl.composeWith(flameBuilder.affineTransformation(selectedTransformationIndex));
+				flameBuilder.setAffineTransformation(selectedTransformationIndex,newT);
 				notifyObservers();
 			}
 		});
@@ -269,11 +263,10 @@ public class FlameMakerGUI {
 		translationRight.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int i = selectedTransformationIndex;
 				double val = Double.parseDouble(translationTextF.getValue().toString());
 				AffineTransformation transl = AffineTransformation.newTranslation(val, 0);
-				AffineTransformation newT = transl.composeWith(flameBuilder.affineTransformation(i));
-				flameBuilder.setAffineTransformation(i, newT);
+				AffineTransformation newT = transl.composeWith(flameBuilder.affineTransformation(selectedTransformationIndex));
+				flameBuilder.setAffineTransformation(selectedTransformationIndex, newT);
 				notifyObservers();
 			}
 		});
@@ -281,11 +274,10 @@ public class FlameMakerGUI {
 		translationUp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int i = selectedTransformationIndex;
 				double val = Double.parseDouble(translationTextF.getValue().toString());
 				AffineTransformation transl = AffineTransformation.newTranslation(0, val);
-				AffineTransformation newT = transl.composeWith(flameBuilder.affineTransformation(i));
-				flameBuilder.setAffineTransformation(i, newT);
+				AffineTransformation newT = transl.composeWith(flameBuilder.affineTransformation(selectedTransformationIndex));
+				flameBuilder.setAffineTransformation(selectedTransformationIndex, newT);
 				notifyObservers();
 			}
 		});
@@ -293,11 +285,10 @@ public class FlameMakerGUI {
 		translationDown.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int i = selectedTransformationIndex;
 				double val = Double.parseDouble(translationTextF.getValue().toString());
 				AffineTransformation transl = AffineTransformation.newTranslation(0, -val);
-				AffineTransformation newT = transl.composeWith(flameBuilder.affineTransformation(i));
-				flameBuilder.setAffineTransformation(i, newT);
+				AffineTransformation newT = transl.composeWith(flameBuilder.affineTransformation(selectedTransformationIndex));
+				flameBuilder.setAffineTransformation(selectedTransformationIndex, newT);
 				notifyObservers();
 			}
 		});
@@ -306,11 +297,10 @@ public class FlameMakerGUI {
 		rotationAntiC.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int i = selectedTransformationIndex;
 				double val = Double.parseDouble(rotationTextF.getValue().toString());
 				AffineTransformation rot = AffineTransformation.newRotation(val);
-				AffineTransformation newT = flameBuilder.affineTransformation(i).composeWith(rot);
-				flameBuilder.setAffineTransformation(i, newT);
+				AffineTransformation newT = flameBuilder.affineTransformation(selectedTransformationIndex).composeWith(rot);
+				flameBuilder.setAffineTransformation(selectedTransformationIndex, newT);
 				notifyObservers();
 			}
 		});
@@ -318,11 +308,10 @@ public class FlameMakerGUI {
 		rotationC.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int i = selectedTransformationIndex;
 				double val = Double.parseDouble(rotationTextF.getValue().toString());
 				AffineTransformation rot = AffineTransformation.newRotation(-val);
-				AffineTransformation newT = flameBuilder.affineTransformation(i).composeWith(rot);
-				flameBuilder.setAffineTransformation(i, newT);
+				AffineTransformation newT = flameBuilder.affineTransformation(selectedTransformationIndex).composeWith(rot);
+				flameBuilder.setAffineTransformation(selectedTransformationIndex, newT);
 				notifyObservers();
 			}
 		});
@@ -331,11 +320,10 @@ public class FlameMakerGUI {
 		transvectionLeft.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int i = selectedTransformationIndex;
 				double val = Double.parseDouble(transvectionTextF.getValue().toString());
 				AffineTransformation transv = AffineTransformation.newShearX(-val);
-				AffineTransformation newT = flameBuilder.affineTransformation(i).composeWith(transv);
-				flameBuilder.setAffineTransformation(i, newT);
+				AffineTransformation newT = flameBuilder.affineTransformation(selectedTransformationIndex).composeWith(transv);
+				flameBuilder.setAffineTransformation(selectedTransformationIndex, newT);
 				notifyObservers();
 			}
 		});
@@ -343,11 +331,10 @@ public class FlameMakerGUI {
 		transvectionRight.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int i = selectedTransformationIndex;
 				double val = Double.parseDouble(transvectionTextF.getValue().toString());
 				AffineTransformation transv = AffineTransformation.newShearX(val);
-				AffineTransformation newT = flameBuilder.affineTransformation(i).composeWith(transv);
-				flameBuilder.setAffineTransformation(i, newT);
+				AffineTransformation newT = flameBuilder.affineTransformation(selectedTransformationIndex).composeWith(transv);
+				flameBuilder.setAffineTransformation(selectedTransformationIndex, newT);
 				notifyObservers();
 			}
 		});
@@ -355,11 +342,10 @@ public class FlameMakerGUI {
 		transvectionUp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int i = selectedTransformationIndex;
 				double val = Double.parseDouble(transvectionTextF.getValue().toString());
 				AffineTransformation transv = AffineTransformation.newShearY(val);
-				AffineTransformation newT = flameBuilder.affineTransformation(i).composeWith(transv);
-				flameBuilder.setAffineTransformation(i, newT);
+				AffineTransformation newT = flameBuilder.affineTransformation(selectedTransformationIndex).composeWith(transv);
+				flameBuilder.setAffineTransformation(selectedTransformationIndex, newT);
 				notifyObservers();
 			}
 		});
@@ -367,11 +353,10 @@ public class FlameMakerGUI {
 		transvectionDown.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int i = selectedTransformationIndex;
 				double val = Double.parseDouble(transvectionTextF.getValue().toString());
 				AffineTransformation transv = AffineTransformation.newShearY(-val);
-				AffineTransformation newT = flameBuilder.affineTransformation(i).composeWith(transv);
-				flameBuilder.setAffineTransformation(i, newT);
+				AffineTransformation newT = flameBuilder.affineTransformation(selectedTransformationIndex).composeWith(transv);
+				flameBuilder.setAffineTransformation(selectedTransformationIndex, newT);
 				notifyObservers();
 			}
 		});
@@ -562,23 +547,20 @@ public class FlameMakerGUI {
 		    //Met le thème par défaut
 		}
 		// Partie inférieure de la fenêtre
-		JPanel superPanneauInferieur = new JPanel();
-		jframe.getContentPane().add(superPanneauInferieur, BorderLayout.PAGE_END);
-		superPanneauInferieur.setLayout(new BorderLayout());
-		
+
 		JPanel panneauInferieur = new JPanel();
-		superPanneauInferieur.add(panneauInferieur);
+		jframe.getContentPane().add(panneauInferieur,BorderLayout.PAGE_END);
 		panneauInferieur.setLayout(new BoxLayout(panneauInferieur, BoxLayout.LINE_AXIS));
 		
 		// Partie supérieure, contenant une représentation graphiques des transformations et l'affichage de la fractale
 		JPanel panneauSuperieur = new JPanel();
 		jframe.getContentPane().add(panneauSuperieur, BorderLayout.CENTER);
 		panneauSuperieur.setLayout(new GridLayout(1,2));
-		panneauSuperieur.setOpaque(true);
+		//panneauSuperieur.setOpaque(true);
 		
 		
 		panneauGraphiqueTransformationsAffines(panneauSuperieur);
-		panneauFractale(superPanneauInferieur, panneauSuperieur);
+		panneauFractale(panneauSuperieur);
 		panneauListeFlameTransformations(panneauInferieur);
 		panneauTransformationSelect(panneauInferieur);
 		

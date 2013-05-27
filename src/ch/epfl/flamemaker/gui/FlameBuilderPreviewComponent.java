@@ -10,7 +10,6 @@ import ch.epfl.flamemaker.color.Color;
 import ch.epfl.flamemaker.color.Palette;
 import ch.epfl.flamemaker.flame.Flame;
 import ch.epfl.flamemaker.flame.FlameAccumulator;
-import ch.epfl.flamemaker.geometry2d.Point;
 import ch.epfl.flamemaker.geometry2d.Rectangle;
 
 public class FlameBuilderPreviewComponent extends JComponent{
@@ -35,12 +34,10 @@ public class FlameBuilderPreviewComponent extends JComponent{
 	@Override
 	public void paintComponent(Graphics g0){
 		Flame flame = this.flameBuilder.build();
-		Rectangle recComp = new Rectangle(new Point(getWidth()/2,getHeight()/2),getWidth(), getHeight());
-		Rectangle rec = frame.expandToAspectRatio(recComp.aspectRatio());
+		Rectangle rec = frame.expandToAspectRatio((double)getWidth()/(double)getHeight());
 		
 		BufferedImage buffIm = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
-		FlameAccumulator flameAc;
-		flameAc = flame.compute(rec,getWidth(),(int)getHeight(),density);
+		FlameAccumulator flameAc = flame.compute(rec,getWidth(),(int)getHeight(),density);
 		
 		for (int i = 0; i < getHeight(); i++) {
 			for (int j = 0; j < getWidth(); j++) {

@@ -27,8 +27,7 @@ public class AffineTransformationsComponent extends JComponent{
 	public void paintComponent(Graphics g0) {
 		Graphics2D g1 = (Graphics2D) g0;
 
-		Rectangle newFrame = frame.expandToAspectRatio((double) getWidth()
-				/ (double)getHeight());
+		Rectangle newFrame = frame.expandToAspectRatio((double) getWidth()/(double)getHeight());
 		AffineTransformation translation = AffineTransformation.newTranslation(getWidth()/2-newFrame.center().x(), 
 				getHeight()/2 - newFrame.center().y());
 		AffineTransformation upscale = AffineTransformation.newScaling(getWidth()/newFrame.width(),- getHeight()/newFrame.height());
