@@ -1,11 +1,14 @@
 package ch.epfl.flamemaker.geometry2d;
 
 /**
- * Classe modélisant une transformation affine. <br>
- * La transformaiton affine est représentée comme une matrice 3x3 avec comme variable les deux premières lignes de la matrice.<br>
- * La classe implémente l'interface {@link Transformation}.
+ * Classe modelisant une transformation affine. <br>
+ * La transformaiton affine est representee comme une matrice 3x3 
+ * avec comme variable les deux premieres lignes de la matrice.<br>
+ * La classe implemente l'interface {@link Transformation}.
  * @see {@link #AffineTransformation(double, double, double, double, double, double) Le constructeur AffineTransformation()}
  * @see Transformation
+ * @author Loic Serafin 214977
+ * @author Christophe Gaudet-Blavignac 224410
  */
 public final class AffineTransformation implements Transformation {
 	public static final AffineTransformation IDENTITY = new AffineTransformation(
@@ -14,16 +17,17 @@ public final class AffineTransformation implements Transformation {
 	
 
 	/**
-	 * Constructeur d'une transformation affine. Les différents paramètres caractérisent la matrice de transformation 3x3 de la forme:<br>
+	 * Constructeur d'une transformation affine. Les differents parametres
+	 * caracterisent la matrice de transformation 3x3 de la forme:<br>
 	 * [ A , B , C ]<br>
 	 * [ D , E , F ]<br>
 	 * [ 0 , 0 , 1 ]
-	 * @param a Le paramètre A
-	 * @param b Le paramètre B
-	 * @param c Le paramètre C
-	 * @param d Le paramètre D
-	 * @param e Le paramètre E
-	 * @param f Le paramètre F
+	 * @param a Le parametre A
+	 * @param b Le parametre B
+	 * @param c Le parametre C
+	 * @param d Le parametre D
+	 * @param e Le parametre E
+	 * @param f Le parametre F
 	 */
 	public AffineTransformation(double a, double b, double c, double d,
 			double e, double f) {
@@ -31,7 +35,8 @@ public final class AffineTransformation implements Transformation {
 	}
 
 	/**
-	 * Donne une transformation affine de type translation de x unités parallélement à l'abscisse et y unités parallélement à l'ordonnée.
+	 * Donne une transformation affine de type translation de x unites 
+	 * parallelement a l'abscisse et y unites parallelement a l'ordonnee.
 	 * @param dx La translation sur l'axe X
 	 * @param dy La translation sur l'axe Y
 	 * @return La translation sous forme de {@link AffineTransformation}
@@ -52,7 +57,8 @@ public final class AffineTransformation implements Transformation {
 	}
 
 	/**
-	 * Donne une transformation affine de type dilatation d'un facteur sx parallélement à l'abscisse et d'un facteur sy parallélement à l'ordonnée.
+	 * Donne une transformation affine de type dilatation d'un facteur <b>sx</b> parallelement a l'abscisse
+	 * et d'un facteur <b>sy</b> parallelement a l'ordonnee.
 	 * @param sx Le dilatation sur l'axe X
 	 * @param sy Le dilatation sur l'axe Y
 	 * @return La dilatation sous forme de {@link AffineTransformation}
@@ -62,7 +68,7 @@ public final class AffineTransformation implements Transformation {
 	}
 
 	/**
-	 * Donne une transformation affine de type transvection d'un facteur sx parallélement à l'abscisse.
+	 * Donne une transformation affine de type transvection d'un facteur sx parallelement a l'abscisse.
 	 * @param sx Le facteur de transvection sur l'axe X
 	 * @return La transvection sous forme de {@link AffineTransformation}
 	 */
@@ -71,7 +77,7 @@ public final class AffineTransformation implements Transformation {
 	}
 	
 	/**
-	 * Donne une transformation affine de type transvection d'un facteur sy parallélement à l'ordonnée.
+	 * Donne une transformation affine de type transvection d'un facteur sy parallelement a l'ordonnee.
 	 * @param sy Le facteur de transvection sur l'axe Y
 	 * @return La transvection sous forme de {@link AffineTransformation}
 	 */
@@ -79,6 +85,10 @@ public final class AffineTransformation implements Transformation {
 		return new AffineTransformation(1, 0, 0, sy, 1, 0);
 	}
 
+	/**
+	 * La transformation affine utilise la matrice de transformation 
+	 * pour modifier un point sur le plan
+	 */
 	@Override
 	public Point transformPoint(Point p) {
 		double x, y;
@@ -91,9 +101,9 @@ public final class AffineTransformation implements Transformation {
 	}
 
 	/**
-	 * Détermine la transformation affine composée avec le paramètre that
-	 * @param that La deuxième transformation affine avec laquelle composer une nouvelle transformation affine
-	 * @return La transformation affine composée
+	 * Determine la transformation affine composee avec le parametre <b>that</b>
+	 * @param that La deuxieme transformation affine
+	 * @return La transformation affine composee
 	 */
 	public AffineTransformation composeWith(AffineTransformation that) {
 		double[][] newT = new double[3][3];
@@ -106,10 +116,8 @@ public final class AffineTransformation implements Transformation {
 				}
 			}
 		}
-		return new AffineTransformation(newT[0][0],
-				newT[0][1], newT[0][2],
-				newT[1][0], newT[1][1],
-				newT[1][2]);
+		return new AffineTransformation(newT[0][0],newT[0][1], newT[0][2],
+				newT[1][0], newT[1][1],newT[1][2]);
 	}
 
 	/**
@@ -121,7 +129,7 @@ public final class AffineTransformation implements Transformation {
 	}
 
 	/**
-	 * Donne la translation sur l'axe des ordonnées
+	 * Donne la translation sur l'axe des ordonnees
 	 * @return La translation Y
 	 */
 	public double translationY() {

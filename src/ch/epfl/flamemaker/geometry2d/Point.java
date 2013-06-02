@@ -1,20 +1,20 @@
 package ch.epfl.flamemaker.geometry2d;
 
 /**
- * Classe modélisant un point avec deux double (x et y)
+ * Classe modelisant un point avec deux double (x et y)
  * @see {@link #Point(double, double) Le constructeur Point()}
+ * @author Loic Serafin 214977
+ * @author Christophe Gaudet-Blavignac 224410
  */
-
 public class Point {
 	public final static Point ORIGIN = new Point(0, 0);
 	private final double x;
 	private final double y;
 	
-	
 	/**
 	 * Constructeur de la classe Point
-	 * @param unX La coordonnée du point sur l'abscisse.
-	 * @param unY La coordonnée du point sur l'ordonnée.
+	 * @param unX La coordonnee du point sur l'abscisse.
+	 * @param unY La coordonnee du point sur l'ordonnee.
 	 */
 	public Point(double x, double y) {
 		this.x = x;
@@ -31,7 +31,8 @@ public class Point {
 		return this.y;
 	}
 
-	/** Méthode qui retourne le module du point par rapport à l'origine
+	/** 
+	 * Methode qui retourne le module du point par rapport a l'origine.
 	 * @return Le module du point. 
 	 */
 	
@@ -39,7 +40,8 @@ public class Point {
 		return (Math.sqrt(this.x * this.x + this.y * this.y));
 	}
 
-	/** Méthode qui retourne l'angle théta du point par rapport à l'origine
+	/**
+	 * Methode qui retourne l'angle theta du point par rapport a l'origine
 	 * @return L'angle du point
 	 */
 	public double theta() {
@@ -47,10 +49,9 @@ public class Point {
 	}
 
 	/**
-	 * Méthode qui retourne un String représentant le point par ses deux
-	 * coordonées x et y <br>
-	 * ex: (1.5, 6.3)
-	 * @return Un string représentant les coordonnées du point.
+	 * Methode qui retourne un String representant le point par ses deux coordonees x et y. 
+	 * <br>Eex: (1.5, 6.3)
+	 * @return Un string representant les coordonnees du point.
 	 */
 	public String toString() {
 		return ("(" + this.x + ", " + this.y + ")");

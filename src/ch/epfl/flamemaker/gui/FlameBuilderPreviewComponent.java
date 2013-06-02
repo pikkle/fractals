@@ -12,6 +12,14 @@ import ch.epfl.flamemaker.flame.Flame;
 import ch.epfl.flamemaker.flame.FlameAccumulator;
 import ch.epfl.flamemaker.geometry2d.Rectangle;
 
+/**
+ * Classe modelisant un JComponent permettant d'afficher 
+ * une prévisualisation de la fractale en couleurs.
+ * @see #FlameBuilderPreviewComponent(ObservableFlameBuilder, Color, Palette, Rectangle, int)
+ * @see JComponent
+ * @author Loic Serafin 214977
+ * @author Christophe Gaudet-Blavignac 224410
+ */
 public class FlameBuilderPreviewComponent extends JComponent{
 	private static final long serialVersionUID = 1L;
 	private ObservableFlameBuilder flameBuilder;
@@ -19,6 +27,15 @@ public class FlameBuilderPreviewComponent extends JComponent{
 	private Palette palette;
 	private Rectangle frame;
 	private int density;
+	
+	/**
+	 * Constructeur du component de prévisualisation de la fractale
+	 * @param flameBuilder Le constructeur de la fractale flame à afficher
+	 * @param background La couleur de fond de l'image
+	 * @param palette La palette de couleurs caractérisant la fractale
+	 * @param frame Le cadre délimitant la fractale
+	 * @param density La densité de points de la fractale
+	 */
 	public FlameBuilderPreviewComponent(ObservableFlameBuilder flameBuilder, Color background, Palette palette, Rectangle frame, int density){
 		this.flameBuilder = flameBuilder;
 		this.background = background;
@@ -27,10 +44,18 @@ public class FlameBuilderPreviewComponent extends JComponent{
 		this.density = density;
 	}
 	
+	/**
+	 * Méthode utilisée par Swing donnant la taille initiale préférée par le Component.
+	 */
 	@Override
 	public Dimension getPreferredSize(){
 		return new Dimension(178,135);
 	}
+	
+	/**
+	 * Utilise le contexte graphique de Swing pour afficher la fractale
+	 * comme forme d'image.
+	 */
 	@Override
 	public void paintComponent(Graphics g0){
 		Flame flame = this.flameBuilder.build();

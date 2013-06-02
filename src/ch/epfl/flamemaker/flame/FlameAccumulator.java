@@ -7,9 +7,11 @@ import ch.epfl.flamemaker.geometry2d.Point;
 import ch.epfl.flamemaker.geometry2d.Rectangle;
 
 /**
- * Classe modélisant un accumulateur d'une fractale Flame
+ * Classe modelisant un accumulateur d'une fractale Flame
  * @see {@link Flame}La classe Flame
  * @see {@link #FlameAccumulator(int[][], double[][])}Le constructeur de FlameAccumulator
+ * @author Loic Serafin 214977
+ * @author Christophe Gaudet-Blavignac 224410
  */
 public final class FlameAccumulator {
 	private final int[][] hitCount;
@@ -18,7 +20,7 @@ public final class FlameAccumulator {
 
 	/**
 	 * Constructeur de {@link FlameAccumulator}
-	 * @param hitCount Le tableau à deux dimensions représentant pour chaque pixel le nombre de fois où un point a été marqué.
+	 * @param hitCount Le tableau a deux dimensions representant pour chaque pixel le nombre de fois ou un point a ete marque.
 	 * @param colorIndexSum Le tableau qui contient la somme des index de couleur de chaque case
 	 */
 	private FlameAccumulator(int[][] hitCount, double[][] colorIndexSum) {
@@ -33,7 +35,7 @@ public final class FlameAccumulator {
 			this.hitCount[i] = hitCount[i].clone();
 		}
 		
-		//Determination du nombre de points maximums en un point marqués dans le tableau hitCount
+		//Determination du nombre de points maximums en un point marques dans le tableau hitCount
 		int max = 0;
 		for (int i = 0; i < hitCount.length; i++) {
 			for (int j = 0; j < hitCount[i].length; j++) { 
@@ -45,39 +47,43 @@ public final class FlameAccumulator {
 		this.m = Math.log(max + 1);
 }
 	
-	public int width() {return this.hitCount.length;}
-	public int height() {return this.hitCount[0].length;}
+	public int width() {
+		return this.hitCount.length;
+	}
+	public int height() {
+		return this.hitCount[0].length;
+	}
 
 	/**
-	 * Méthode donnant l'intensité de la case de l'accumulateur.
+	 * MÃ©thode donnant l'intensite de la case de l'accumulateur.
 	 * @param x Position x
 	 * @param y Position y
 	 * @return L'intensity en ce point.
-	 * @throws IndexOutOfBoundsException si les coordonnées ne sont pas valides
+	 * @throws IndexOutOfBoundsException si les coordonnees ne sont pas valides
 	 */
 	public double intensity(int x, int y) {
 		if (x < 0 || x >= hitCount.length || y < 0 || y >= hitCount[0].length) {
 			throw new IndexOutOfBoundsException(
-					"Les coordonées données ne sont pas valides :(" + x
+					"Les coordonees donnees ne sont pas valides :(" + x
 							+ "x : " + y + "y)");
 		}
 		return (Math.log(hitCount[x][y] + 1) / this.m);
 	}
 	
 	/**
-	 * Méthode retournant la couleur correspondante au point x et y dans la palette donnée avec un fond donné.
-	 * @param palette La palette de couleur qui détermine la couleur donnée
-	 * @param background La couleur de fond, auquelle la couleur de la palette va se mélanger
+	 * Methode retournant la couleur correspondante au point x et y dans la palette donne avec un fond donne.
+	 * @param palette La palette de couleur qui determine la couleur donnee
+	 * @param background La couleur de fond, auquelle la couleur de la palette va se melanger
 	 * @param x La position x
 	 * @param y La position y
 	 * @return La couleur correspondante
-	 * @throws IndexOutOfBoundsException si les coordonnées ne sont pas valides.
+	 * @throws IndexOutOfBoundsException si les coordonnees ne sont pas valides.
 	 * 
 	 */
 	public Color color(Palette palette, Color background, int x, int y) {
 		if (x < 0 || x >= hitCount.length || y < 0 || y >= hitCount[0].length) {
 			throw new IndexOutOfBoundsException(
-					"Les coordonées données ne sont pas valides :(" + x
+					"Les coordonees donnees ne sont pas valides :(" + x
 							+ "x : " + y + "y)");
 		}
 		if (hitCount[x][y]==0){
@@ -89,7 +95,7 @@ public final class FlameAccumulator {
 	}
 
 	/**
-	 * Modélise un bâtisseur d'accumulateur de Flame
+	 * Modelise un batisseur d'accumulateur de Flame
 	 * @see FlameAccumulator
 	 * @see {@link #FlameAccumulator.Builder(Rectangle, int, int) Le constructeur Builder()}
 	 */
@@ -100,8 +106,8 @@ public final class FlameAccumulator {
 		private AffineTransformation translationCadre, upscaleCadre, tuCadre;
 
 		/**
-		 * Constructeur du bâtisseur d'accumulateur de Flame
-		 * @param frame Le cadre qui délimite le calcul
+		 * Constructeur du batisseur d'accumulateur de Flame
+		 * @param frame Le cadre qui delimite le calcul
 		 * @param width La largeur du rendu.
 		 * @param height La hauteur du rendu.
 		 * @see <a href="https://dl.dropbox.com/u/45709343/yodawg.png">Yo dawg</a>
@@ -124,9 +130,9 @@ public final class FlameAccumulator {
 		}
 
 		/**
-		 * Incrémente le compteur de la case correspondant au point
-		 * @param p Le point touché
-		 * @param index L'index de la palette de couleur à incrémenter
+		 * Incremente le compteur de la case correspondant au point
+		 * @param p Le point touche
+		 * @param index L'index de la palette de couleur a incrementer
 		 */
 		public void hit(Point p, double index) {
 			if (this.frame.contains(p)) {

@@ -7,18 +7,19 @@ import ch.epfl.flamemaker.geometry2d.Point;
 import ch.epfl.flamemaker.geometry2d.Transformation;
 
 /**
- * Classe abstraite modélisant les variations. La classe implémente l'interface
+ * Classe abstraite modelisant les variations. La classe implemente l'interface
  * {@link Transformation}
- * 
  * @see {@link #Variation(int, String) Le constructeur Variation()}
  * @see Transformation
+ * @author Loic Serafin 214977
+ * @author Christophe Gaudet-Blavignac 224410
  */
 public abstract class Variation implements Transformation {
 	private final int index;
 	private final String name;
 
 	/**
-	 * Le constructeur de variation, caractérisée par son index et son nom.
+	 * Le constructeur de variation, caracterisee par son index et son nom.
 	 * @param index L'index de la variation
 	 * @param name Le nom de la variation
 	 */
@@ -29,7 +30,7 @@ public abstract class Variation implements Transformation {
 
 
 	/**
-	 * Méthode transformant le point p selon la variation.
+	 * Methode transformant le point p selon la variation.
 	 */
 	abstract public Point transformPoint(Point p);
 	
@@ -37,7 +38,7 @@ public abstract class Variation implements Transformation {
 	/**
 	 * La liste publique et statique des 6 variations (linear, sinusoidal,
 	 * spherical, swirl, horseshoe, bubble).<br>
-	 * Les 6 variations redéfinissent la méthode {@link #transformPoint(Point)}
+	 * Les 6 variations redefinissent la methode {@link #transformPoint(Point)}
 	 */
 	public final static List<Variation> ALL_VARIATIONS = Arrays.asList(
 			new Variation(0, "Linear") {

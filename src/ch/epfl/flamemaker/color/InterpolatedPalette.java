@@ -4,16 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Classe modélisante une palette de couleurs interpolées
- * La classe implémente l'interface {@link Palette}
+ * Classe modelisante une palette de couleurs interpolees
+ * La classe implemente l'interface {@link Palette}
  * @see {@link #InterpolatedPalette(List) InterpolatedPalette()}
+ * @author Loic Serafin 214977
+ * @author Christophe Gaudet-Blavignac 224410
  */
 public class InterpolatedPalette implements Palette {
 	double[] listIndex;
 	List<Color> listColor;
 	
 	/**
-	 * Constructeur de la palette interpolée.
+	 * Constructeur de la palette interpolee.
 	 * @param listColor La liste des {@link Color}
 	 * @throws IllegalArgumentException si la liste de couleur est trop courte
 	 */
@@ -24,7 +26,7 @@ public class InterpolatedPalette implements Palette {
 		}
 		
 		this.listColor = new ArrayList<Color>(listColor);
-		double[] listIndex = new double[listColor.size()]; //listIndex représente la liste des index des couleurs données dans listColor
+		double[] listIndex = new double[listColor.size()]; //listIndex represente la liste des index des couleurs donnees dans listColor
 		for (int i = 0; i < listColor.size(); i++) {	   //exemple: la listColor Rouge, Vert, Bleu donne la listIndex : {0, 0.5. 1}
 			listIndex[i] = ((1 / (listColor.size()-1)) * i);
 		}
@@ -40,15 +42,15 @@ public class InterpolatedPalette implements Palette {
 		}
 		
 		double indexColor = index * (listColor.size()-1);
-		int floor = (int) Math.floor(indexColor); //Détermine l'index de la couleur de base
-		int ceil = (int) Math.ceil(indexColor); //Détermine l'index de la seconde couleur
+		int floor = (int) Math.floor(indexColor); //Determine l'index de la couleur de base
+		int ceil = (int) Math.ceil(indexColor); //Determine l'index de la seconde couleur
 		
 		if (floor == ceil){
 			return listColor.get(floor);
-		} //Si l'index demandé tombe sur un couleur de base de la palette, on retourne cette couleur.
+		} //Si l'index demande tombe sur un couleur de base de la palette, on retourne cette couleur.
 		else {
 			double proportion = ceil - indexColor;
-			return listColor.get(floor).mixWith(listColor.get(ceil),proportion); //Mélange les deux couleurs.s
+			return listColor.get(floor).mixWith(listColor.get(ceil),proportion); //Melange les deux couleurs
 		}
 	}
 

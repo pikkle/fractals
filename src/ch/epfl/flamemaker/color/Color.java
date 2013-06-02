@@ -1,8 +1,10 @@
 package ch.epfl.flamemaker.color;
 
 /**
- * Classe modélisant une couleur avec ses composantes Rouge, Verte et Bleue
- * Voir le constructeur {@link #Color(double, double, double) Color()}
+ * Classe modelisant une couleur avec ses composantes Rouge, Verte et Bleue
+ * <br>Voir le constructeur {@link #Color(double, double, double) Color()}
+ * @author Loic Serafin 214977
+ * @author Christophe Gaudet-Blavignac 224410
  */
 public final class Color {
 	double r,g,b;
@@ -22,7 +24,7 @@ public final class Color {
 	 */
 	public Color(double r, double g, double b){
 		if (r < 0 || r > 1 || g < 0 || g > 1 || b < 0 || b > 1){
-			throw new IllegalArgumentException("Les composantes de couleur données ne sont pas valides.");
+			throw new IllegalArgumentException("Les composantes de couleur donnees ne sont pas valides.");
 		}
 		this.r = r;
 		this.g = g;
@@ -30,28 +32,25 @@ public final class Color {
 	}
 	
 	public double red(){
-		return this.r;
-	}
+		return this.r;}
 	public double green(){
-		return this.g;
-	}
+		return this.g;}
 	public double blue(){
-		return this.b;
-	}
+		return this.b;}
 	
 	/**
-	 * Mélange la couleur avec la couleur passée en paramètre.
-	 * La proportion s'applique sur la couleur appelée (et donc, le reste de la proportion sur la couleur en paramètre)
-	 * @param that La couleur qui se mélange avec la couleur appelée.
+	 * Melange la couleur avec la couleur passee en parametre.
+	 * La proportion s'applique sur la couleur appelee (et donc, le reste de la proportion sur la couleur en parametre)
+	 * @param that La couleur qui se melange avec la couleur appelee.
 	 * @param proportion La proportion de la couleur de base.
-	 * @return La couleur mélangée.
+	 * @return La couleur melangee.
 	 */
 	public Color mixWith(Color that, double proportion){
 		if (proportion < 0 || proportion > 1){
-			throw new IllegalArgumentException("La proportion donnée n'est pas valide. = " + proportion + ")");
+			throw new IllegalArgumentException("La proportion donnee n'est pas valide. = " + proportion + ")");
 		}
 		double r2, g2, b2;
-		//Additionne les composantes des deux couleurs avec les proportions adéquates.
+		//Additionne les composantes des deux couleurs avec les proportions adequates.
 		r2 = proportion*this.r + (1-proportion)*that.r;
 		g2 = proportion*this.g + (1-proportion)*that.g;
 		b2 = proportion*this.b + (1-proportion)*that.b;
@@ -60,10 +59,10 @@ public final class Color {
 	}
 	
 	/**
-	 * Retourne la couleur encodée dans un entier.
-	 * Chaque couleur occupe 8 bits et sont rangées dans l'ordre Rouge Vert Bleu.
-	 * Les composantes sont encodées via la méthode {@link #sRGBEncode(double, int) sRGBEncode()}
-	 * @return L'entier représentant la couleur.
+	 * Retourne la couleur encodee dans un entier.
+	 * Chaque couleur occupe 8 bits et sont rangees dans l'ordre Rouge Vert Bleu.
+	 * Les composantes sont encodees via la methode {@link #sRGBEncode(double, int) sRGBEncode()}
+	 * @return L'entier representant la couleur.
 	 */
 	public int asPackedRGB(){
 		int rInt = sRGBEncode(this.r, 255)<<16;
@@ -75,10 +74,10 @@ public final class Color {
 	}
 	
 	/**
-	 * Calcule la valeur gamma encodée selon la norme sRGB.
-	 * @param v La valeur à encoder
-	 * @param max La valeur maximale de l'entier à retourner
-	 * @return La valeur encodée.
+	 * Calcule la valeur gamma encodee selon la norme sRGB.
+	 * @param v La valeur a encoder
+	 * @param max La valeur maximale de l'entier a retourner
+	 * @return La valeur encodee.
 	 */
 	public static int sRGBEncode(double v, int max){
 		// Condition ternaire qui retourne une valeur ou l'autre selon la valeur de v.

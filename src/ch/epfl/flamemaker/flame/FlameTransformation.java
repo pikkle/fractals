@@ -5,9 +5,11 @@ import ch.epfl.flamemaker.geometry2d.Point;
 import ch.epfl.flamemaker.geometry2d.Transformation;
 
 /**
- * Classe modélisant une tranformation de Flame. La classe implémente l'interface {@link Transformation}.
+ * Classe modelisant une tranformation de Flame. La classe implemente l'interface {@link Transformation}.
  * @see {@link #FlameTransformation(AffineTransformation, double[]) Le constructeur FlameTransformation()}
  * @see Transformation
+ * @author Loic Serafin 214977
+ * @author Christophe Gaudet-Blavignac 224410
  */
 public class FlameTransformation implements Transformation {
 	private final AffineTransformation affineTransformation;
@@ -29,6 +31,10 @@ public class FlameTransformation implements Transformation {
 		this.affineTransformation = affineTransformation;
 	}
 
+	/**
+	 * Ajoute toutes les variations au point ponderees par leur poids.
+	 * @return Le point transforme par toutes les variations
+	 */
 	@Override
 	public Point transformPoint(Point p) {
 		double x = 0.0;
@@ -36,25 +42,17 @@ public class FlameTransformation implements Transformation {
 
 		for (int i = 0; i < Variation.ALL_VARIATIONS.size(); i++) {
 			if(variationWeight[i] != 0){
-				x += variationWeight[i]
-						* Variation.ALL_VARIATIONS
-								.get(i)
-								.transformPoint(
-										this.affineTransformation.transformPoint(p))
-								.x();
-				y += variationWeight[i]
-						* Variation.ALL_VARIATIONS
-								.get(i)
-								.transformPoint(
-										this.affineTransformation.transformPoint(p))
-								.y();
+				x += variationWeight[i] * Variation.ALL_VARIATIONS.get(i).transformPoint(
+						this.affineTransformation.transformPoint(p)).x();
+				y += variationWeight[i] * Variation.ALL_VARIATIONS.get(i).transformPoint(
+						this.affineTransformation.transformPoint(p)).y();
 			}
 		}
 		return new Point(x, y);
 	}
 	
 	/**
-	 * Modélise un bâtisseur de Transformation Flame
+	 * Modelise un batisseur de Transformation Flame
 	 * @see FlameTransformation
 	 * @see {@link #Builder(FlameTransformation flameTransformation) Le constructeur Builder()}
 	 */
@@ -63,9 +61,8 @@ public class FlameTransformation implements Transformation {
 		private double[] variationWeightBuilder;
 		
 		/**
-		 * Constructeur du bâtisseur de Transformation Flame
-		 * @param flameTransformation La transformation Flame à bâtir
-		 * @see <a href="https://dl.dropbox.com/u/45709343/yodawg.png">Yo dawg</a>
+		 * Constructeur du batisseur de Transformation Flame
+		 * @param flameTransformation La transformation Flame a batir
 		 */
 		public Builder(FlameTransformation flameTransformation){
 			this.affineTransformationBuilder = flameTransformation.affineTransformation;
@@ -81,7 +78,7 @@ public class FlameTransformation implements Transformation {
 		}
 		
 		/**
-		 * Donne le poids de variation d'index donné
+		 * Donne le poids de variation d'index donne
 		 * @param index L'index de la variation
 		 * @return Le poids de variation
 		 * @throws IndexOutOfBoundsException si l'index de variation est invalide.
@@ -102,8 +99,8 @@ public class FlameTransformation implements Transformation {
 		}
 		
 		/**
-		 * Change le poids de variation d'index donné
-		 * @param index L'index de la variation à modifier
+		 * Change le poids de variation d'index donne
+		 * @param index L'index de la variation a modifier
 		 * @param newVariation Le nouveau poids de variation
 		 */
 		public void setVariationWeight(int index, double newVariation){
@@ -115,7 +112,9 @@ public class FlameTransformation implements Transformation {
 		 * @return La transformation Flame construite.
 		 */
 		public FlameTransformation build(){
-			FlameTransformation flameTransformation = new FlameTransformation(this.affineTransformationBuilder, this.variationWeightBuilder);
+			FlameTransformation flameTransformation = new FlameTransformation(
+					this.affineTransformationBuilder, 
+					this.variationWeightBuilder);
 			return flameTransformation;
 		}
 	}

@@ -5,30 +5,35 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Classe modélisant une palette aléatoire
+ * Classe modelisant une palette aleatoire
  * @see {@link #RandomPalette(int) RandomPalette()} le constructeur
+ * @author Loic Serafin 214977
+ * @author Christophe Gaudet-Blavignac 224410
  */
 public class RandomPalette implements Palette{
 	InterpolatedPalette randomPalette;
 	
 	/**
-	 * Constructeur d'une palette aléatoire.
-	 * @param sizeListColor Le nombre de couleurs de base. Les couleurs intermédiaires seront une interpolation de ces couleurs.
+	 * Constructeur d'une palette aleatoire.
+	 * @param sizeListColor Le nombre de couleurs de base. Les couleurs intermediaires seront une interpolation de ces couleurs.
 	 * @see InterpolatedPalette
 	 */
 	public RandomPalette(int sizeListColor){
 		List<Color> listColor = new ArrayList<Color>();
 		Random r =  new Random();
 		for(int i=0; i< sizeListColor;i++){
-			listColor.add(new Color(r.nextDouble(), r.nextDouble(), r.nextDouble())); //génère une couleur avec des composantes aléatoires
+			//genere une couleur avec des composantes aleatoires
+			listColor.add(new Color(r.nextDouble(), r.nextDouble(), r.nextDouble()));
 		}
-		InterpolatedPalette randomPalette = new InterpolatedPalette(listColor); //crée une palette interpolée avec les couleurs aléatoires.
+		//cree une palette interpolee avec les couleurs aleatoires.
+		InterpolatedPalette randomPalette = new InterpolatedPalette(listColor); 
 		this.randomPalette = randomPalette;
 	}
 	
 	@Override
 	public Color colorForIndex(double index) {
-		return randomPalette.colorForIndex(index); //retourne la couleur de la palette interpolée à l'index donnée en paramètre
+		//retourne la couleur de la palette interpolee a l'index donnee en parametre
+		return randomPalette.colorForIndex(index); 
 	}
 
 }

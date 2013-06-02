@@ -1,12 +1,14 @@
 package ch.epfl.flamemaker.color;
 
 /**
- * Interface modélisant une palette de couleur
+ * Interface modelisant une palette de couleur
+ * @author Loic Serafin 214977
+ * @author Christophe Gaudet-Blavignac 224410
  */
 public interface  Palette {
 	/**
-	 * Méthode retournant la couleur correspondant à l'index passé en paramètre
-	 * @param index L'index de la couleur demandée.
+	 * Methode retournant la couleur correspondante a l'index passÃ© en parametre
+	 * @param index L'index de la couleur demandee.
 	 * @return La couleur correspondante.
 	 */
 	Color colorForIndex(double index);

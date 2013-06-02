@@ -9,9 +9,14 @@ import ch.epfl.flamemaker.geometry2d.AffineTransformation;
 import ch.epfl.flamemaker.geometry2d.Point;
 import ch.epfl.flamemaker.geometry2d.Rectangle;
 
+/**
+ * Classe contenant une methode static main qui compose dans un fichier <b>.PBM</b>
+ * la fractale Sierpinski. Le fichier image cree est "sierpinski.PBM".
+ * @author Loic Serafin 214977
+ * @author Christophe Gaudet-Blavignac 224410
+ */
 public class IFSMaker {
 	public static void main(String[] args) throws FileNotFoundException {
-		
 		List<AffineTransformation> listTransfo = new ArrayList<AffineTransformation>();
 		listTransfo.add(new AffineTransformation(0.5, 0, 0, 0, 0.5, 0));
 		listTransfo.add(new AffineTransformation(0.5, 0, 0.5, 0, 0.5, 0));
