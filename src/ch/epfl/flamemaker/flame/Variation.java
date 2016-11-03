@@ -33,7 +33,7 @@ public abstract class Variation implements Transformation {
 	 * Methode transformant le point p selon la variation.
 	 */
 	abstract public Point transformPoint(Point p);
-	
+
 
 	/**
 	 * La liste publique et statique des 6 variations (linear, sinusoidal,
@@ -78,6 +78,11 @@ public abstract class Variation implements Transformation {
 					return new Point(x, y);
 				}
 			});
-	public int getIndex() {return this.index;}
-	public String getName() {return this.name;}
+	
+	public int getIndex() {
+		return this.index;
+	}
+	public String getName() {
+		return this.name;
+	}
 }

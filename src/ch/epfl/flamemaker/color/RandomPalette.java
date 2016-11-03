@@ -12,7 +12,7 @@ import java.util.Random;
  */
 public class RandomPalette implements Palette{
 	InterpolatedPalette randomPalette;
-	
+
 	/**
 	 * Constructeur d'une palette aleatoire.
 	 * @param sizeListColor Le nombre de couleurs de base. Les couleurs intermediaires seront une interpolation de ces couleurs.
@@ -29,7 +29,7 @@ public class RandomPalette implements Palette{
 		InterpolatedPalette randomPalette = new InterpolatedPalette(listColor); 
 		this.randomPalette = randomPalette;
 	}
-	
+
 	@Override
 	public Color colorForIndex(double index) {
 		//retourne la couleur de la palette interpolee a l'index donnee en parametre

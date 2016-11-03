@@ -13,7 +13,7 @@ public final class Color {
 	final static public Color RED = new Color(1,0,0);
 	final static public Color GREEN = new Color(0,1,0);
 	final static public Color BLUE = new Color(0,0,1);
-	
+
 	/**
 	 * Constructeur de couleur avec ses composantes RGB
 	 * (Les composantes sont comprises entre 0 et 1)
@@ -30,14 +30,14 @@ public final class Color {
 		this.g = g;
 		this.b = b;
 	}
-	
+
 	public double red(){
 		return this.r;}
 	public double green(){
 		return this.g;}
 	public double blue(){
 		return this.b;}
-	
+
 	/**
 	 * Melange la couleur avec la couleur passee en parametre.
 	 * La proportion s'applique sur la couleur appelee (et donc, le reste de la proportion sur la couleur en parametre)
@@ -54,10 +54,10 @@ public final class Color {
 		r2 = proportion*this.r + (1-proportion)*that.r;
 		g2 = proportion*this.g + (1-proportion)*that.g;
 		b2 = proportion*this.b + (1-proportion)*that.b;
-		
+
 		return new Color(r2,g2,b2);
 	}
-	
+
 	/**
 	 * Retourne la couleur encodee dans un entier.
 	 * Chaque couleur occupe 8 bits et sont rangees dans l'ordre Rouge Vert Bleu.
@@ -69,10 +69,10 @@ public final class Color {
 		int gInt = sRGBEncode(this.g, 255)<<8;
 		int bInt = sRGBEncode(this.b, 255);
 		return (rInt|gInt|bInt);
-		
-		
+
+
 	}
-	
+
 	/**
 	 * Calcule la valeur gamma encodee selon la norme sRGB.
 	 * @param v La valeur a encoder

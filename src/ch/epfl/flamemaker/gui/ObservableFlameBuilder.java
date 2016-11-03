@@ -21,7 +21,7 @@ import ch.epfl.flamemaker.geometry2d.AffineTransformation;
 public class ObservableFlameBuilder{
 	private Set<Observer> observers = new HashSet<Observer>();
 	private Flame.Builder flameBuilder;
-	
+
 	/**
 	 * Constructeur d'ObservableFlameBuilder
 	 * @param flame La fractale flame a construire
@@ -29,7 +29,7 @@ public class ObservableFlameBuilder{
 	public ObservableFlameBuilder(Flame flame){
 		this.flameBuilder = new Builder(flame);
 	}
-	
+
 	/**
 	 * Donne le nombre de transformations affines qui caractérisent la fractale
 	 * @return Le nombre de transformations affines
@@ -37,7 +37,7 @@ public class ObservableFlameBuilder{
 	public int transformationCount(){
 		return flameBuilder.transformationCount();
 	}
-	
+
 	/**
 	 * La transformation affine correspondant a l'index donne
 	 * @param index L'index de la transformation affine
@@ -46,7 +46,7 @@ public class ObservableFlameBuilder{
 	public AffineTransformation affineTransformation(int index){
 		return flameBuilder.affineTransformation(index);
 	}
-	
+
 	/**
 	 * Donne le poids de la variation donnee de la transformation donnee
 	 * @param index L'index de la transformation flame
@@ -56,7 +56,7 @@ public class ObservableFlameBuilder{
 	public double variationWeight(int index, Variation v){
 		return flameBuilder.variationWeight(index, v);
 	}
-	
+
 	/**
 	 * Ajoute la transformation flame au builder. 
 	 * <br>Previent les observateurs du changement.
@@ -66,7 +66,7 @@ public class ObservableFlameBuilder{
 		flameBuilder.addTransformation(t);
 		notifyObservers();
 	}
-	
+
 	/**
 	 * Supprime la transformation flame a l'index donne.
 	 * <br>Previent les observateurs du changement.
@@ -76,7 +76,7 @@ public class ObservableFlameBuilder{
 		flameBuilder.removeTransformation(index);
 		notifyObservers();
 	}
-	
+
 	/**
 	 * Modifie la transformation affine d'index donne.
 	 * <br>Previent les observateurs du changement.
@@ -87,7 +87,7 @@ public class ObservableFlameBuilder{
 		flameBuilder.setAffineTransformation(index, t);
 		notifyObservers();
 	}
-	
+
 	/**
 	 * Change le poids de variation de la transformation flame d'index donne.
 	 * <br>Previent les observateurs du changement.
@@ -99,7 +99,7 @@ public class ObservableFlameBuilder{
 		flameBuilder.setVariationWeight(index, v, w);
 		notifyObservers();
 	}
-	
+
 	/**
 	 * Construit et retourne la fractale Flame
 	 * @return La fractale Flame
@@ -107,7 +107,7 @@ public class ObservableFlameBuilder{
 	public Flame build(){
 		return flameBuilder.build();
 	}
-	
+
 	/**
 	 * Methode sur le principe de l'observer pattern.
 	 * <br>Notifie tous les membres de sa liste d'observateurs.
@@ -125,7 +125,7 @@ public class ObservableFlameBuilder{
 	public void addObserver(Observer o){
 		observers.add(o);
 	}
-	
+
 	/**
 	 * Supprime un observateur de sa liste
 	 * @param o L'observateur a supprimer
@@ -133,8 +133,8 @@ public class ObservableFlameBuilder{
 	public void removeObserver(Observer o){
 		observers.remove(o);
 	}
-	
-	
+
+
 	/**
 	 * Interface modelisant un observateur, sur le modele de l'observer pattern.
 	 */

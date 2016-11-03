@@ -14,7 +14,7 @@ public final class AffineTransformation implements Transformation {
 	public static final AffineTransformation IDENTITY = new AffineTransformation(
 			1, 0, 0, 0, 1, 0);
 	private final double[][] transformation;
-	
+
 
 	/**
 	 * Constructeur d'une transformation affine. Les differents parametres
@@ -75,7 +75,7 @@ public final class AffineTransformation implements Transformation {
 	public static AffineTransformation newShearX(double sx) {
 		return new AffineTransformation(1, sx, 0, 0, 1, 0);
 	}
-	
+
 	/**
 	 * Donne une transformation affine de type transvection d'un facteur sy parallelement a l'ordonnee.
 	 * @param sy Le facteur de transvection sur l'axe Y

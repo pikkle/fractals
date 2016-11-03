@@ -9,7 +9,7 @@ package ch.epfl.flamemaker.geometry2d;
 public class Rectangle {
 	private Point center;
 	private double width, height;
-	
+
 	/**
 	 * Constructeur du rectangle.
 	 * @param center Le {@link Point} central du rectangle
@@ -28,8 +28,8 @@ public class Rectangle {
 			this.height = height;
 		}
 	}
-	
-	
+
+
 	/**
 	 * Methode permettant de definir si un point est contenu dans le rectangle.
 	 * @param p Le point a verifier
@@ -39,8 +39,8 @@ public class Rectangle {
 		return (p.x() < this.right() && p.x() >= this.left() 
 				&& p.y() < this.top() && p.y() >= this.bottom());
 	}
-	
-	
+
+
 	/**
 	 * Donne le ratio largeur sur hauteur
 	 * @return Le ratio largeur/hauteur
@@ -48,8 +48,8 @@ public class Rectangle {
 	public double aspectRatio(){
 		return this.width/this.height;
 	}
-	
-	
+
+
 	/**
 	 * Methode creant un rectangle de taille superieure ou egale au rectangle appele.
 	 * Le nouveau rectangle a le meme {@link Point} central que le rectangle d'origine.
@@ -62,10 +62,10 @@ public class Rectangle {
 		}
 		double width = Math.max(this.width, this.height*aspectRatio);
 		double height = Math.max(this.height, this.width/aspectRatio);
-		
+
 		return new Rectangle(this.center, width, height);
 	}
-	
+
 	/**
 	 * Donne les donnees du rectangle en String sous le format:
 	 * <br>((centre.x, centre.y),largeur, hauteur)
@@ -73,7 +73,7 @@ public class Rectangle {
 	public String toString(){
 		return ("(" + this.center+ "," + this.width + "," + this.height + ")");
 	}
-	
+
 	public double left(){
 		return center.x()-(width/2);
 	}

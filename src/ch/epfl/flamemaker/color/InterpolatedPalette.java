@@ -13,7 +13,7 @@ import java.util.List;
 public class InterpolatedPalette implements Palette {
 	double[] listIndex;
 	List<Color> listColor;
-	
+
 	/**
 	 * Constructeur de la palette interpolee.
 	 * @param listColor La liste des {@link Color}
@@ -24,7 +24,7 @@ public class InterpolatedPalette implements Palette {
 			throw new IllegalArgumentException(
 					"la liste de couleur est trop courte");
 		}
-		
+
 		this.listColor = new ArrayList<Color>(listColor);
 		double[] listIndex = new double[listColor.size()]; //listIndex represente la liste des index des couleurs donnees dans listColor
 		for (int i = 0; i < listColor.size(); i++) {	   //exemple: la listColor Rouge, Vert, Bleu donne la listIndex : {0, 0.5. 1}
@@ -40,11 +40,11 @@ public class InterpolatedPalette implements Palette {
 		if (index <0 || index >1){
 			throw new IllegalArgumentException("l'index n'est pas valide " + index);
 		}
-		
+
 		double indexColor = index * (listColor.size()-1);
 		int floor = (int) Math.floor(indexColor); //Determine l'index de la couleur de base
 		int ceil = (int) Math.ceil(indexColor); //Determine l'index de la seconde couleur
-		
+
 		if (floor == ceil){
 			return listColor.get(floor);
 		} //Si l'index demande tombe sur un couleur de base de la palette, on retourne cette couleur.

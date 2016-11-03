@@ -50,7 +50,7 @@ public class FlameTransformation implements Transformation {
 		}
 		return new Point(x, y);
 	}
-	
+
 	/**
 	 * Modelise un batisseur de Transformation Flame
 	 * @see FlameTransformation
@@ -59,7 +59,7 @@ public class FlameTransformation implements Transformation {
 	public static class Builder{
 		private AffineTransformation affineTransformationBuilder;
 		private double[] variationWeightBuilder;
-		
+
 		/**
 		 * Constructeur du batisseur de Transformation Flame
 		 * @param flameTransformation La transformation Flame a batir
@@ -68,7 +68,7 @@ public class FlameTransformation implements Transformation {
 			this.affineTransformationBuilder = flameTransformation.affineTransformation;
 			this.variationWeightBuilder = flameTransformation.variationWeight.clone();
 		}
-		
+
 		/**
 		 * Donne la composante affine de la transformation flame
 		 * @return
@@ -76,7 +76,7 @@ public class FlameTransformation implements Transformation {
 		public AffineTransformation getAffineTransformation(){
 			return this.affineTransformationBuilder;
 		}
-		
+
 		/**
 		 * Donne le poids de variation d'index donne
 		 * @param index L'index de la variation
@@ -89,7 +89,7 @@ public class FlameTransformation implements Transformation {
 			}
 			return this.variationWeightBuilder[index];
 		}
-		
+
 		/**
 		 * Change la composante affine de la transformation Flame
 		 * @param affineTransformation
@@ -97,7 +97,7 @@ public class FlameTransformation implements Transformation {
 		public void setAffineTransformation(AffineTransformation affineTransformation){
 			this.affineTransformationBuilder = affineTransformation;
 		}
-		
+
 		/**
 		 * Change le poids de variation d'index donne
 		 * @param index L'index de la variation a modifier
@@ -106,7 +106,7 @@ public class FlameTransformation implements Transformation {
 		public void setVariationWeight(int index, double newVariation){
 			this.variationWeightBuilder[index] = newVariation;
 		}
-		
+
 		/**
 		 * Construit et retourne la transformation Flame
 		 * @return La transformation Flame construite.

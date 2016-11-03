@@ -30,11 +30,11 @@ public final class FlameAccumulator {
 		for (int i = 0; i < colorIndexSum.length; i++) { //Copie en profondeur du tableau colorIndexSum
 			this.colorIndexSum[i] = colorIndexSum[i].clone();
 		}
-		
+
 		for (int i = 0; i < hitCount.length; i++) { //Copie en profondeur du tableau hitCount
 			this.hitCount[i] = hitCount[i].clone();
 		}
-		
+
 		//Determination du nombre de points maximums en un point marques dans le tableau hitCount
 		int max = 0;
 		for (int i = 0; i < hitCount.length; i++) {
@@ -45,8 +45,8 @@ public final class FlameAccumulator {
 			}
 		}
 		this.m = Math.log(max + 1);
-}
-	
+	}
+
 	public int width() {
 		return this.hitCount.length;
 	}
@@ -65,11 +65,11 @@ public final class FlameAccumulator {
 		if (x < 0 || x >= hitCount.length || y < 0 || y >= hitCount[0].length) {
 			throw new IndexOutOfBoundsException(
 					"Les coordonees donnees ne sont pas valides :(" + x
-							+ "x : " + y + "y)");
+					+ "x : " + y + "y)");
 		}
 		return (Math.log(hitCount[x][y] + 1) / this.m);
 	}
-	
+
 	/**
 	 * Methode retournant la couleur correspondante au point x et y dans la palette donne avec un fond donne.
 	 * @param palette La palette de couleur qui determine la couleur donnee
@@ -84,7 +84,7 @@ public final class FlameAccumulator {
 		if (x < 0 || x >= hitCount.length || y < 0 || y >= hitCount[0].length) {
 			throw new IndexOutOfBoundsException(
 					"Les coordonees donnees ne sont pas valides :(" + x
-							+ "x : " + y + "y)");
+					+ "x : " + y + "y)");
 		}
 		if (hitCount[x][y]==0){
 			return background;

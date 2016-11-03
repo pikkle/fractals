@@ -10,7 +10,7 @@ public class Point {
 	public final static Point ORIGIN = new Point(0, 0);
 	private final double x;
 	private final double y;
-	
+
 	/**
 	 * Constructeur de la classe Point
 	 * @param unX La coordonnee du point sur l'abscisse.
@@ -35,7 +35,7 @@ public class Point {
 	 * Methode qui retourne le module du point par rapport a l'origine.
 	 * @return Le module du point. 
 	 */
-	
+
 	public double r() {
 		return (Math.sqrt(this.x * this.x + this.y * this.y));
 	}

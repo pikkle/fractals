@@ -3,6 +3,8 @@ package ch.epfl.flamemaker.flame;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import ch.epfl.flamemaker.flame.Variation;
 import ch.epfl.flamemaker.flame.FlameTransformation;
@@ -27,17 +29,17 @@ public class Flame {
 	 */
 	public Flame(List<FlameTransformation> transformations) {
 		this.listTransfo = new ArrayList<FlameTransformation>(transformations); //Copie de la liste de Transformations
-		
+
 		colorTransfo = new ArrayList<Double>(); //Creation de la liste de couleurs correspondant aux transformations
 		colorTransfo.add(0.0); //C0 = 0
 		colorTransfo.add(1.0); //C1 = 1
-		
+
 		for (int i = 2; i < transformations.size(); i++) {
 			double a = Math.pow(2, Math.ceil(Math.log(i) / Math.log(2))); //Formule pour que C2 = 1/2; C3 = 1/4; C4 = 3/4; C5 = 1/8; C6 = 3/8; etc
 			colorTransfo.add((2 * i - a -1) / a);
 		}
 	}
-	
+
 	/**
 	 * Donne la liste de transformations affines
 	 * @return La liste de transformations affines
@@ -45,7 +47,7 @@ public class Flame {
 	public List<FlameTransformation> getListTransfo(){
 		return listTransfo;
 	}
-	
+
 	/**
 	 * Méthode calculant les points graphiques caractérisant la fractale
 	 * @param frame Le cadre qui délimite le calcul.
@@ -75,7 +77,50 @@ public class Flame {
 		return flameAccu.build();
 	}
 
-
+	/**
+	 * Méthode calculant les points graphiques caractérisant la fractale avec multi-thread
+	 * @param frame Le cadre qui délimite le calcul.
+	 * @param width La largeur du rendu (affecte le nombre de points calculés). 
+	 * @param height La hauteur du rendu (affecte le nombre de points calculés).
+	 * @param density La densité de la fractale.
+	 * @return La {@link FlameAccumulator} correspondant a la fractale créée
+	 */
+	public FlameAccumulator compute(Rectangle frame, int width, int height,
+			int density, final int nbThread) {
+		final FlameAccumulator.Builder flameAccu = new FlameAccumulator.Builder(
+				frame, width, height);
+		final Point p0 = new Point(0, 0);
+		final double c0 = 0.0;
+		final int nbCalc = (density*width*height/nbThread)+20; // 20 premiers tours pour l'algorithme du chaos
+		ExecutorService executor = Executors.newFixedThreadPool(nbThread); // Pool de thread
+		if (this.listTransfo.size() > 0){
+			for (int i = 0; i < nbThread; i++) {
+				Runnable worker = new Runnable() { // représente chaque thread qui se séparent la tâche
+					@Override
+					public void run() {
+						Random r = new Random();
+						Point p = p0;
+						double c = c0;
+						for (int k = 0; k < nbCalc; k++) {
+							int i = r.nextInt(listTransfo.size());
+							p = listTransfo .get(i).transformPoint(p);
+							c = (colorTransfo.get(i) + c) / 2.0;
+							if (k > 20) { //20 premiers tours a blanc selon l'algorithme du chaos
+								flameAccu.hit(p, c);
+							}
+						}
+					}
+				};
+				executor.execute(worker);
+			}
+			executor.shutdown(); // n'accepte plus de nouvelle tâche et force à éxécuter les tâches restantes
+			while (!executor.isTerminated()){ // Attend que tous les workers ont fini leurs calculs
+			}
+			
+		}
+		return flameAccu.build();
+	}
+	
 	/**
 	 * 
 	 * Batisseur de fractale {@link Flame}
