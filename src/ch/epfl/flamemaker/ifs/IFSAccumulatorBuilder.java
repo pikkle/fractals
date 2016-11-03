@@ -6,9 +6,10 @@ import ch.epfl.flamemaker.geometry2d.Rectangle;
 
 /**
  * Batisseur d'accumulateur
- * @see #IFSAccumulatorBuilder(Rectangle, int, int)
+ *
  * @author Loic Serafin 214977
  * @author Christophe Gaudet-Blavignac 224410
+ * @see #IFSAccumulatorBuilder(Rectangle, int, int)
  */
 public class IFSAccumulatorBuilder {
 	private Rectangle frame;
@@ -17,8 +18,9 @@ public class IFSAccumulatorBuilder {
 
 	/**
 	 * Constructeur du batisseur d'accumulateur
-	 * @param frame La cadre qui delimite le plan
-	 * @param width La largeur de l'accumulateur
+	 *
+	 * @param frame  La cadre qui delimite le plan
+	 * @param width  La largeur de l'accumulateur
 	 * @param height La hauteur de l'accumulateur
 	 */
 	public IFSAccumulatorBuilder(Rectangle frame, int width, int height) {
@@ -40,6 +42,7 @@ public class IFSAccumulatorBuilder {
 
 	/**
 	 * Marque le point dans le tableau a vrai
+	 *
 	 * @param p Le point a marquer
 	 */
 	public void hit(Point p) {
@@ -53,6 +56,7 @@ public class IFSAccumulatorBuilder {
 
 	/**
 	 * Renvoie l'accumulateur IFS correspondant a l'etat actuel du builder
+	 *
 	 * @return L'IFSAccumulator correspondant au tableau de booleens du builder.
 	 */
 	public IFSAccumulator build() {

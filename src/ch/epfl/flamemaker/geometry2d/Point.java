@@ -2,9 +2,10 @@ package ch.epfl.flamemaker.geometry2d;
 
 /**
  * Classe modelisant un point avec deux double (x et y)
- * @see {@link #Point(double, double) Le constructeur Point()}
+ *
  * @author Loic Serafin 214977
  * @author Christophe Gaudet-Blavignac 224410
+ * @see {@link #Point(double, double) Le constructeur Point()}
  */
 public class Point {
 	public final static Point ORIGIN = new Point(0, 0);
@@ -13,6 +14,7 @@ public class Point {
 
 	/**
 	 * Constructeur de la classe Point
+	 *
 	 * @param unX La coordonnee du point sur l'abscisse.
 	 * @param unY La coordonnee du point sur l'ordonnee.
 	 */
@@ -21,19 +23,24 @@ public class Point {
 		this.y = y;
 	}
 
-	/** Getter de X */
+	/**
+	 * Getter de X
+	 */
 	public double x() {
 		return this.x;
 	}
 
-	/** Getter de Y */
+	/**
+	 * Getter de Y
+	 */
 	public double y() {
 		return this.y;
 	}
 
-	/** 
+	/**
 	 * Methode qui retourne le module du point par rapport a l'origine.
-	 * @return Le module du point. 
+	 *
+	 * @return Le module du point.
 	 */
 
 	public double r() {
@@ -42,6 +49,7 @@ public class Point {
 
 	/**
 	 * Methode qui retourne l'angle theta du point par rapport a l'origine
+	 *
 	 * @return L'angle du point
 	 */
 	public double theta() {
@@ -49,8 +57,9 @@ public class Point {
 	}
 
 	/**
-	 * Methode qui retourne un String representant le point par ses deux coordonees x et y. 
+	 * Methode qui retourne un String representant le point par ses deux coordonees x et y.
 	 * <br>Eex: (1.5, 6.3)
+	 *
 	 * @return Un string representant les coordonnees du point.
 	 */
 	public String toString() {

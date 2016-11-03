@@ -9,10 +9,11 @@ import ch.epfl.flamemaker.geometry2d.Transformation;
 /**
  * Classe abstraite modelisant les variations. La classe implemente l'interface
  * {@link Transformation}
- * @see {@link #Variation(int, String) Le constructeur Variation()}
- * @see Transformation
+ *
  * @author Loic Serafin 214977
  * @author Christophe Gaudet-Blavignac 224410
+ * @see {@link #Variation(int, String) Le constructeur Variation()}
+ * @see Transformation
  */
 public abstract class Variation implements Transformation {
 	private final int index;
@@ -20,8 +21,9 @@ public abstract class Variation implements Transformation {
 
 	/**
 	 * Le constructeur de variation, caracterisee par son index et son nom.
+	 *
 	 * @param index L'index de la variation
-	 * @param name Le nom de la variation
+	 * @param name  Le nom de la variation
 	 */
 	private Variation(int index, String name) {
 		this.index = index;
@@ -78,10 +80,11 @@ public abstract class Variation implements Transformation {
 					return new Point(x, y);
 				}
 			});
-	
+
 	public int getIndex() {
 		return this.index;
 	}
+
 	public String getName() {
 		return this.name;
 	}
