@@ -1,4 +1,5 @@
 bin/
 .settings/
 .idea/
-out/
+*.iml
+out/production
